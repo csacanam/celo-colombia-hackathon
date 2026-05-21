@@ -1,0 +1,62 @@
+"use client";
+
+import { motion } from "framer-motion";
+import { CalendarDays } from "lucide-react";
+import { TIMELINE } from "@/lib/site";
+import { SectionHeading } from "./ui/SectionHeading";
+import { staggerChild, staggerParent } from "./ui/Reveal";
+
+export function Timeline() {
+  return (
+    <section id="agenda" className="section py-24 sm:py-28">
+      <SectionHeading
+        eyebrow="Agenda"
+        title={
+          <>
+            Tres semanas para{" "}
+            <span className="gradient-text">aprender, construir y lanzar.</span>
+          </>
+        }
+        description="Del primer workshop al Demo Day — este es el camino completo."
+      />
+
+      <motion.ol
+        variants={staggerParent}
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true, margin: "-60px" }}
+        className="relative mx-auto mt-14 max-w-2xl"
+      >
+        {/* Rail vertical */}
+        <div className="absolute bottom-6 left-[19px] top-6 w-px bg-hairline" />
+
+        {TIMELINE.map((step) => (
+          <motion.li
+            key={step.phase}
+            variants={staggerChild}
+            className="relative flex gap-4 pb-4 last:pb-0 sm:gap-5"
+          >
+            {/* Marcador / número */}
+            <span className="relative z-10 grid h-10 w-10 shrink-0 place-items-center rounded-full border border-hairline bg-surface font-mono text-sm font-bold text-accent">
+              {step.phase}
+            </span>
+
+            {/* Card */}
+            <div className="glass glass-hover flex-1 rounded-xl p-5">
+              <span className="inline-flex items-center gap-1.5 rounded-full border border-accent/25 bg-accent/[0.06] px-2.5 py-1 font-mono text-[10px] uppercase tracking-wider text-accent">
+                <CalendarDays size={11} />
+                {step.date}
+              </span>
+              <h3 className="mt-3 text-lg font-semibold tracking-tight text-white">
+                {step.title}
+              </h3>
+              <p className="mt-1 text-sm leading-relaxed text-muted">
+                {step.desc}
+              </p>
+            </div>
+          </motion.li>
+        ))}
+      </motion.ol>
+    </section>
+  );
+}
