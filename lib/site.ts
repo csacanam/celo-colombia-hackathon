@@ -14,7 +14,7 @@ export const NAV_LINKS = [
 ] as const;
 
 export const STATS = [
-  { value: "2.8M", unit: "COPm", label: "en premios en efectivo" },
+  { value: "3M", unit: "COPm", label: "en premios en efectivo" },
   { value: "3", unit: "semanas", label: "de bootcamp + hackathon" },
   { value: "Híbrida", unit: "", label: "Presencial en Cali + Virtual" },
   { value: "Desde", unit: "cero", label: "sin requisitos" },
@@ -143,8 +143,8 @@ export const TIMELINE = [
 /** Podio — premios a las mejores Mini Apps. */
 export const PRIZES = [
   { rank: 1, place: "1er lugar", amount: "1.000.000", note: "Mejor Mini App" },
-  { rank: 2, place: "2do lugar", amount: "500.000", note: "Mejor Mini App" },
-  { rank: 3, place: "3er lugar", amount: "300.000", note: "Mejor Mini App" },
+  { rank: 2, place: "2do lugar", amount: "600.000", note: "Mejor Mini App" },
+  { rank: 3, place: "3er lugar", amount: "400.000", note: "Mejor Mini App" },
 ] as const;
 
 /** Premio adicional por integración. */
@@ -155,7 +155,7 @@ export const PRIZE_BONUS = {
 } as const;
 
 /** Bolsa total en premios (suma de podio + bonus). */
-export const PRIZE_TOTAL = "2.800.000";
+export const PRIZE_TOTAL = "3.000.000";
 
 export const MENTOR = {
   name: "Camilo Sacanamboy",
