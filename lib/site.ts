@@ -117,7 +117,7 @@ export const TIMELINE = [
   {
     phase: "03",
     title: "Bootcamp #2",
-    date: "Lunes 8 de junio · 6:00 a 8:00 PM",
+    date: "Martes 9 de junio · 6:00 a 8:00 PM",
     desc: "Wallets, stablecoins y cómo conectar dinero programable dentro de tus apps.",
   },
   {
