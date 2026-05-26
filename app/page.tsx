@@ -8,6 +8,7 @@ import { Timeline } from "@/components/Timeline";
 import { Venue } from "@/components/Venue";
 import { Prizes } from "@/components/Prizes";
 import { Mentors } from "@/components/Mentors";
+import { Jurors } from "@/components/Jurors";
 import { FAQ } from "@/components/FAQ";
 import { ApplyForm } from "@/components/ApplyForm";
 import { FinalCTA } from "@/components/FinalCTA";
@@ -45,6 +46,7 @@ export default function HomePage() {
         <Venue />
         <Prizes />
         <Mentors />
+        <Jurors />
         <FAQ />
         <ApplyForm />
         <FinalCTA />

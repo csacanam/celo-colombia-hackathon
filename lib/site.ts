@@ -10,6 +10,7 @@ export const NAV_LINKS = [
   { label: "Agenda", href: "#agenda" },
   { label: "Premios", href: "#premios" },
   { label: "Mentores", href: "#mentores" },
+  { label: "Jurado", href: "#jurado" },
   { label: "FAQ", href: "#faq" },
 ] as const;
 
@@ -183,6 +184,52 @@ export const MENTOR = {
     },
   ],
 } as const;
+
+/**
+ * Jurado oficial. Mismo shape que MENTOR pero como array para escalar
+ * cuando se sumen más jurados.
+ */
+export const JURY = [
+  {
+    name: "0xj4an",
+    initials: "JA",
+    photo: "/0xj4an.jpeg",
+    roleText: "Celo Regional Ambassador para Colombia · Lead de ",
+    roleLinks: [
+      {
+        label: "Gobernanza",
+        href: "https://mondo.celo.org/delegate/0xFEF5A1A2b3754A2F53161EaaAcb3EB889F004d4a",
+      },
+      {
+        label: "Comunidades",
+        href: "https://forum.celo.org/u/celocommunities/summary",
+      },
+    ],
+    achievements: [
+      {
+        icon: "Coins",
+        pre: "Autor de la propuesta del ",
+        linkText: "cCOP (hoy COPm)",
+        href: "https://mondo.celo.org/governance/191",
+        post: ", aprobada en gobernanza Celo",
+      },
+      {
+        icon: "ShieldCheck",
+        pre: "3 años liderando la ",
+        linkText: "gobernanza del ecosistema Celo",
+        href: "",
+        post: "",
+      },
+      {
+        icon: "Mic",
+        pre: "Speaker recurrente sobre ",
+        linkText: "stablecoins y usabilidad onchain",
+        href: "",
+        post: "",
+      },
+    ],
+  },
+] as const;
 
 export const FAQS = [
   {
