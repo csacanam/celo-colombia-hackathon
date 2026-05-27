@@ -158,32 +158,115 @@ export const PRIZE_BONUS = {
 /** Bolsa total en premios (suma de podio + bonus). */
 export const PRIZE_TOTAL = "3.000.000";
 
-export const MENTOR = {
-  name: "Camilo Sacanamboy",
-  initials: "CS",
-  /** Foto en /public. Si el archivo no existe, cae a las iniciales. */
-  photo: "/camilo.png",
-  links: {
-    peewah: "https://peewah.co",
-    celoColombia: "https://www.celocolombia.org/",
+/**
+ * Mentores. `role` es un arreglo de tokens (texto + link opcional) para que
+ * cada mentor arme su línea de presentación libremente. `achievements` usa el
+ * patrón `pre + linkText + post` (href vacío = texto plano destacado).
+ */
+export const MENTORS = [
+  {
+    name: "Camilo Sacanamboy",
+    initials: "CS",
+    photo: "/camilo.png",
+    role: [
+      { text: "Fundador de ", href: "" },
+      { text: "Peewah", href: "https://peewah.co" },
+      { text: " · Embajador de ", href: "" },
+      { text: "Celo Colombia", href: "https://www.celocolombia.org/" },
+    ],
+    achievements: [
+      {
+        icon: "Trophy",
+        pre: "Ganador del Hookathon Global — ",
+        linkText: "Uniswap Hook Incubator",
+        href: "https://atrium.academy/uniswap",
+        post: " (2025)",
+      },
+      {
+        icon: "Star",
+        pre: "Top 7 Global en ",
+        linkText: "Proof of Ship",
+        href: "https://talent.app/~/earn/celo-proof-of-ship",
+        post: " (abril 2026)",
+      },
+    ],
   },
-  achievements: [
-    {
-      icon: "Trophy",
-      pre: "Ganador del Hookathon Global — ",
-      linkText: "Uniswap Hook Incubator",
-      href: "https://atrium.academy/uniswap",
-      post: " (2025)",
-    },
-    {
-      icon: "Star",
-      pre: "Top 7 Global en ",
-      linkText: "Proof of Ship",
-      href: "https://talent.app/~/earn/celo-proof-of-ship",
-      post: " (abril 2026)",
-    },
-  ],
-} as const;
+  {
+    name: "Tereza Bízková",
+    initials: "TB",
+    photo: "/tereza.jpg",
+    role: [
+      {
+        text: "Head of Communications & Community en Funding the Commons",
+        href: "",
+      },
+    ],
+    achievements: [
+      {
+        icon: "Sparkles",
+        pre: "Conecta ",
+        linkText: "narrativa, ecosistemas y producto",
+        href: "",
+        post: ".",
+      },
+      {
+        icon: "Users",
+        pre: "Contribuye a ",
+        linkText: "Crypto Altruism",
+        href: "",
+        post: " y forma parte de ReFi Medellín.",
+      },
+      {
+        icon: "Megaphone",
+        pre: "Apoyo en ",
+        linkText: "posicionamiento, comunicación y distribución",
+        href: "",
+        post: " desde el día uno.",
+      },
+    ],
+  },
+  {
+    name: "Saul Jaramillo",
+    initials: "SJ",
+    photo: "/0xultravioleta.jpg",
+    role: [
+      { text: "Founder de ", href: "" },
+      { text: "Ultravioleta DAO", href: "" },
+      { text: " · Agentic en ", href: "" },
+      { text: "MoonPay", href: "" },
+    ],
+    achievements: [
+      {
+        icon: "Bot",
+        pre: "Power user de ",
+        linkText: "Claude Code y agentic systems",
+        href: "",
+        post: " a escala industrial — MCP, evals y observabilidad.",
+      },
+      {
+        icon: "Coins",
+        pre: "Contribuye a ",
+        linkText: "x402-rs",
+        href: "",
+        post: " — pagos USDC sin gas en 19 mainnets, micropagos agente-a-agente.",
+      },
+      {
+        icon: "Rocket",
+        pre: "Construyó ",
+        linkText: "Execution Market y Meshrelay",
+        href: "",
+        post: " — agentes que contratan humanos y se comunican entre sí.",
+      },
+      {
+        icon: "Wrench",
+        pre: "17 años en DevOps · 9 en blockchain. Antes Head of DevOps en ",
+        linkText: "Stake Capital",
+        href: "",
+        post: " (5 años).",
+      },
+    ],
+  },
+] as const;
 
 /**
  * Jurado oficial. Mismo shape que MENTOR pero como array para escalar
