@@ -62,7 +62,7 @@ function MentorAvatar({ mentor }: { mentor: Mentor }) {
 
 function MentorCard({ mentor }: { mentor: Mentor }) {
   return (
-    <div className="glass mx-auto rounded-3xl p-7 sm:p-9">
+    <div className="glass w-full rounded-3xl p-7 sm:p-9">
       {/* Identidad */}
       <div className="flex flex-col items-center gap-5 text-center sm:flex-row sm:gap-6 sm:text-left">
         <MentorAvatar mentor={mentor} />

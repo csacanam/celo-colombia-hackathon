@@ -40,7 +40,7 @@ function JurorAvatar({ juror }: { juror: Juror }) {
 
 function JurorCard({ juror }: { juror: Juror }) {
   return (
-    <div className="glass mx-auto rounded-3xl p-7 sm:p-9">
+    <div className="glass w-full rounded-3xl p-7 sm:p-9">
       <div className="flex flex-col items-center gap-5 text-center sm:flex-row sm:gap-6 sm:text-left">
         <JurorAvatar juror={juror} />
 
