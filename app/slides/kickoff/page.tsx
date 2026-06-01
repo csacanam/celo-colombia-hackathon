@@ -234,17 +234,31 @@ function PeewahSlide() {
   return (
     <SlideFrame>
       <Eyebrow>2016 → hoy</Eyebrow>
-      <Title size="md" className="mt-4">
-        Y entonces apareció{" "}
-        <span className="gradient-text">Peewah.</span>
-      </Title>
-      <Body className="mt-6 max-w-3xl text-balance">
-        Software de gestión de eventos. Una empresa real, con clientes reales,
-        en operación desde hace 9 años.
-      </Body>
+
+      <div className="mt-6 grid grid-cols-1 items-center gap-10 md:grid-cols-[1.1fr_0.9fr] md:gap-12">
+        <div>
+          <Title size="md">
+            Y entonces apareció{" "}
+            <span className="gradient-text">Peewah.</span>
+          </Title>
+          <Body className="mt-6 max-w-2xl text-balance">
+            Software de gestión de eventos. Una empresa real, con clientes
+            reales, en operación desde hace 9 años.
+          </Body>
+        </div>
+
+        <div className="rounded-2xl border border-hairline bg-white p-4">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/peewah.png"
+            alt="Peewah"
+            className="mx-auto h-auto max-h-[260px] w-full rounded-lg object-contain"
+          />
+        </div>
+      </div>
 
       <div className="mt-10 grid max-w-5xl grid-cols-1 gap-3 md:grid-cols-3">
-        <div className="rounded-2xl border border-hairline bg-white/[0.015] p-6">
+        <div className="rounded-2xl border border-hairline bg-white/[0.015] p-5">
           <span className="font-mono text-[10px] uppercase tracking-wider text-muted">
             Años
           </span>
@@ -253,7 +267,7 @@ function PeewahSlide() {
           </p>
           <p className="mt-1 text-sm text-muted">construyendo Peewah</p>
         </div>
-        <div className="rounded-2xl border border-hairline bg-white/[0.015] p-6">
+        <div className="rounded-2xl border border-hairline bg-white/[0.015] p-5">
           <span className="font-mono text-[10px] uppercase tracking-wider text-muted">
             Eventos atendidos
           </span>
@@ -262,7 +276,7 @@ function PeewahSlide() {
           </p>
           <p className="mt-1 text-sm text-muted">desde la plataforma</p>
         </div>
-        <div className="rounded-2xl border border-accent/35 bg-accent/[0.06] p-6">
+        <div className="rounded-2xl border border-accent/35 bg-accent/[0.06] p-5">
           <span className="font-mono text-[10px] uppercase tracking-wider text-accent">
             Personas alcanzadas
           </span>
@@ -273,7 +287,7 @@ function PeewahSlide() {
         </div>
       </div>
 
-      <Body className="mt-8 max-w-3xl text-white/55">
+      <Body className="mt-6 max-w-3xl text-white/55">
         Acá aprendí que construir es{" "}
         <span className="text-white">solo una parte</span>. Lo otro es operar,
         distribuir, y mantener algo en pie.
@@ -287,14 +301,32 @@ function TransicionBlockchainSlide() {
   return (
     <SlideFrame>
       <Eyebrow>Hace 1 año · 2025</Eyebrow>
-      <Title size="md" className="mt-4 max-w-5xl">
-        Decidí construir en{" "}
-        <span className="gradient-text">blockchain.</span>
-      </Title>
-      <Body className="mt-6 max-w-3xl text-balance">
-        Por las oportunidades que estaba viendo. Empecé a participar en
-        múltiples hackathons.
-      </Body>
+
+      <div className="mt-6 grid grid-cols-1 items-center gap-10 md:grid-cols-[1.2fr_0.8fr] md:gap-12">
+        <div>
+          <Title size="md">
+            Decidí construir en{" "}
+            <span className="gradient-text">blockchain.</span>
+          </Title>
+          <Body className="mt-6 max-w-2xl text-balance">
+            Por las oportunidades que estaba viendo. Empecé a participar en
+            múltiples hackathons.
+          </Body>
+        </div>
+
+        <div className="relative">
+          <div className="absolute -inset-3 rounded-3xl bg-accent/[0.12] blur-2xl" />
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/uhi.avif"
+            alt="Uniswap Hook Incubator · trofeo"
+            className="relative mx-auto h-auto max-h-[240px] w-full rounded-2xl object-contain"
+          />
+          <p className="mt-3 text-center font-mono text-[10px] uppercase tracking-wider text-muted">
+            Uniswap Hook Incubator
+          </p>
+        </div>
+      </div>
 
       <div className="mt-10 grid max-w-5xl grid-cols-1 gap-3 md:grid-cols-3">
         <div className="rounded-2xl border border-hairline bg-white/[0.015] p-5">
@@ -302,7 +334,7 @@ function TransicionBlockchainSlide() {
             Hackathons probadas
           </span>
           <p className="mt-2 font-display text-3xl font-semibold text-white">
-            Muchas
+            4
           </p>
           <p className="mt-1 text-xs text-muted">a lo largo del año</p>
         </div>
@@ -326,7 +358,7 @@ function TransicionBlockchainSlide() {
         </div>
       </div>
 
-      <p className="mt-8 max-w-3xl text-sm text-muted">
+      <p className="mt-6 max-w-3xl text-sm text-muted">
         Con esos $1.000 me decidí a viajar a un evento muy importante de la
         industria, en{" "}
         <span className="text-white">Buenos Aires, Argentina</span>.
@@ -751,10 +783,21 @@ function CasosRealesSlide() {
           <span className="font-mono text-[10px] uppercase tracking-wider text-muted">
             Caso 1
           </span>
-          <h3 className="mt-2 text-xl font-semibold text-white">
-            Pieter Levels
-          </h3>
-          <p className="mt-2 text-sm leading-snug text-muted">
+          <div className="mt-3 flex items-center gap-3">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/levels.png"
+              alt="Pieter Levels"
+              className="h-14 w-14 rounded-full object-cover ring-1 ring-white/10"
+            />
+            <div>
+              <h3 className="text-xl font-semibold text-white">
+                Pieter Levels
+              </h3>
+              <p className="font-mono text-xs text-muted">@levelsio</p>
+            </div>
+          </div>
+          <p className="mt-4 text-sm leading-snug text-muted">
             Millones de dólares con apps que él construye solo. Incluso antes
             de la era de IA.
           </p>
@@ -764,10 +807,19 @@ function CasosRealesSlide() {
           <span className="font-mono text-[10px] uppercase tracking-wider text-muted">
             Caso 2
           </span>
-          <h3 className="mt-2 text-xl font-semibold text-white">
-            Trust MRR
-          </h3>
-          <p className="mt-2 text-sm leading-snug text-muted">
+          <div className="mt-3 flex items-center gap-3">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/marclou.png"
+              alt="Marc Lou"
+              className="h-14 w-14 rounded-full object-cover ring-1 ring-white/10"
+            />
+            <div>
+              <h3 className="text-xl font-semibold text-white">Marc Lou</h3>
+              <p className="font-mono text-xs text-muted">@marc_louvion</p>
+            </div>
+          </div>
+          <p className="mt-4 text-sm leading-snug text-muted">
             Cientos de miles de dólares generados —{" "}
             <span className="text-white">construyendo en público</span> en su
             cuenta de X.
@@ -1431,6 +1483,50 @@ function MiniPaySlide() {
   );
 }
 
+/* NUEVO — Screenshots de MiniPay */
+function MiniPayScreenshotsSlide() {
+  const shots = [
+    { src: "/minipay1.jpeg", alt: "MiniPay · pantalla principal" },
+    { src: "/minipay2.jpeg", alt: "MiniPay · mini apps" },
+    { src: "/minipay3.jpeg", alt: "MiniPay · pago" },
+  ];
+  return (
+    <SlideFrame>
+      <Eyebrow>MiniPay por dentro</Eyebrow>
+      <Title size="md" className="mt-4">
+        Así se ve —{" "}
+        <span className="gradient-text">por dentro.</span>
+      </Title>
+      <Body className="mt-4 max-w-3xl">
+        Mobile-first, simple, con stablecoins listas para usar. Esto es lo que
+        millones de usuarios en África abren a diario.
+      </Body>
+
+      <div className="mt-10 grid max-w-5xl grid-cols-3 gap-4 sm:gap-6">
+        {shots.map((s) => (
+          <div key={s.src} className="relative">
+            <div className="absolute -inset-2 rounded-3xl bg-accent/[0.08] blur-2xl" />
+            <div className="relative overflow-hidden rounded-2xl border-2 border-white/10 bg-surface p-1.5 shadow-[0_20px_60px_-20px_rgba(0,0,0,0.6)]">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={s.src}
+                alt={s.alt}
+                className="h-auto w-full rounded-xl object-contain"
+              />
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <p className="mt-8 max-w-3xl text-sm text-muted">
+        Las mini apps viven{" "}
+        <span className="text-white">dentro</span> de esta app. Esa es la
+        oportunidad — su mini app puede aterrizar acá.
+      </p>
+    </SlideFrame>
+  );
+}
+
 /* 30 — Palanca 3 · Comunidad */
 function ComunidadCeloSlide() {
   return (
@@ -2014,45 +2110,58 @@ function ArquitecturaSimpleSlide() {
         Una app tiene muchas piezas. Hoy solo nos importan{" "}
         <span className="gradient-text">dos.</span>
       </Title>
-      <Body className="mt-6 max-w-3xl">
+      <Body className="mt-4 max-w-3xl">
         Para que no se compliquen, hoy solo vamos a hablar de Frontend y
         Backend. Lo demás viene en las siguientes sesiones.
       </Body>
 
-      <div className="mt-10 max-w-3xl overflow-hidden rounded-2xl border border-hairline">
-        <div className="grid grid-cols-1 divide-y divide-hairline">
-          <div className="bg-accent/[0.06] p-5">
-            <div className="flex items-center gap-3">
-              <span className="grid h-10 w-10 place-items-center rounded-xl bg-accent text-ink">
-                <MousePointer2 size={18} strokeWidth={2.2} />
-              </span>
-              <div>
-                <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-accent">
-                  Capa 1
+      <div className="mt-8 grid max-w-6xl grid-cols-1 items-center gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:gap-10">
+        {/* Imagen FE vs BE */}
+        <div className="rounded-2xl border border-hairline bg-white p-3">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/frontend.jpg"
+            alt="Frontend vs Backend"
+            className="h-auto w-full rounded-lg object-contain"
+          />
+        </div>
+
+        {/* Cards apiladas */}
+        <div className="overflow-hidden rounded-2xl border border-hairline">
+          <div className="grid grid-cols-1 divide-y divide-hairline">
+            <div className="bg-accent/[0.06] p-5">
+              <div className="flex items-center gap-3">
+                <span className="grid h-10 w-10 place-items-center rounded-xl bg-accent text-ink">
+                  <MousePointer2 size={18} strokeWidth={2.2} />
                 </span>
-                <p className="text-lg font-semibold text-white">Frontend</p>
+                <div>
+                  <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-accent">
+                    Capa 1
+                  </span>
+                  <p className="text-lg font-semibold text-white">Frontend</p>
+                </div>
               </div>
+              <p className="mt-3 text-sm text-white/80">
+                Lo que el usuario ve y toca.{" "}
+                <span className="text-accent">Empezamos por acá.</span>
+              </p>
             </div>
-            <p className="mt-3 text-sm text-white/80">
-              Lo que el usuario ve y toca.{" "}
-              <span className="text-accent">Empezamos por acá.</span>
-            </p>
-          </div>
-          <div className="bg-white/[0.015] p-5">
-            <div className="flex items-center gap-3">
-              <span className="grid h-10 w-10 place-items-center rounded-xl bg-white/[0.05] text-white/70">
-                <Server size={18} strokeWidth={2.2} />
-              </span>
-              <div>
-                <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-muted">
-                  Capa 2
+            <div className="bg-white/[0.015] p-5">
+              <div className="flex items-center gap-3">
+                <span className="grid h-10 w-10 place-items-center rounded-xl bg-white/[0.05] text-white/70">
+                  <Server size={18} strokeWidth={2.2} />
                 </span>
-                <p className="text-lg font-semibold text-white">Backend</p>
+                <div>
+                  <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-muted">
+                    Capa 2
+                  </span>
+                  <p className="text-lg font-semibold text-white">Backend</p>
+                </div>
               </div>
+              <p className="mt-3 text-sm text-muted">
+                El cerebro que procesa y guarda info. Lo vemos en Bootcamp #2.
+              </p>
             </div>
-            <p className="mt-3 text-sm text-muted">
-              El cerebro que procesa y guarda info. Lo vemos en Bootcamp #2.
-            </p>
           </div>
         </div>
       </div>
@@ -2420,6 +2529,7 @@ const SLIDES = [
   ProofOfShipSlide,
   AIAgentTrackSlide,
   MiniPaySlide,
+  MiniPayScreenshotsSlide,
   ComunidadCeloSlide,
   OtrasHackathonsGlobalesSlide,
   TiposAppsMiniPaySlide,
