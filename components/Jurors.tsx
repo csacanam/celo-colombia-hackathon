@@ -2,12 +2,28 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { Coins, Mic, ShieldCheck, Star, type LucideIcon } from "lucide-react";
+import {
+  Coins,
+  GraduationCap,
+  Mic,
+  ShieldCheck,
+  Sparkles,
+  Star,
+  Users,
+  type LucideIcon,
+} from "lucide-react";
 import { JURY } from "@/lib/site";
 import { SectionHeading } from "./ui/SectionHeading";
 import { Reveal } from "./ui/Reveal";
 
-const ICONS: Record<string, LucideIcon> = { Coins, Mic, ShieldCheck };
+const ICONS: Record<string, LucideIcon> = {
+  Coins,
+  GraduationCap,
+  Mic,
+  ShieldCheck,
+  Sparkles,
+  Users,
+};
 
 type Juror = (typeof JURY)[number];
 

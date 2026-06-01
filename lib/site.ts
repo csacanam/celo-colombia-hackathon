@@ -312,6 +312,38 @@ export const JURY = [
       },
     ],
   },
+  {
+    name: "Angela Ocando",
+    initials: "AO",
+    photo: "/angela.jpg",
+    roleText: "Dev Rel en ",
+    roleLinks: [
+      { label: "Uniswap Labs", href: "https://uniswap.org/" },
+    ],
+    achievements: [
+      {
+        icon: "GraduationCap",
+        pre: "Escaló una de las comunidades hispanohablantes de blockchain más grandes en ",
+        linkText: "Platzi",
+        href: "https://platzi.com/",
+        post: " — 100.000+ estudiantes",
+      },
+      {
+        icon: "Users",
+        pre: "Apoya a builders y partners del ecosistema en ",
+        linkText: "Uniswap v4 y la Uniswap API",
+        href: "",
+        post: "",
+      },
+      {
+        icon: "Sparkles",
+        pre: "Conecta builders con ",
+        linkText: "AI workflows",
+        href: "",
+        post: " y nuevas formas de shippear productos",
+      },
+    ],
+  },
 ] as const;
 
 export const FAQS = [
