@@ -2242,39 +2242,28 @@ function TareaParaVierneSlide() {
   );
 }
 
-const PLAN_4_DAYS: { day: string; tasks: string; active?: boolean }[] = [
+const PLAN_4_TASKS: { n: string; title: string; detail: string }[] = [
   {
-    day: "Lun (hoy)",
-    tasks: "Idea publicada en Telegram. Cuentas creadas.",
+    n: "01",
+    title: "Conseguir un agente",
+    detail: "Cursor, Claude Code o Codex. El que más les guste.",
   },
   {
-    day: "Mar",
-    tasks: "Instalar Cursor + Celopedia. Crear repo en GitHub.",
+    n: "02",
+    title: "Instalar el skill de Celopedia",
+    detail: "Para que el agente entienda Celo desde dentro.",
   },
   {
-    day: "Mié – Jue",
-    tasks: "Pedirle a la IA que arme el home y el flujo de 3 pantallas.",
+    n: "03",
+    title: "Elegir la idea con su agente",
+    detail: "Conversen con la IA. Boten ideas. Aterricen una.",
   },
   {
-    day: "Vie 6:00 PM",
-    tasks: "Llegan a Bootcamp #1 con home navegable y dudas concretas.",
-    active: true,
+    n: "04",
+    title: "Primera versión del frontend",
+    detail: "Pantallas navegables. Sin conectar nada todavía.",
   },
 ];
-
-const ARRANQUE_PROMPT = `Soy parte de la Hackathon de Agentes Onchain de
-Celo Colombia. Quiero construir [una mini app que
-ayude a usuario X a hacer Y].
-
-Soy principiante. Guíame paso a paso para:
-
-1. Crear un repo en GitHub
-2. Inicializar un proyecto con Vite + React + Tailwind
-3. Desplegarlo a Vercel
-4. Armar el home y un mockup del flujo principal
-
-Hazlo concreto. Un paso a la vez. Espera mi
-confirmación entre pasos.`;
 
 /* 43 — Plan de 4 días */
 function PlanDe4DiasSlide() {
@@ -2282,54 +2271,39 @@ function PlanDe4DiasSlide() {
     <SlideFrame>
       <Eyebrow>De aquí al viernes</Eyebrow>
       <Title size="md" className="mt-4">
-        4 días para llegar a Bootcamp #1{" "}
+        4 pasos para llegar a Bootcamp #1{" "}
         <span className="gradient-text">con el frontend adelantado.</span>
       </Title>
 
-      <div className="mt-8 grid max-w-6xl grid-cols-1 gap-6 lg:grid-cols-2">
-        <div>
-          <span className="font-mono text-[11px] uppercase tracking-[0.16em] text-accent">
-            El plan
-          </span>
-          <ol className="mt-4 flex flex-col gap-2.5">
-            {PLAN_4_DAYS.map((d) => (
-              <li
-                key={d.day}
-                className={`flex items-start gap-3 rounded-xl border p-3.5 ${
-                  d.active
-                    ? "border-accent/35 bg-accent/[0.06]"
-                    : "border-hairline bg-white/[0.015]"
-                }`}
-              >
-                <span
-                  className={`w-28 shrink-0 font-mono text-xs ${
-                    d.active ? "font-semibold text-accent" : "text-muted"
-                  }`}
-                >
-                  {d.day}
-                </span>
-                <span className="text-sm text-white/85">{d.tasks}</span>
-              </li>
-            ))}
-          </ol>
-        </div>
+      <ol className="mt-10 grid max-w-5xl grid-cols-1 gap-3 md:grid-cols-2">
+        {PLAN_4_TASKS.map((t, i) => (
+          <li
+            key={t.n}
+            className={`flex items-start gap-4 rounded-2xl border p-5 ${
+              i === 3
+                ? "border-accent/35 bg-accent/[0.06]"
+                : "border-hairline bg-white/[0.015]"
+            }`}
+          >
+            <span
+              className={`font-mono text-sm ${
+                i === 3 ? "font-semibold text-accent" : "text-muted"
+              }`}
+            >
+              {t.n}
+            </span>
+            <div>
+              <p className="text-base font-semibold text-white">{t.title}</p>
+              <p className="mt-1 text-sm text-white/70">{t.detail}</p>
+            </div>
+          </li>
+        ))}
+      </ol>
 
-        <div>
-          <span className="font-mono text-[11px] uppercase tracking-[0.16em] text-accent">
-            Tu primer prompt — copia, pega y arranca
-          </span>
-          <div className="mt-4">
-            <CodeBlock filename="cursor / claude code">
-              {ARRANQUE_PROMPT}
-            </CodeBlock>
-          </div>
-        </div>
-      </div>
-
-      <div className="mt-8 inline-flex items-center gap-2.5 rounded-2xl border border-accent/25 bg-accent/[0.06] px-5 py-3">
+      <div className="mt-10 inline-flex items-center gap-2.5 rounded-2xl border border-accent/25 bg-accent/[0.06] px-5 py-3">
         <MessageCircle size={16} className="text-accent" />
         <span className="text-sm text-white/85">
-          Si te trabas, en Telegram preguntas.{" "}
+          Si se traban, en Telegram preguntan.{" "}
           <span className="font-semibold text-white">
             Llegar con algo desplegado vale 100× más que llegar con dudas.
           </span>
