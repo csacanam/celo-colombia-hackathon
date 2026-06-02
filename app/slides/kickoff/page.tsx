@@ -776,56 +776,56 @@ function CasosRealesSlide() {
         <span className="gradient-text">generando millones.</span>
       </Title>
 
-      <div className="mt-10 grid max-w-5xl grid-cols-1 gap-4 md:grid-cols-2">
-        <div className="rounded-2xl border border-hairline bg-white/[0.015] p-6">
+      <div className="mt-8 grid max-w-5xl grid-cols-1 gap-5 md:grid-cols-2">
+        <div className="rounded-2xl border border-hairline bg-white/[0.015] p-5">
           <span className="font-mono text-[10px] uppercase tracking-wider text-muted">
             Caso 1
           </span>
-          <div className="mt-3 flex items-center gap-3">
+          <div className="mt-3 flex items-start gap-5">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src="/levels.png"
               alt="Pieter Levels"
-              className="h-14 w-14 rounded-full object-cover ring-1 ring-white/10"
+              className="h-[34vh] w-auto shrink-0 rounded-xl object-contain ring-1 ring-white/10"
             />
             <div>
               <h3 className="text-xl font-semibold text-white">
                 Pieter Levels
               </h3>
               <p className="font-mono text-xs text-muted">@levelsio</p>
+              <p className="mt-4 text-sm leading-snug text-muted">
+                Millones de dólares con apps que él construye solo. Incluso
+                antes de la era de IA.
+              </p>
             </div>
           </div>
-          <p className="mt-4 text-sm leading-snug text-muted">
-            Millones de dólares con apps que él construye solo. Incluso antes
-            de la era de IA.
-          </p>
         </div>
 
-        <div className="rounded-2xl border border-hairline bg-white/[0.015] p-6">
+        <div className="rounded-2xl border border-hairline bg-white/[0.015] p-5">
           <span className="font-mono text-[10px] uppercase tracking-wider text-muted">
             Caso 2
           </span>
-          <div className="mt-3 flex items-center gap-3">
+          <div className="mt-3 flex items-start gap-5">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src="/marclou.png"
               alt="Marc Lou"
-              className="h-14 w-14 rounded-full object-cover ring-1 ring-white/10"
+              className="h-[34vh] w-auto shrink-0 rounded-xl object-contain ring-1 ring-white/10"
             />
             <div>
               <h3 className="text-xl font-semibold text-white">Marc Lou</h3>
               <p className="font-mono text-xs text-muted">@marc_louvion</p>
+              <p className="mt-4 text-sm leading-snug text-muted">
+                Cientos de miles de dólares generados —{" "}
+                <span className="text-white">construyendo en público</span> en
+                su cuenta de X.
+              </p>
             </div>
           </div>
-          <p className="mt-4 text-sm leading-snug text-muted">
-            Cientos de miles de dólares generados —{" "}
-            <span className="text-white">construyendo en público</span> en su
-            cuenta de X.
-          </p>
         </div>
       </div>
 
-      <p className="mt-8 max-w-3xl text-sm text-muted">
+      <p className="mt-6 max-w-3xl text-sm text-muted">
         Pero les voy a hablar de un caso más cercano —{" "}
         <span className="text-white">el mío</span>. Más real. Más tangible. Y
         que está aquí.
@@ -1500,7 +1500,7 @@ function MiniPayScreenshotsSlide() {
         millones de usuarios en África abren a diario.
       </Body>
 
-      <div className="mt-10 grid max-w-5xl grid-cols-3 gap-4 sm:gap-6">
+      <div className="mt-8 flex flex-wrap justify-center gap-4 sm:gap-6">
         {shots.map((s) => (
           <div key={s.src} className="relative">
             <div className="absolute -inset-2 rounded-3xl bg-accent/[0.08] blur-2xl" />
@@ -1509,14 +1509,14 @@ function MiniPayScreenshotsSlide() {
               <img
                 src={s.src}
                 alt={s.alt}
-                className="h-auto w-full rounded-xl object-contain"
+                className="h-[46vh] w-auto rounded-xl object-contain"
               />
             </div>
           </div>
         ))}
       </div>
 
-      <p className="mt-8 max-w-3xl text-sm text-muted">
+      <p className="mt-6 max-w-3xl text-sm text-muted">
         Las mini apps viven{" "}
         <span className="text-white">dentro</span> de esta app. Esa es la
         oportunidad — su mini app puede aterrizar acá.
@@ -2115,12 +2115,12 @@ function ArquitecturaSimpleSlide() {
 
       <div className="mt-8 grid max-w-6xl grid-cols-1 items-center gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:gap-10">
         {/* Imagen FE vs BE */}
-        <div className="rounded-2xl border border-hairline bg-white p-3">
+        <div className="flex items-center justify-center rounded-2xl border border-hairline bg-white p-3">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src="/frontend.jpg"
             alt="Frontend vs Backend"
-            className="h-auto w-full rounded-lg object-contain"
+            className="max-h-[50vh] w-auto rounded-lg object-contain"
           />
         </div>
 

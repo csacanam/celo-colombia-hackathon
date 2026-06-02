@@ -108,6 +108,18 @@ export const TIMELINE = [
     title: "Kickoff",
     date: "Lunes 1 de junio · 6:00 a 8:00 PM",
     desc: "Presentación oficial de la hackathon, comunidad, retos y primeros pasos para empezar a construir.",
+    links: [
+      {
+        label: "Grabación",
+        href: "https://www.youtube.com/watch?v=ihDRqe2X-4c",
+        icon: "Youtube",
+      },
+      {
+        label: "Slides",
+        href: "https://hackathon.celocolombia.org/slides/kickoff",
+        icon: "Presentation",
+      },
+    ],
   },
   {
     phase: "02",

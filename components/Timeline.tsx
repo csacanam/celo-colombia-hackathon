@@ -1,10 +1,15 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { CalendarDays } from "lucide-react";
+import { CalendarDays, Presentation, Youtube, type LucideIcon } from "lucide-react";
 import { TIMELINE } from "@/lib/site";
 import { SectionHeading } from "./ui/SectionHeading";
 import { staggerChild, staggerParent } from "./ui/Reveal";
+
+const LINK_ICONS: Record<string, LucideIcon> = {
+  Youtube,
+  Presentation,
+};
 
 export function Timeline() {
   return (
@@ -53,6 +58,26 @@ export function Timeline() {
               <p className="mt-1 text-sm leading-relaxed text-muted">
                 {step.desc}
               </p>
+
+              {"links" in step && step.links.length > 0 && (
+                <div className="mt-3 flex flex-wrap gap-2">
+                  {step.links.map((link) => {
+                    const Icon = LINK_ICONS[link.icon];
+                    return (
+                      <a
+                        key={link.href}
+                        href={link.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1.5 rounded-full border border-accent/30 bg-accent/[0.08] px-2.5 py-1 font-mono text-[10px] uppercase tracking-wider text-accent transition-colors hover:bg-accent/[0.15]"
+                      >
+                        {Icon && <Icon size={11} />}
+                        {link.label}
+                      </a>
+                    );
+                  })}
+                </div>
+              )}
             </div>
           </motion.li>
         ))}
