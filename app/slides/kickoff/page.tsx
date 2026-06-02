@@ -35,7 +35,6 @@ import {
   MousePointer2,
   PartyPopper,
   PlayCircle,
-  Rocket,
   Server,
   Smartphone,
   Sparkles,
@@ -43,7 +42,6 @@ import {
   Target,
   Trophy,
   Users,
-  Wallet,
   type LucideIcon,
 } from "lucide-react";
 import {
@@ -2313,73 +2311,6 @@ function PlanDe4DiasSlide() {
   );
 }
 
-const HOMEWORK_ACCOUNTS: { icon: LucideIcon; name: string }[] = [
-  { icon: Github, name: "Crear cuenta en GitHub" },
-  { icon: Rocket, name: "Crear cuenta en Vercel o Replit" },
-  { icon: Sparkles, name: "Instalar Cursor o Claude Code" },
-  { icon: Wallet, name: "Crear una wallet (MiniPay o similar)" },
-  { icon: MessageCircle, name: "Entrar al grupo de Telegram" },
-  { icon: Trophy, name: "Revisar Proof of Ship + FAQ" },
-];
-
-const IDEA_TEMPLATE = [
-  "Nombre del proyecto:",
-  "Problema que resuelve:",
-  "Usuario objetivo:",
-  "Qué acción tendrá:",
-  "Cómo usaría IA:",
-  "Equipo:",
-];
-
-/* 44 — Homework · cuentas e idea */
-function HomeworkSlide() {
-  return (
-    <SlideFrame>
-      <Eyebrow>Antes de la próxima sesión</Eyebrow>
-      <Title size="md" className="mt-4">
-        Homework.
-      </Title>
-
-      <div className="mt-8 grid max-w-6xl grid-cols-1 gap-6 lg:grid-cols-2">
-        <div>
-          <span className="font-mono text-[11px] uppercase tracking-[0.16em] text-accent">
-            Cuentas a crear
-          </span>
-          <ul className="mt-4 flex flex-col gap-2.5">
-            {HOMEWORK_ACCOUNTS.map((acc) => {
-              const Icon = acc.icon;
-              return (
-                <li
-                  key={acc.name}
-                  className="flex items-center gap-3 rounded-xl border border-hairline bg-white/[0.015] p-3"
-                >
-                  <span className="grid h-8 w-8 place-items-center rounded-lg bg-white/[0.04] text-accent">
-                    <Icon size={15} />
-                  </span>
-                  <span className="text-sm text-white/85">{acc.name}</span>
-                </li>
-              );
-            })}
-          </ul>
-        </div>
-
-        <div>
-          <span className="font-mono text-[11px] uppercase tracking-[0.16em] text-accent">
-            Publica tu idea en Telegram
-          </span>
-          <div className="mt-4 rounded-2xl border border-hairline bg-surface p-5 font-mono text-sm leading-relaxed">
-            {IDEA_TEMPLATE.map((line) => (
-              <p key={line} className="text-white/70">
-                {line} <span className="text-white/25">…</span>
-              </p>
-            ))}
-          </div>
-        </div>
-      </div>
-    </SlideFrame>
-  );
-}
-
 /* 45 — Mensaje final */
 function MensajeFinalSlide() {
   return (
@@ -2518,7 +2449,6 @@ const SLIDES = [
   QueEsFrontendSlide,
   TareaParaVierneSlide,
   PlanDe4DiasSlide,
-  HomeworkSlide,
   MensajeFinalSlide,
   CierreSlide,
 ];
