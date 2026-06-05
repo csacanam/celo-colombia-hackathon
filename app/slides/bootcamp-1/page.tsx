@@ -41,7 +41,7 @@ import {
 
 const AGENDA_ITEMS = [
   { time: "0:00", title: "Show & Tell · 3-4 equipos cuentan" },
-  { time: "0:25", title: "GitHub + Vercel + seguridad" },
+  { time: "0:25", title: "GitHub: llaves, repo, seguridad → Vercel" },
   { time: "1:00", title: "Estructura para que el backend no te explote" },
   { time: "1:15", title: "Vibe coding en vivo + Q&A" },
   { time: "1:50", title: "Tarea para Bootcamp #2" },
@@ -109,14 +109,21 @@ const GITHUB_THINGS: { icon: LucideIcon; title: string; desc: string }[] = [
   },
 ];
 
-const LLAVES_PROMPT = `Quiero conectar este equipo a GitHub con SSH.
+const LLAVES_PROMPT = `Quiero conectar este equipo a GitHub.
 
-1. Revisa si ya tengo una llave SSH (~/.ssh/id_ed25519.pub).
-2. Si no existe, genera una nueva con ssh-keygen -t ed25519.
-3. Carga la llave al ssh-agent.
+Son dos cosas: la auth de git (por SSH) y la del CLI de GitHub (gh).
+
+Para git, por SSH:
+1. Revisa si ya tengo ~/.ssh/id_ed25519.pub.
+2. Si no, genera una con ssh-keygen -t ed25519.
+3. Carga al ssh-agent.
 4. Imprime SOLO mi clave pública (.pub) para que la pegue en GitHub.
-5. Cuando te diga que ya la pegué, prueba con:
-   ssh -T git@github.com
+
+Yo la pego en github.com/settings/keys. Cuando te diga "ya":
+
+5. Prueba la conexión: ssh -T git@github.com
+6. Verifica si gh CLI está instalado. Si no, dime cómo instalarlo.
+7. Corre gh auth login — eligiendo SSH como protocolo.
 
 Paso por paso. NUNCA me muestres la clave privada.`;
 
@@ -124,7 +131,7 @@ const GITHUB_KEY_STEPS = [
   "Entra a github.com/settings/keys",
   'Click en "New SSH key"',
   'Pega la clave pública en "Key" y dale un title (ej. "Mi laptop")',
-  "Vuelve al terminal y dale OK a tu agente para que pruebe la conexión",
+  "Vuelve al terminal y dale OK al agente — va a probar SSH y configurar gh",
 ];
 
 const REPO_PROMPT = `Quiero subir este proyecto a GitHub.
@@ -165,11 +172,18 @@ const SECURITY_CONSEQUENCES = [
   "Borrarla después no sirve: git guarda la historia.",
 ];
 
-const VERCEL_FLOW: { n: string; text: string }[] = [
-  { n: "01", text: "Conectas tu repo de GitHub a Vercel · una sola vez." },
-  { n: "02", text: "Haces git push." },
-  { n: "03", text: "Vercel detecta el push y construye tu app." },
-  { n: "04", text: "Tu URL pública se actualiza sola." },
+const VERCEL_SETUP_STEPS = [
+  "Entrar a vercel.com y hacer Sign Up con la cuenta de GitHub.",
+  'Click en "Add New" → "Project".',
+  "Seleccionar el repo que acaban de crear.",
+  'Click en "Deploy" — Vercel detecta el framework solo (Next.js, Vite, etc.).',
+  "En 1-2 minutos: URL pública. Cópienla — esa es su app en internet.",
+];
+
+const VERCEL_AFTER: { n: string; text: string }[] = [
+  { n: "01", text: "Hacen git push." },
+  { n: "02", text: "Vercel detecta el push y construye." },
+  { n: "03", text: "Su URL pública se actualiza sola." },
 ];
 
 const FOLDER_LAYOUTS: { tag: string; title: string; tree: string[] }[] = [
@@ -467,9 +481,13 @@ function LlavesSlide() {
         <span className="gradient-text">Usa llaves.</span>
       </Title>
       <Body className="mt-4 max-w-3xl">
-        <span className="font-mono text-white">SSH</span> es el protocolo. La
-        idea — pública y privada — es la misma que van a ver en wallets la
-        próxima semana.
+        Esto se llama{" "}
+        <span className="text-white">criptografía asimétrica</span>: dos llaves
+        conectadas por matemática. Lo que se firma con la privada, cualquiera
+        lo verifica con la pública —{" "}
+        <span className="text-white">pero solo el dueño de la privada pudo firmarlo</span>.{" "}
+        <span className="font-mono text-white">SSH</span> la usa para
+        autenticarte. Las wallets, para firmar transacciones.
       </Body>
 
       <div className="mt-8 grid max-w-6xl grid-cols-1 gap-4 md:grid-cols-2">
@@ -685,38 +703,68 @@ function VercelSlide() {
     <SlideFrame>
       <Eyebrow>Vercel</Eyebrow>
       <Title size="md" className="mt-4">
-        Cada push,{" "}
-        <span className="gradient-text">tu app se redespliega sola.</span>
+        Su app, en una{" "}
+        <span className="gradient-text">URL pública.</span>
       </Title>
       <Body className="mt-4 max-w-3xl">
-        Una conexión inicial. Después, todo es automático.
+        Setup una vez. Después, cada <span className="font-mono text-white">git push</span> redespliega solo.
       </Body>
 
-      <ol className="mt-10 grid max-w-5xl grid-cols-1 gap-3 md:grid-cols-2">
-        {VERCEL_FLOW.map((s) => (
-          <li
-            key={s.n}
-            className="flex items-start gap-4 rounded-xl border border-hairline bg-white/[0.015] p-4"
-          >
-            <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-accent/15 font-mono text-xs font-bold text-accent">
-              {s.n}
-            </span>
-            <span className="pt-1.5 text-base text-white/85 sm:text-lg">
-              {s.text}
-            </span>
-          </li>
-        ))}
-      </ol>
+      <div className="mt-8 grid max-w-6xl grid-cols-1 gap-5 lg:grid-cols-[1.1fr_0.9fr]">
+        <div>
+          <span className="font-mono text-[11px] uppercase tracking-[0.16em] text-accent">
+            1 · Primera vez en vercel.com
+          </span>
+          <ol className="mt-4 flex flex-col gap-2.5">
+            {VERCEL_SETUP_STEPS.map((step, i) => (
+              <li
+                key={step}
+                className="flex items-start gap-3 rounded-xl border border-hairline bg-white/[0.015] p-3.5"
+              >
+                <span className="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-accent/15 font-mono text-xs font-bold text-accent">
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+                <span className="pt-1 text-sm leading-snug text-white/85">
+                  {step}
+                </span>
+              </li>
+            ))}
+          </ol>
+        </div>
 
-      <div className="mt-8 flex flex-col gap-2 rounded-2xl border border-hairline bg-white/[0.015] p-5">
-        <span className="font-mono text-[11px] uppercase tracking-[0.16em] text-accent">
-          Recuerden
-        </span>
-        <p className="text-sm leading-relaxed text-white/85">
-          Variables de entorno (API keys, secrets) van en el{" "}
-          <span className="font-semibold text-white">dashboard de Vercel</span>
-          , no en el código. Vercel las inyecta en cada build.
-        </p>
+        <div className="flex flex-col gap-4">
+          <div>
+            <span className="font-mono text-[11px] uppercase tracking-[0.16em] text-accent">
+              2 · Después · automático
+            </span>
+            <ol className="mt-4 flex flex-col gap-2">
+              {VERCEL_AFTER.map((s) => (
+                <li
+                  key={s.n}
+                  className="flex items-start gap-3 rounded-lg border border-hairline bg-white/[0.015] p-3"
+                >
+                  <span className="font-mono text-xs font-semibold text-accent">
+                    {s.n}
+                  </span>
+                  <span className="text-sm text-white/85">{s.text}</span>
+                </li>
+              ))}
+            </ol>
+          </div>
+
+          <div className="flex flex-col gap-2 rounded-2xl border border-accent/25 bg-accent/[0.06] p-4">
+            <span className="font-mono text-[11px] uppercase tracking-[0.16em] text-accent">
+              Recuerden
+            </span>
+            <p className="text-sm leading-relaxed text-white/85">
+              API keys y secrets van en el{" "}
+              <span className="font-semibold text-white">
+                dashboard de Vercel
+              </span>
+              , no en el código.
+            </p>
+          </div>
+        </div>
       </div>
     </SlideFrame>
   );
