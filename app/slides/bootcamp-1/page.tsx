@@ -109,6 +109,24 @@ const GITHUB_THINGS: { icon: LucideIcon; title: string; desc: string }[] = [
   },
 ];
 
+const LLAVES_PROMPT = `Quiero conectar este equipo a GitHub con SSH.
+
+1. Revisa si ya tengo una llave SSH (~/.ssh/id_ed25519.pub).
+2. Si no existe, genera una nueva con ssh-keygen -t ed25519.
+3. Carga la llave al ssh-agent.
+4. Imprime SOLO mi clave pública (.pub) para que la pegue en GitHub.
+5. Cuando te diga que ya la pegué, prueba con:
+   ssh -T git@github.com
+
+Paso por paso. NUNCA me muestres la clave privada.`;
+
+const GITHUB_KEY_STEPS = [
+  "Entra a github.com/settings/keys",
+  'Click en "New SSH key"',
+  'Pega la clave pública en "Key" y dale un title (ej. "Mi laptop")',
+  "Vuelve al terminal y dale OK a tu agente para que pruebe la conexión",
+];
+
 const REPO_PROMPT = `Quiero subir este proyecto a GitHub.
 
 1. Inicializa git en este proyecto.
@@ -510,7 +528,67 @@ function LlavesSlide() {
   );
 }
 
-/* 08 — Crear repo con tu agente (en vivo) */
+/* 08 — Llaves en vivo: prompt + pasos en GitHub */
+function LlavesEnVivoSlide() {
+  return (
+    <SlideFrame>
+      <Eyebrow>Manos a la obra</Eyebrow>
+      <Title size="md" className="mt-4">
+        Generar las llaves —{" "}
+        <span className="gradient-text">con tu agente.</span>
+      </Title>
+      <Body className="mt-4 max-w-3xl">
+        Un prompt en su terminal + 3 clicks en GitHub. Listo.
+      </Body>
+
+      <div className="mt-8 grid max-w-6xl grid-cols-1 gap-5 lg:grid-cols-[1.1fr_0.9fr]">
+        <div>
+          <span className="font-mono text-[11px] uppercase tracking-[0.16em] text-accent">
+            1 · Pídeselo a su agente
+          </span>
+          <div className="mt-4">
+            <CodeBlock filename="cursor / claude code">
+              {LLAVES_PROMPT}
+            </CodeBlock>
+          </div>
+        </div>
+
+        <div>
+          <span className="font-mono text-[11px] uppercase tracking-[0.16em] text-accent">
+            2 · En GitHub
+          </span>
+          <ol className="mt-4 flex flex-col gap-2.5">
+            {GITHUB_KEY_STEPS.map((step, i) => (
+              <li
+                key={step}
+                className="flex items-start gap-3 rounded-xl border border-hairline bg-white/[0.015] p-3.5"
+              >
+                <span className="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-accent/15 font-mono text-xs font-bold text-accent">
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+                <span className="pt-1 text-sm leading-snug text-white/85">
+                  {step}
+                </span>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </div>
+
+      <div className="mt-6 inline-flex items-center gap-2.5 rounded-2xl border border-accent/25 bg-accent/[0.06] px-5 py-3">
+        <AlertTriangle size={16} className="text-accent" />
+        <span className="text-sm text-white/85">
+          Solo peguen la clave{" "}
+          <span className="font-semibold text-white">pública</span> (el archivo{" "}
+          <span className="font-mono text-white">.pub</span>). La privada jamás
+          sale de su laptop.
+        </span>
+      </div>
+    </SlideFrame>
+  );
+}
+
+/* 09 — Crear repo con tu agente (en vivo) */
 function CrearRepoSlide() {
   return (
     <SlideFrame>
@@ -838,6 +916,7 @@ const SLIDES = [
   ShowTellSlide,
   WhatIsGitHubSlide,
   LlavesSlide,
+  LlavesEnVivoSlide,
   CrearRepoSlide,
   SeguridadSlide,
   VercelSlide,
