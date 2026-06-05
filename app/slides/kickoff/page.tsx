@@ -116,9 +116,14 @@ function CoverSlide() {
             <PlayCircle size={18} className="text-accent" />
             Lunes 1 de junio · 6:00 a 8:00 PM
           </span>
-          <span className="flex items-center gap-2.5">
-            <MapPin size={18} className="text-accent" />
-            Universidad Icesi, Cali · y virtual
+          <span className="flex flex-col gap-1">
+            <span className="flex items-center gap-2.5">
+              <MapPin size={18} className="text-accent" />
+              Auditorio Ernesto de Lima · Edificio L
+            </span>
+            <span className="pl-7 text-sm text-white/45 sm:text-base">
+              Universidad Icesi, Cali · y virtual
+            </span>
           </span>
         </div>
       </div>

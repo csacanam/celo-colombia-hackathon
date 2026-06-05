@@ -107,6 +107,7 @@ export const TIMELINE = [
     phase: "01",
     title: "Kickoff",
     date: "Lunes 1 de junio · 6:00 a 8:00 PM",
+    venue: "Auditorio Ernesto de Lima · Edificio L",
     desc: "Presentación oficial de la hackathon, comunidad, retos y primeros pasos para empezar a construir.",
     links: [
       {
@@ -125,18 +126,21 @@ export const TIMELINE = [
     phase: "02",
     title: "Bootcamp #1",
     date: "Viernes 5 de junio · 6:00 a 8:00 PM",
+    venue: "Auditorio Banco de Occidente · Edificio E",
     desc: "Introducción a Vibe Coding, herramientas IA y fundamentos para construir apps onchain.",
   },
   {
     phase: "03",
     title: "Bootcamp #2",
     date: "Martes 9 de junio · 6:00 a 8:00 PM",
+    venue: "Auditorio Carlos Arcesio Paz · Edificio D",
     desc: "Wallets, stablecoins y cómo conectar dinero programable dentro de tus apps.",
   },
   {
     phase: "04",
     title: "Bootcamp #3",
     date: "Viernes 12 de junio · 6:00 a 8:00 PM",
+    venue: "Auditorio Carlos Arcesio Paz · Edificio D",
     desc: "Mini apps, agentes onchain y preparación para la hackathon.",
   },
   {
@@ -149,6 +153,7 @@ export const TIMELINE = [
     phase: "06",
     title: "Demo Day & Ganadores",
     date: "19 de junio",
+    venue: "Auditorio Carlos Arcesio Paz · Edificio D",
     desc: "Presentación de proyectos, selección de ganadores y cierre oficial de la hackathon.",
   },
 ] as const;

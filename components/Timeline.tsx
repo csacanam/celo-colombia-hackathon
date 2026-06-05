@@ -1,7 +1,13 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { CalendarDays, Presentation, Youtube, type LucideIcon } from "lucide-react";
+import {
+  CalendarDays,
+  MapPin,
+  Presentation,
+  Youtube,
+  type LucideIcon,
+} from "lucide-react";
 import { TIMELINE } from "@/lib/site";
 import { SectionHeading } from "./ui/SectionHeading";
 import { staggerChild, staggerParent } from "./ui/Reveal";
@@ -48,10 +54,18 @@ export function Timeline() {
 
             {/* Card */}
             <div className="glass glass-hover flex-1 rounded-xl p-5">
-              <span className="inline-flex items-center gap-1.5 rounded-full border border-accent/25 bg-accent/[0.06] px-2.5 py-1 font-mono text-[10px] uppercase tracking-wider text-accent">
-                <CalendarDays size={11} />
-                {step.date}
-              </span>
+              <div className="flex flex-wrap items-center gap-2">
+                <span className="inline-flex items-center gap-1.5 rounded-full border border-accent/25 bg-accent/[0.06] px-2.5 py-1 font-mono text-[10px] uppercase tracking-wider text-accent">
+                  <CalendarDays size={11} />
+                  {step.date}
+                </span>
+                {"venue" in step && (
+                  <span className="inline-flex items-center gap-1.5 rounded-full border border-hairline bg-white/[0.03] px-2.5 py-1 font-mono text-[10px] uppercase tracking-wider text-muted">
+                    <MapPin size={11} />
+                    {step.venue}
+                  </span>
+                )}
+              </div>
               <h3 className="mt-3 text-lg font-semibold tracking-tight text-white">
                 {step.title}
               </h3>
