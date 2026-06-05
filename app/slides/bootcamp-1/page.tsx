@@ -9,7 +9,9 @@ import {
   Github,
   Globe,
   HelpCircle,
+  Key,
   Lightbulb,
+  Lock,
   MapPin,
   MessageCircle,
   PlayCircle,
@@ -405,7 +407,9 @@ function WhatIsGitHubSlide() {
         <span className="gradient-text">Hay que moverlo.</span>
       </Title>
       <Body className="mt-4 max-w-3xl">
-        GitHub es 3 cosas a la vez. Y todas las necesitan desde hoy.
+        GitHub es un sistema de{" "}
+        <span className="text-white">control de versiones</span>. Para
+        ustedes, eso significa 3 cosas a la vez.
       </Body>
 
       <div className="mt-10 grid max-w-6xl grid-cols-1 gap-3 md:grid-cols-3">
@@ -435,7 +439,78 @@ function WhatIsGitHubSlide() {
   );
 }
 
-/* 07 — Crear repo con tu agente (en vivo) */
+/* 07 — Llaves pública/privada · SSH */
+function LlavesSlide() {
+  return (
+    <SlideFrame>
+      <Eyebrow>Cómo te autentica</Eyebrow>
+      <Title size="md" className="mt-4 max-w-5xl">
+        GitHub no usa password.{" "}
+        <span className="gradient-text">Usa llaves.</span>
+      </Title>
+      <Body className="mt-4 max-w-3xl">
+        <span className="font-mono text-white">SSH</span> es el protocolo. La
+        idea — pública y privada — es la misma que van a ver en wallets la
+        próxima semana.
+      </Body>
+
+      <div className="mt-8 grid max-w-6xl grid-cols-1 gap-4 md:grid-cols-2">
+        <div className="rounded-2xl border border-hairline bg-white/[0.015] p-6">
+          <span className="grid h-10 w-10 place-items-center rounded-xl bg-accent/15 text-accent">
+            <Key size={18} strokeWidth={2.2} />
+          </span>
+          <h3 className="mt-4 text-lg font-semibold tracking-tight text-white">
+            Clave pública
+          </h3>
+          <p className="mt-2 text-sm leading-relaxed text-muted">
+            La que registras en GitHub. La pueden ver todos sin problema.
+          </p>
+          <div className="mt-4 rounded-xl border border-hairline bg-surface p-3">
+            <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-accent">
+              En wallets
+            </span>
+            <p className="mt-1 text-sm text-white/80">
+              Es su dirección — la pegan para recibir dinero.
+            </p>
+          </div>
+        </div>
+
+        <div className="rounded-2xl border border-accent/30 bg-accent/[0.05] p-6">
+          <span className="grid h-10 w-10 place-items-center rounded-xl bg-accent/20 text-accent">
+            <Lock size={18} strokeWidth={2.2} />
+          </span>
+          <h3 className="mt-4 text-lg font-semibold tracking-tight text-white">
+            Clave privada
+          </h3>
+          <p className="mt-2 text-sm leading-relaxed text-muted">
+            Vive en su laptop.{" "}
+            <span className="text-white">JAMÁS la comparten con nadie.</span>
+          </p>
+          <div className="mt-4 rounded-xl border border-accent/25 bg-surface p-3">
+            <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-accent">
+              En wallets
+            </span>
+            <p className="mt-1 text-sm text-white/80">
+              Es lo que da acceso al dinero. Si la pierden, lo pierden todo.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div className="mt-6 inline-flex items-center gap-2.5 rounded-2xl border border-hairline bg-white/[0.02] px-5 py-3">
+        <Sparkles size={16} className="text-accent" />
+        <span className="text-sm text-white/85">
+          Su agente puede generar las llaves (
+          <span className="font-mono text-white">ssh-keygen</span>) y
+          conectarlas a GitHub (
+          <span className="font-mono text-white">gh auth login</span>).
+        </span>
+      </div>
+    </SlideFrame>
+  );
+}
+
+/* 08 — Crear repo con tu agente (en vivo) */
 function CrearRepoSlide() {
   return (
     <SlideFrame>
@@ -762,6 +837,7 @@ const SLIDES = [
   ActivationSlide,
   ShowTellSlide,
   WhatIsGitHubSlide,
+  LlavesSlide,
   CrearRepoSlide,
   SeguridadSlide,
   VercelSlide,
