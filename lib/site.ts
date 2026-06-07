@@ -128,6 +128,18 @@ export const TIMELINE = [
     date: "Viernes 5 de junio · 6:00 a 8:00 PM",
     venue: "Auditorio Banco de Occidente · Edificio E",
     desc: "Introducción a Vibe Coding, herramientas IA y fundamentos para construir apps onchain.",
+    links: [
+      {
+        label: "Grabación",
+        href: "https://youtu.be/v1IOUc2M1zw",
+        icon: "Youtube",
+      },
+      {
+        label: "Slides",
+        href: "https://hackathon.celocolombia.org/slides/bootcamp-1",
+        icon: "Presentation",
+      },
+    ],
   },
   {
     phase: "03",
