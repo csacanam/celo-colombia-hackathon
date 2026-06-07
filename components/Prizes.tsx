@@ -8,7 +8,7 @@ import { Reveal, staggerChild, staggerParent } from "./ui/Reveal";
 
 export function Prizes() {
   return (
-    <section id="premios" className="relative py-24 sm:py-28">
+    <section id="premios" className="relative overflow-hidden py-24 sm:py-28">
       <div className="pointer-events-none absolute left-1/2 top-1/3 h-72 w-[700px] -translate-x-1/2 rounded-full bg-accent/[0.06] blur-[150px]" />
 
       <div className="section relative">

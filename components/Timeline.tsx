@@ -54,7 +54,7 @@ export function Timeline() {
 
             {/* Card */}
             <div className="glass glass-hover flex-1 rounded-xl p-5">
-              <div className="flex flex-wrap items-center gap-2">
+              <div className="flex flex-col items-start gap-2">
                 <span className="inline-flex items-center gap-1.5 rounded-full border border-accent/25 bg-accent/[0.06] px-2.5 py-1 font-mono text-[10px] uppercase tracking-wider text-accent">
                   <CalendarDays size={11} />
                   {step.date}

@@ -110,7 +110,7 @@ export function ApplyForm() {
   const registered = status === "success";
 
   return (
-    <section id="aplicar" className="relative py-24 sm:py-28">
+    <section id="aplicar" className="relative overflow-hidden py-24 sm:py-28">
       <div className="pointer-events-none absolute left-1/2 top-0 h-80 w-[760px] -translate-x-1/2 rounded-full bg-accent/[0.07] blur-[150px]" />
 
       <div className="section relative">
