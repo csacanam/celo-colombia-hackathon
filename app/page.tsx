@@ -7,6 +7,7 @@ import { LearnGrid } from "@/components/LearnGrid";
 import { Timeline } from "@/components/Timeline";
 import { Venue } from "@/components/Venue";
 import { Prizes } from "@/components/Prizes";
+import { Rubric } from "@/components/Rubric";
 import { Mentors } from "@/components/Mentors";
 import { Jurors } from "@/components/Jurors";
 import { FAQ } from "@/components/FAQ";
@@ -45,6 +46,7 @@ export default function HomePage() {
         <Timeline />
         <Venue />
         <Prizes />
+        <Rubric />
         <Mentors />
         <Jurors />
         <FAQ />

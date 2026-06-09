@@ -9,6 +9,7 @@ export const WHATSAPP_URL =
 export const NAV_LINKS = [
   { label: "Agenda", href: "#agenda" },
   { label: "Premios", href: "#premios" },
+  { label: "Rúbrica", href: "#rubrica" },
   { label: "Mentores", href: "#mentores" },
   { label: "Jurado", href: "#jurado" },
   { label: "FAQ", href: "#faq" },
@@ -186,6 +187,46 @@ export const PRIZE_BONUS = {
 
 /** Bolsa total en premios (suma de podio + bonus). */
 export const PRIZE_TOTAL = "3.000.000";
+
+/**
+ * Rúbrica de evaluación — pública para que cada equipo sepa cómo se juzga.
+ * Sintetizada del Proof of Ship de Celo y del MiniPay App Fit Scorecard.
+ */
+export const RUBRIC_CRITERIA = [
+  {
+    weight: 30,
+    title: "MiniPay Strategic Fit & utilidad real",
+    desc: "¿Resuelve un problema cotidiano para un usuario móvil-first de mercados emergentes? ¿Lo usaría alguien sin saber qué es una blockchain?",
+  },
+  {
+    weight: 25,
+    title: "Calidad del producto & polish",
+    desc: "¿Funciona end-to-end en móvil? Sin links rotos, sin flujos quebrados, copy claro, acción principal en menos de 60 segundos.",
+  },
+  {
+    weight: 20,
+    title: "Integración con Celo & stablecoins",
+    desc: "¿Los stablecoins (USDT, USDC, USDM) son centrales al flujo, no bolted-on? ¿El contrato hace algo significativo?",
+  },
+  {
+    weight: 15,
+    title: "Tracción & actividad onchain",
+    desc: "Usuarios reales, transacciones reales. Incluso 5 wallets pagando fees es señal fuerte. Cero actividad onchain es bandera roja.",
+  },
+  {
+    weight: 10,
+    title: "Originalidad & diferenciación",
+    desc: "¿Hay gap en el catálogo de MiniPay? Tier 1: juegos con mecánicas reales, X-to-earn, AI pay-as-you-go, agentes onchain.",
+  },
+] as const;
+
+/** Hard gates — si falta alguno, el proyecto no se puntúa. */
+export const RUBRIC_GATES = [
+  "Smart contract deployado (Alfajores o Mainnet).",
+  "GitHub público con commits reales.",
+  "URL viva y accesible.",
+  "Funciona dentro del WebView de MiniPay.",
+] as const;
 
 /**
  * Mentores. `role` es un arreglo de tokens (texto + link opcional) para que
