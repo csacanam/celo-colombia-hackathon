@@ -3,6 +3,7 @@
 import {
   ArrowLeftRight,
   Ban,
+  Bot,
   Calendar,
   Check,
   Code,
@@ -32,28 +33,38 @@ import {
 } from "@/components/slides/SlideKit";
 
 /* =========================================================================
- * Bootcamp #2 — Persistencia, wallets y tu primer contrato. 23 slides.
+ * Bootcamp #2 — De frontend en Vercel a contrato vivo en mainnet. 24 slides.
  * ========================================================================= */
+
+// TODO: pegar aquí el link del Google Form de fondeo cuando esté listo.
+const FUNDING_FORM_URL = "https://forms.gle/REEMPLAZAR";
 
 const AGENDA_ITEMS = [
   { time: "0:00", title: "Recap y diagnóstico" },
-  { time: "0:05", title: "Las 3 capas de una miniapp" },
-  { time: "0:15", title: "Wallets 101 + Celoscan" },
-  { time: "0:25", title: "MiniPay = la wallet del usuario" },
-  { time: "0:35", title: "Stablecoins en Celo" },
-  { time: "0:45", title: "BD vs blockchain · qué guardo dónde" },
-  { time: "1:00", title: "Gas como principio de diseño" },
-  { time: "1:05", title: "Smart contracts: el mínimo viable" },
-  { time: "1:20", title: "Demo en vivo" },
-  { time: "1:35", title: "Equipos · arquitectura y contrato" },
-  { time: "1:50", title: "Entregable y cierre" },
+  { time: "0:05", title: "Setup wallet · MetaMask + Celo mainnet" },
+  { time: "0:20", title: "Las 3 capas + Wallets 101 + Celoscan" },
+  { time: "0:30", title: "MetaMask vs MiniPay + stablecoins" },
+  { time: "0:40", title: "Usar un contrato ya deployado" },
+  { time: "0:55", title: "BD vs blockchain + gas" },
+  { time: "1:10", title: "Tu agente despliega un contrato" },
+  { time: "1:30", title: "Demo en vivo" },
+  { time: "1:40", title: "Equipos · arquitectura" },
+  { time: "1:55", title: "Entregable y cierre" },
 ];
 
 const DIAGNOSTIC_QUESTIONS = [
-  "¿Quién ya tiene frontend en Vercel?",
-  "¿Quién ya conectó dominio o GitHub?",
-  "¿Quién sabe qué va a guardar y dónde?",
-  "¿Quién entiende qué es un smart contract?",
+  "¿Quién ya tiene wallet (MetaMask u otra)?",
+  "¿Quién ya tiene su repo en GitHub?",
+  "¿Quién ya desplegó su frontend en Vercel?",
+  "¿Quién ya firmó una transacción onchain alguna vez?",
+];
+
+const SETUP_STEPS = [
+  { num: "01", text: "Instalar MetaMask (extensión de navegador)." },
+  { num: "02", text: "Crear wallet · escribir la seed phrase en papel." },
+  { num: "03", text: "Agregar Celo mainnet (un clic desde chainlist.org)." },
+  { num: "04", text: "Copiar la dirección y enviarla por el form." },
+  { num: "05", text: "Recibir CELO + stablecoin para la noche." },
 ];
 
 const LAYERS: { icon: LucideIcon; label: string; role: string; tools: string }[] = [
@@ -96,7 +107,7 @@ const GLOSARIO_TECH: { icon: LucideIcon; term: string; desc: string }[] = [
   {
     icon: KeyRound,
     term: "Seed phrase",
-    desc: "12-24 palabras. Reconstruyen la clave privada. Guárdalas seguras.",
+    desc: "12 palabras. Reconstruyen la clave. Escríbelas en papel.",
   },
   {
     icon: ArrowLeftRight,
@@ -116,7 +127,32 @@ const GLOSARIO_TECH: { icon: LucideIcon; term: string; desc: string }[] = [
   {
     icon: Coins,
     term: "Stablecoin",
-    desc: "Token con valor anclado a una moneda. COPm, USDC, USDT.",
+    desc: "Token con valor anclado a una moneda. USDC, USDT, COPm.",
+  },
+];
+
+const WALLET_COMPARE = [
+  {
+    label: "Builder",
+    name: "MetaMask",
+    accent: false,
+    rows: [
+      { k: "Clave privada", v: "La ves al exportar" },
+      { k: "Seed phrase", v: "Te la muestra al crear" },
+      { k: "Red", v: "Tú eliges · hoy Celo mainnet" },
+      { k: "Cuándo la usas", v: "Para desplegar y testear" },
+    ],
+  },
+  {
+    label: "Usuario",
+    name: "MiniPay",
+    accent: true,
+    rows: [
+      { k: "Clave privada", v: "Opera la guarda · usuario no la ve" },
+      { k: "Seed phrase", v: "Invisible al usuario" },
+      { k: "Red", v: "Mainnet, fijo" },
+      { k: "Cuándo la usas", v: "Cuando tu usuario abre tu app" },
+    ],
   },
 ];
 
@@ -125,6 +161,15 @@ const STABLECOINS: { name: string; visible: boolean; role: string }[] = [
   { name: "USDC", visible: true, role: "Circle. Anclado al dólar." },
   { name: "USDM", visible: true, role: "Mento. Anclado al dólar." },
   { name: "COPm", visible: false, role: "Mento. Anclado al peso colombiano." },
+];
+
+const USE_CONTRACT_STEPS = [
+  "Abren la app demo que les pasamos (link en pantalla).",
+  "Conectan su MetaMask.",
+  "Escriben un score y presionan 'Guardar'.",
+  "MetaMask les pide firmar — confirman.",
+  "Ven la confirmación + link a Celoscan.",
+  "Abren Celoscan: su dirección, su tx, el contrato. Real.",
 ];
 
 const PERSISTENCIA_TABLA = [
@@ -193,32 +238,33 @@ const CONTRACT_WHEN = {
 const CONTRACT_CODE = `// SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
 
-// Lo mínimo: guarda el mejor score de cada wallet.
-contract HackathonScore {
-    mapping(address => uint256) public bestScore;
+contract MyScore {
+    mapping(address => uint256) public score;
 
-    function setScore(uint256 score) external {
-        if (score > bestScore[msg.sender]) {
-            bestScore[msg.sender] = score;
-        }
+    function setScore(uint256 s) external {
+        score[msg.sender] = s;
     }
 }`;
 
-const DEPLOY_STEPS = [
-  { num: "01", text: "Abre Remix (remix.ethereum.org) o usa Foundry." },
-  { num: "02", text: "Copia el contrato. Usa OpenZeppelin para plantillas seguras." },
-  { num: "03", text: "Conecta tu wallet a Alfajores (testnet de Celo)." },
-  { num: "04", text: "Pide CELO de prueba en el faucet." },
-  { num: "05", text: "Deploy. Copia el address que te da Remix." },
-  { num: "06", text: "Pega el código en Celoscan → 'Verify Contract'." },
+const AGENT_PROMPT = `Crea un contrato Solidity llamado MyScore que guarde
+el mejor score de cada wallet. Una función setScore(uint).
+Usa Hardhat, despliegalo en Celo mainnet con la private key
+que está en .env, y dame el address del contrato.`;
+
+const AGENT_FLOW = [
+  "Le piden al agente que despliegue (prompt en la slide siguiente).",
+  "El agente genera el contrato + scripts de Hardhat.",
+  "El agente firma la tx con la private key del .env.",
+  "Devuelve el address del contrato.",
+  "Lo abren en Celoscan y lo verifican.",
 ];
 
 const DEMO_FLOW = [
-  "Abrir la miniapp dentro de MiniPay.",
+  "Abrir la app dentro de MiniPay (en celular).",
   "Ver la dirección de la wallet (sin signup).",
-  "Leer balance de COPm llamando al contrato del token.",
-  "Enviar una transacción pequeña.",
-  "Abrir Celoscan y ver la tx + el contrato.",
+  "Leer balance de stablecoin desde el contrato del token.",
+  "Llamar nuestro contrato MyScore desde la app.",
+  "Ver la tx confirmada + link a Celoscan.",
 ];
 
 const ARQUITECTURA_TEMPLATE = `Nuestra app:
@@ -247,9 +293,9 @@ const COPM_IDEAS = [
 
 const HOMEWORK = [
   "App deployada en Vercel.",
-  "Wallet conectada (MiniPay o RainbowKit).",
-  "Contrato simple deployado en Alfajores.",
-  "Contrato verificado en Celoscan · pegan el link.",
+  "Wallet conectada (MetaMask o MiniPay).",
+  "Contrato propio deployado en Celo mainnet.",
+  "Address del contrato verificado en Celoscan · pegan el link.",
   "Flujo principal funcionando aunque sea simple.",
   "Tabla de arquitectura escrita.",
 ];
@@ -262,7 +308,7 @@ Qué guardamos onchain:
 Acción onchain principal:
 
 Contrato (función mínima):
-Link de Celoscan (Alfajores):
+Link de Celoscan (mainnet):
 
 Mayor bloqueo técnico:`;
 
@@ -285,8 +331,8 @@ function CoverSlide() {
         </div>
 
         <Title size="xl">
-          Persistencia, wallets{" "}
-          <span className="gradient-text">y tu primer contrato.</span>
+          De frontend en Vercel{" "}
+          <span className="gradient-text">a contrato vivo en mainnet.</span>
         </Title>
 
         <div className="mt-2 flex flex-col gap-2 font-mono text-base text-white/70 sm:text-lg">
@@ -337,28 +383,29 @@ function AgendaSlide() {
   );
 }
 
-/* 03 — Recap */
+/* 03 — Diagnóstico */
 function RecapSlide() {
   return (
     <SlideFrame>
       <Eyebrow>0:00 · Diagnóstico</Eyebrow>
       <Title size="md" className="mt-4">
-        ¿En qué punto está cada equipo?
+        ¿En qué escalón está cada equipo?
       </Title>
       <Body className="mt-4 max-w-2xl">
-        Ya tienen frontend en Vercel. Hoy le metemos persistencia y plata real.
+        Cada pregunta es prerrequisito de la siguiente. Si decís no en una, esa
+        es tu siguiente tarea.
       </Body>
 
       <ul className="mt-12 grid max-w-4xl grid-cols-1 gap-3 md:grid-cols-2">
-        {DIAGNOSTIC_QUESTIONS.map((q) => (
+        {DIAGNOSTIC_QUESTIONS.map((q, i) => (
           <li
             key={q}
             className="flex items-center gap-3 rounded-2xl border border-hairline bg-white/[0.015] p-5"
           >
-            <span className="grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-accent/15 text-accent">
-              <HelpCircle size={17} />
+            <span className="grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-accent/15 font-mono text-xs font-bold text-accent">
+              {String(i + 1).padStart(2, "0")}
             </span>
-            <span className="text-lg text-white">{q}</span>
+            <span className="text-base text-white sm:text-lg">{q}</span>
           </li>
         ))}
       </ul>
@@ -366,11 +413,59 @@ function RecapSlide() {
   );
 }
 
-/* 04 — Las 3 capas */
+/* 04 — Setup wallet */
+function WalletSetupSlide() {
+  return (
+    <SlideFrame>
+      <Eyebrow>0:05 · Setup wallet</Eyebrow>
+      <Title size="md" className="mt-4">
+        Tu noche empieza con{" "}
+        <span className="gradient-text">una wallet en Celo mainnet.</span>
+      </Title>
+      <Body className="mt-4 max-w-3xl">
+        Sin testnet, sin faucet. Una sola red. Nosotros les enviamos los
+        fondos para la noche.
+      </Body>
+
+      <ol className="mt-10 grid max-w-5xl grid-cols-1 gap-3 md:grid-cols-2">
+        {SETUP_STEPS.map((s) => (
+          <li
+            key={s.num}
+            className="flex items-start gap-3 rounded-xl border border-hairline bg-white/[0.015] p-4"
+          >
+            <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-accent/15 font-mono text-xs font-bold text-accent">
+              {s.num}
+            </span>
+            <span className="pt-1 text-sm text-white/85 sm:text-base">
+              {s.text}
+            </span>
+          </li>
+        ))}
+      </ol>
+
+      <div className="mt-8 inline-flex items-center gap-2.5 rounded-2xl border border-accent/30 bg-accent/[0.06] px-5 py-3">
+        <Wallet size={16} className="text-accent" />
+        <span className="text-sm text-white/85">
+          Form para recibir fondos:{" "}
+          <a
+            href={FUNDING_FORM_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="font-mono text-accent underline-offset-2 hover:underline"
+          >
+            {FUNDING_FORM_URL}
+          </a>
+        </span>
+      </div>
+    </SlideFrame>
+  );
+}
+
+/* 05 — Las 3 capas */
 function LayersSlide() {
   return (
     <SlideFrame>
-      <Eyebrow>0:05 · Las 3 capas</Eyebrow>
+      <Eyebrow>0:20 · Las 3 capas</Eyebrow>
       <Title size="md" className="mt-4">
         Tu miniapp vive en{" "}
         <span className="gradient-text">tres capas.</span>
@@ -412,13 +507,14 @@ function LayersSlide() {
   );
 }
 
-/* 05 — Glosario / Wallets 101 */
+/* 06 — Wallets 101 / Glosario */
 function GlosarioSlide() {
   return (
     <SlideFrame>
-      <Eyebrow>0:15 · Wallets 101</Eyebrow>
+      <Eyebrow>Wallets 101</Eyebrow>
       <Title size="md" className="mt-4">
-        El vocabulario que vas a oír toda la noche.
+        Lo que acaban de instalar,{" "}
+        <span className="gradient-text">en palabras.</span>
       </Title>
 
       <div className="mt-10 grid max-w-6xl grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
@@ -446,7 +542,7 @@ function GlosarioSlide() {
   );
 }
 
-/* 06 — Celoscan */
+/* 07 — Celoscan */
 function CeloscanSlide() {
   return (
     <SlideFrame>
@@ -456,8 +552,8 @@ function CeloscanSlide() {
         <span className="gradient-text">público.</span>
       </Title>
       <Body className="mt-6 max-w-3xl">
-        Todo lo que pasa en Celo lo puedes ver en celoscan.io. Sirve para dos
-        cosas, siempre.
+        Todo lo que pasa en Celo lo ven en celoscan.io. Sirve para dos cosas,
+        siempre.
       </Body>
 
       <div className="mt-10 grid max-w-5xl grid-cols-1 gap-4 md:grid-cols-2">
@@ -467,8 +563,7 @@ function CeloscanSlide() {
             Debug
           </div>
           <p className="mt-4 text-base leading-relaxed text-white/90">
-            ¿Llegó mi tx? Pego el hash en Celoscan y veo el estado, el costo y
-            el resultado.
+            ¿Llegó mi tx? Pego el hash y veo el estado, el costo y el resultado.
           </p>
         </div>
 
@@ -479,74 +574,90 @@ function CeloscanSlide() {
           </div>
           <p className="mt-4 text-base leading-relaxed text-white/90">
             ¿Este contrato es legítimo? Si está verificado, ves el código
-            Solidity completo en Celoscan.
+            completo en Celoscan.
           </p>
         </div>
       </div>
+    </SlideFrame>
+  );
+}
 
-      <p className="mt-8 text-sm text-muted">
-        Para testnet usen alfajores.celoscan.io
+/* 08 — MetaMask vs MiniPay */
+function MetaMaskVsMiniPaySlide() {
+  return (
+    <SlideFrame>
+      <Eyebrow>0:30 · El reframe importante</Eyebrow>
+      <Title size="md" className="mt-4">
+        MetaMask y MiniPay son{" "}
+        <span className="gradient-text">la misma cosa por dentro.</span>
+      </Title>
+      <Body className="mt-4 max-w-3xl">
+        Clave privada + dirección + firma. Cambia dónde vive la clave y cuánto
+        se la mostramos al usuario.
+      </Body>
+
+      <div className="mt-10 grid max-w-5xl grid-cols-1 gap-4 md:grid-cols-2">
+        {WALLET_COMPARE.map((w) => (
+          <div
+            key={w.name}
+            className={`rounded-2xl border p-6 ${
+              w.accent
+                ? "border-accent/30 bg-accent/[0.05]"
+                : "border-hairline bg-white/[0.015]"
+            }`}
+          >
+            <div
+              className={`flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.16em] ${
+                w.accent ? "text-accent" : "text-muted"
+              }`}
+            >
+              {w.label}
+            </div>
+            <div className="mt-2 flex items-center gap-2">
+              {w.name === "MetaMask" ? (
+                <Wallet size={18} className="text-white/80" />
+              ) : (
+                <Smartphone size={18} className="text-accent" />
+              )}
+              <span className="text-lg font-semibold text-white">
+                {w.name}
+              </span>
+            </div>
+            <ul className="mt-5 flex flex-col gap-2.5">
+              {w.rows.map((r) => (
+                <li key={r.k} className="text-sm">
+                  <span className="font-mono text-[11px] uppercase tracking-wider text-muted">
+                    {r.k}
+                  </span>
+                  <span className="ml-2 text-white/85">{r.v}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+
+      <p className="mt-7 max-w-3xl text-sm text-muted">
+        Tu contrato no nota la diferencia · recibe{" "}
+        <span className="font-mono text-white/85">msg.sender</span> igual sea
+        MetaMask o MiniPay.
       </p>
     </SlideFrame>
   );
 }
 
-/* 07 — MiniPay */
-function MiniPaySlide() {
-  return (
-    <SlideFrame>
-      <Eyebrow>0:25 · MiniPay</Eyebrow>
-      <Title size="lg" className="mt-6 max-w-5xl">
-        Tu app vive dentro de MiniPay.{" "}
-        <span className="gradient-text">La wallet ya está.</span>
-      </Title>
-      <Body className="mt-8 max-w-3xl">
-        El usuario abre tu miniapp desde MiniPay y su wallet aparece conectada.
-        Sin signup, sin email, sin contraseña.
-      </Body>
-
-      <div className="mt-10 grid max-w-4xl grid-cols-1 gap-4 md:grid-cols-2">
-        <div className="rounded-2xl border border-hairline bg-white/[0.02] p-5">
-          <div className="font-mono text-[11px] uppercase tracking-[0.16em] text-muted">
-            Antes
-          </div>
-          <p className="mt-3 text-base text-white/85">
-            Email + contraseña + verificación.
-          </p>
-        </div>
-        <div className="rounded-2xl border border-accent/30 bg-accent/[0.05] p-5">
-          <div className="font-mono text-[11px] uppercase tracking-[0.16em] text-accent">
-            Ahora
-          </div>
-          <p className="mt-3 text-base text-white">
-            La wallet es el usuario.
-          </p>
-        </div>
-      </div>
-
-      <div className="mt-8 inline-flex items-center gap-2.5 rounded-2xl border border-hairline bg-white/[0.02] px-5 py-3">
-        <Smartphone size={16} className="text-accent" />
-        <span className="text-sm text-white/75">
-          Si alguien ya empezó con login email/password no es error — pero es
-          scope que pueden recortar.
-        </span>
-      </div>
-    </SlideFrame>
-  );
-}
-
-/* 08 — Stablecoins en Celo */
+/* 09 — Stablecoins en Celo */
 function StablecoinsSlide() {
   return (
     <SlideFrame>
-      <Eyebrow>0:35 · Stablecoins</Eyebrow>
+      <Eyebrow>Stablecoins</Eyebrow>
       <Title size="md" className="mt-4">
-        Tu wallet ve más que{" "}
+        La wallet ve más que{" "}
         <span className="gradient-text">lo que MiniPay muestra.</span>
       </Title>
       <Body className="mt-4 max-w-3xl">
-        MiniPay solo muestra unas pocas en su UI. Pero la wallet puede tener
-        cualquier token de Celo. Tu app las lee del contrato.
+        MiniPay solo muestra unas pocas en su UI. Pero la wallet tiene todas
+        las que existan en Celo. Tu app las lee del contrato.
       </Body>
 
       <div className="mt-10 grid max-w-5xl grid-cols-1 gap-3 md:grid-cols-2">
@@ -573,21 +684,52 @@ function StablecoinsSlide() {
           </div>
         ))}
       </div>
+    </SlideFrame>
+  );
+}
 
-      <p className="mt-8 max-w-3xl text-sm text-muted">
-        Para mostrar COPm en tu app, llamas{" "}
-        <span className="font-mono text-white/85">balanceOf(userAddress)</span>{" "}
-        en el contrato del token. Eso es gratis — leer no cuesta gas.
+/* 10 — Usar un contrato deployado por nosotros */
+function UseContractSlide() {
+  return (
+    <SlideFrame>
+      <Eyebrow>0:40 · Hands-on</Eyebrow>
+      <Title size="md" className="mt-4">
+        Tu primera tx contra{" "}
+        <span className="gradient-text">un contrato real.</span>
+      </Title>
+      <Body className="mt-4 max-w-3xl">
+        Desplegamos un contrato simple antes del bootcamp. Tu trabajo: usarlo
+        desde tu wallet.
+      </Body>
+
+      <ol className="mt-10 grid max-w-5xl grid-cols-1 gap-3">
+        {USE_CONTRACT_STEPS.map((step, i) => (
+          <li
+            key={step}
+            className="flex items-start gap-3 rounded-xl border border-hairline bg-white/[0.015] p-4"
+          >
+            <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-accent/15 font-mono text-xs font-bold text-accent">
+              {i + 1}
+            </span>
+            <span className="pt-1.5 text-base text-white/85 sm:text-lg">
+              {step}
+            </span>
+          </li>
+        ))}
+      </ol>
+
+      <p className="mt-7 text-sm text-muted">
+        Cuando vean su tx confirmada en Celoscan · ya usaron un smart contract.
       </p>
     </SlideFrame>
   );
 }
 
-/* 09 — Persistencia: la pregunta */
+/* 11 — Persistencia: la pregunta */
 function PersistenciaPreguntaSlide() {
   return (
     <SlideFrame>
-      <Eyebrow>0:45 · La pregunta del bootcamp</Eyebrow>
+      <Eyebrow>0:55 · La pregunta del bootcamp</Eyebrow>
       <Title size="lg" className="mt-8 max-w-5xl">
         ¿Qué parte de mi app vive en{" "}
         <span className="gradient-text">Supabase</span> y qué parte vive{" "}
@@ -600,7 +742,7 @@ function PersistenciaPreguntaSlide() {
   );
 }
 
-/* 10 — Persistencia: la tabla */
+/* 12 — Persistencia: la tabla */
 function PersistenciaTableSlide() {
   return (
     <SlideFrame>
@@ -636,7 +778,7 @@ function PersistenciaTableSlide() {
   );
 }
 
-/* 11 — La regla simple */
+/* 13 — La regla simple */
 function ReglaSlide() {
   return (
     <SlideFrame>
@@ -651,11 +793,11 @@ function ReglaSlide() {
   );
 }
 
-/* 12 — Gas */
+/* 14 — Gas */
 function GasSlide() {
   return (
     <SlideFrame>
-      <Eyebrow>1:00 · Gas</Eyebrow>
+      <Eyebrow>Gas</Eyebrow>
       <Title size="md" className="mt-4">
         Leer es gratis.{" "}
         <span className="gradient-text">Escribir cuesta.</span>
@@ -704,13 +846,13 @@ function GasSlide() {
   );
 }
 
-/* 13 — Smart contracts: cuándo sí, cuándo no */
+/* 15 — Contrato: cuándo sí / cuándo no */
 function ContractWhenSlide() {
   return (
     <SlideFrame>
-      <Eyebrow>1:05 · Smart contracts</Eyebrow>
+      <Eyebrow>1:10 · Smart contracts</Eyebrow>
       <Title size="md" className="mt-4">
-        Cuándo necesitas un contrato y{" "}
+        Cuándo necesitas uno y{" "}
         <span className="gradient-text">cuándo no.</span>
       </Title>
       <Body className="mt-4 max-w-3xl">
@@ -758,71 +900,92 @@ function ContractWhenSlide() {
   );
 }
 
-/* 14 — Contrato mínimo viable */
+/* 16 — Así se ve un contrato */
 function ContractCodeSlide() {
   return (
     <SlideFrame>
-      <Eyebrow>El mínimo viable</Eyebrow>
+      <Eyebrow>Por dentro</Eyebrow>
       <Title size="md" className="mt-4">
-        Un contrato de{" "}
-        <span className="gradient-text">12 líneas.</span>
+        Así se ve un contrato.{" "}
+        <span className="gradient-text">No lo escribís tú.</span>
       </Title>
       <Body className="mt-4 max-w-3xl">
-        Guarda el mejor score de cada wallet. Es real, es deployable, es
-        suficiente para empezar.
+        Es código. Son 7 líneas. Tu agente lo va a escribir y desplegar.
+        Solo tienen que entender qué hace.
       </Body>
 
       <div className="mt-8 max-w-3xl">
-        <CodeBlock filename="HackathonScore.sol">{CONTRACT_CODE}</CodeBlock>
+        <CodeBlock filename="MyScore.sol">{CONTRACT_CODE}</CodeBlock>
       </div>
     </SlideFrame>
   );
 }
 
-/* 15 — Deploy + verify */
-function ContractDeploySlide() {
+/* 17 — Tu agente despliega */
+function AgentDeploySlide() {
   return (
     <SlideFrame>
-      <Eyebrow>Deploy + verify</Eyebrow>
+      <Eyebrow>El prompt</Eyebrow>
       <Title size="md" className="mt-4">
-        De código a contrato vivo en{" "}
-        <span className="gradient-text">6 pasos.</span>
+        Le piden a su agente{" "}
+        <span className="gradient-text">algo así.</span>
       </Title>
+      <Body className="mt-4 max-w-3xl">
+        Cursor, Claude Code, lo que estén usando. Hardhat por debajo. Mainnet
+        directo.
+      </Body>
 
-      <ol className="mt-8 grid max-w-5xl grid-cols-1 gap-3 md:grid-cols-2">
-        {DEPLOY_STEPS.map((s) => (
-          <li
-            key={s.num}
-            className="flex items-start gap-3 rounded-xl border border-hairline bg-white/[0.015] p-4"
-          >
-            <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-accent/15 font-mono text-xs font-bold text-accent">
-              {s.num}
-            </span>
-            <span className="pt-1 text-sm text-white/85">{s.text}</span>
-          </li>
-        ))}
-      </ol>
-
-      <p className="mt-8 max-w-3xl text-sm text-muted">
-        Empiezan en Alfajores. Cuando esté estable repiten el deploy en
-        mainnet — cuesta centavos en CELO.
-      </p>
+      <div className="mt-8 max-w-3xl">
+        <CodeBlock filename="prompt-al-agente.md">{AGENT_PROMPT}</CodeBlock>
+      </div>
     </SlideFrame>
   );
 }
 
-/* 16 — Demo intro */
+/* 18 — Agente despliega: qué pasa */
+function AgentFlowSlide() {
+  return (
+    <SlideFrame>
+      <Eyebrow>Qué pasa por debajo</Eyebrow>
+      <Title size="md" className="mt-4">
+        El agente hace estos{" "}
+        <span className="gradient-text">5 pasos.</span>
+      </Title>
+
+      <ol className="mt-10 grid max-w-5xl grid-cols-1 gap-3">
+        {AGENT_FLOW.map((step, i) => {
+          const Icon = i === 4 ? Search : i === 0 ? Bot : Code;
+          return (
+            <li
+              key={step}
+              className="flex items-start gap-3 rounded-xl border border-hairline bg-white/[0.015] p-4"
+            >
+              <span className="grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-accent/15 text-accent">
+                <Icon size={16} strokeWidth={2.2} />
+              </span>
+              <span className="pt-1.5 text-base text-white/85 sm:text-lg">
+                {step}
+              </span>
+            </li>
+          );
+        })}
+      </ol>
+    </SlideFrame>
+  );
+}
+
+/* 19 — Demo intro */
 function DemoIntroSlide() {
   return (
     <SlideFrame>
-      <Eyebrow>1:20 · Demo en vivo</Eyebrow>
+      <Eyebrow>1:30 · Demo en vivo</Eyebrow>
       <Title size="lg" className="mt-6 max-w-5xl">
-        Abrimos una miniapp{" "}
-        <span className="gradient-text">y todo aparece conectado.</span>
+        Una miniapp completa{" "}
+        <span className="gradient-text">dentro de MiniPay.</span>
       </Title>
       <Body className="mt-8 max-w-3xl text-balance">
-        MiniPay abre la app, la wallet ya está, leemos COPm, mandamos una tx y
-        la vemos en Celoscan.
+        Mostramos cómo se ve todo conectado: wallet, stablecoin, contrato propio
+        y Celoscan.
       </Body>
 
       <div className="mt-12 flex flex-wrap items-center gap-2 font-mono text-xs uppercase tracking-wider text-muted">
@@ -830,10 +993,10 @@ function DemoIntroSlide() {
           MiniPay
         </span>
         <span className="rounded-full border border-hairline bg-white/[0.02] px-3 py-1.5">
-          Viem / Wagmi
+          Hardhat
         </span>
         <span className="rounded-full border border-hairline bg-white/[0.02] px-3 py-1.5">
-          Alfajores
+          Celo mainnet
         </span>
         <span className="rounded-full border border-accent/30 bg-accent/[0.08] px-3 py-1.5 text-accent">
           En vivo
@@ -843,7 +1006,7 @@ function DemoIntroSlide() {
   );
 }
 
-/* 17 — Demo flow */
+/* 20 — Demo flow */
 function DemoFlowSlide() {
   return (
     <SlideFrame>
@@ -871,11 +1034,11 @@ function DemoFlowSlide() {
   );
 }
 
-/* 18 — Equipos intro */
+/* 21 — Equipos intro */
 function TeamWorkIntroSlide() {
   return (
     <SlideFrame>
-      <Eyebrow>1:35 · Su turno</Eyebrow>
+      <Eyebrow>1:40 · Su turno</Eyebrow>
       <Title size="lg" className="mt-6 max-w-5xl">
         Cada equipo decide{" "}
         <span className="gradient-text">
@@ -890,7 +1053,7 @@ function TeamWorkIntroSlide() {
   );
 }
 
-/* 19 — Tabla de arquitectura */
+/* 22 — Tabla de arquitectura */
 function ArquitecturaTableSlide() {
   return (
     <SlideFrame>
@@ -908,7 +1071,7 @@ function ArquitecturaTableSlide() {
   );
 }
 
-/* 20 — COPm ideas */
+/* 23 — COPm ideas */
 function COPMIdeasSlide() {
   return (
     <SlideFrame>
@@ -947,11 +1110,11 @@ function COPMIdeasSlide() {
   );
 }
 
-/* 21 — Entregable */
+/* 24 — Entregable */
 function EntregableSlide() {
   return (
     <SlideFrame>
-      <Eyebrow>1:50 · Antes de irse</Eyebrow>
+      <Eyebrow>1:55 · Antes de irse</Eyebrow>
       <Title size="md" className="mt-4">
         Publiquen esto{" "}
         <span className="gradient-text">en el grupo.</span>
@@ -966,7 +1129,7 @@ function EntregableSlide() {
   );
 }
 
-/* 22 — Homework */
+/* 25 — Homework */
 function HomeworkSlide() {
   return (
     <SlideFrame>
@@ -992,7 +1155,7 @@ function HomeworkSlide() {
   );
 }
 
-/* 23 — Nos vemos en Bootcamp #3 */
+/* 26 — Next session */
 function NextSessionSlide() {
   return (
     <SlideFrame>
@@ -1024,7 +1187,7 @@ function NextSessionSlide() {
       <div className="mt-12 inline-flex items-center gap-2.5 rounded-2xl border border-accent/25 bg-accent/[0.06] px-5 py-3">
         <Layers size={16} className="text-accent" />
         <span className="text-sm text-white/85">
-          Vengan con su contrato deployado en Alfajores y verificado en Celoscan.
+          Vengan con su contrato propio deployado en Celo mainnet y verificado.
         </span>
       </div>
     </SlideFrame>
@@ -1037,18 +1200,21 @@ const SLIDES = [
   CoverSlide,
   AgendaSlide,
   RecapSlide,
+  WalletSetupSlide,
   LayersSlide,
   GlosarioSlide,
   CeloscanSlide,
-  MiniPaySlide,
+  MetaMaskVsMiniPaySlide,
   StablecoinsSlide,
+  UseContractSlide,
   PersistenciaPreguntaSlide,
   PersistenciaTableSlide,
   ReglaSlide,
   GasSlide,
   ContractWhenSlide,
   ContractCodeSlide,
-  ContractDeploySlide,
+  AgentDeploySlide,
+  AgentFlowSlide,
   DemoIntroSlide,
   DemoFlowSlide,
   TeamWorkIntroSlide,
