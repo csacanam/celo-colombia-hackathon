@@ -373,6 +373,36 @@ export const JURY = [
       },
     ],
   },
+  {
+    name: "Nicolas Perez",
+    initials: "NP",
+    photo: "/nicolas.jpeg",
+    roleText: "Founder de Legal Monitor · Investor & Venture Builder",
+    roleLinks: [],
+    achievements: [
+      {
+        icon: "Sparkles",
+        pre: "Ha liderado la creación de ",
+        linkText: "startups y productos digitales",
+        href: "",
+        post: " en fintech, blockchain, IA y activos tokenizados",
+      },
+      {
+        icon: "Users",
+        pre: "Acompaña a ",
+        linkText: "startups desde etapa temprana",
+        href: "",
+        post: " hasta procesos de escalamiento",
+      },
+      {
+        icon: "Mic",
+        pre: "Mentor y conferencista en ",
+        linkText: "innovación y tecnologías emergentes",
+        href: "",
+        post: " para empresas, gobiernos y comunidades tech",
+      },
+    ],
+  },
 ] as const;
 
 export const FAQS = [
