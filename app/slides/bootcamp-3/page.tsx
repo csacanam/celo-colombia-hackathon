@@ -197,7 +197,7 @@ const HOMEWORK = [
   "Video o capturas de respaldo si algo falla.",
   "Pitch de 3 minutos listo.",
   "Descripción de la integración Celo.",
-  "Indicar si integra cCOP.",
+  "Indicar si integra COPm.",
   "Próximos pasos hacia Proof of Ship.",
 ];
 

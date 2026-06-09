@@ -1819,7 +1819,7 @@ function PremiosSlide() {
           </span>
           <div>
             <p className="text-base font-semibold text-white">
-              Bonus integración cCOP · 1.000.000 COPm
+              Bonus integración COPm · 1.000.000 COPm
             </p>
             <p className="mt-0.5 text-sm text-muted">
               Hasta 10 proyectos · 100.000 COPm cada uno · si integran el peso

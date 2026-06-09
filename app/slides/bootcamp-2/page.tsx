@@ -73,7 +73,7 @@ const LAYERS: { icon: LucideIcon; label: string; role: string; tools: string }[]
     icon: Layers,
     label: "Blockchain",
     role: "Lo verificable: dinero, propiedad, pruebas.",
-    tools: "Celo · cCOP · Contratos",
+    tools: "Celo · COPm · Contratos",
   },
 ];
 
@@ -116,7 +116,7 @@ const GLOSARIO_TECH: { icon: LucideIcon; term: string; desc: string }[] = [
   {
     icon: Coins,
     term: "Stablecoin",
-    desc: "Token con valor anclado a una moneda. cCOP, USDC, USDT.",
+    desc: "Token con valor anclado a una moneda. COPm, USDC, USDT.",
   },
 ];
 
@@ -124,7 +124,7 @@ const STABLECOINS: { name: string; visible: boolean; role: string }[] = [
   { name: "USDT", visible: true, role: "Tether. Anclado al dólar." },
   { name: "USDC", visible: true, role: "Circle. Anclado al dólar." },
   { name: "USDM", visible: true, role: "Mento. Anclado al dólar." },
-  { name: "cCOP", visible: false, role: "Mento. Anclado al peso colombiano." },
+  { name: "COPm", visible: false, role: "Mento. Anclado al peso colombiano." },
 ];
 
 const PERSISTENCIA_TABLA = [
@@ -216,7 +216,7 @@ const DEPLOY_STEPS = [
 const DEMO_FLOW = [
   "Abrir la miniapp dentro de MiniPay.",
   "Ver la dirección de la wallet (sin signup).",
-  "Leer balance de cCOP llamando al contrato del token.",
+  "Leer balance de COPm llamando al contrato del token.",
   "Enviar una transacción pequeña.",
   "Abrir Celoscan y ver la tx + el contrato.",
 ];
@@ -232,17 +232,17 @@ Contrato (1 función mínima, qué hace):
 
 Mayor bloqueo técnico:`;
 
-const CCOP_IDEAS = [
-  "Cobro de servicios en cCOP.",
-  "Donaciones en cCOP.",
-  "Recompensas locales en cCOP.",
-  "Facturas para freelancers en cCOP.",
-  "Propinas en cCOP.",
-  "Marketplace de productos colombianos en cCOP.",
-  "App para dividir cuentas en cCOP.",
-  "Reto educativo que paga en cCOP.",
-  "Registro de pagos comunitarios en cCOP.",
-  "Agente que genera links de cobro en cCOP.",
+const COPM_IDEAS = [
+  "Cobro de servicios en COPm.",
+  "Donaciones en COPm.",
+  "Recompensas locales en COPm.",
+  "Facturas para freelancers en COPm.",
+  "Propinas en COPm.",
+  "Marketplace de productos colombianos en COPm.",
+  "App para dividir cuentas en COPm.",
+  "Reto educativo que paga en COPm.",
+  "Registro de pagos comunitarios en COPm.",
+  "Agente que genera links de cobro en COPm.",
 ];
 
 const HOMEWORK = [
@@ -575,7 +575,7 @@ function StablecoinsSlide() {
       </div>
 
       <p className="mt-8 max-w-3xl text-sm text-muted">
-        Para mostrar cCOP en tu app, llamas{" "}
+        Para mostrar COPm en tu app, llamas{" "}
         <span className="font-mono text-white/85">balanceOf(userAddress)</span>{" "}
         en el contrato del token. Eso es gratis — leer no cuesta gas.
       </p>
@@ -821,7 +821,7 @@ function DemoIntroSlide() {
         <span className="gradient-text">y todo aparece conectado.</span>
       </Title>
       <Body className="mt-8 max-w-3xl text-balance">
-        MiniPay abre la app, la wallet ya está, leemos cCOP, mandamos una tx y
+        MiniPay abre la app, la wallet ya está, leemos COPm, mandamos una tx y
         la vemos en Celoscan.
       </Body>
 
@@ -908,14 +908,14 @@ function ArquitecturaTableSlide() {
   );
 }
 
-/* 20 — cCOP ideas */
-function CCOPIdeasSlide() {
+/* 20 — COPm ideas */
+function COPMIdeasSlide() {
   return (
     <SlideFrame>
       <Eyebrow>Bonus · 1.000.000 COPm</Eyebrow>
       <Title size="md" className="mt-4">
         10 ideas para integrar{" "}
-        <span className="gradient-text">cCOP / COPm.</span>
+        <span className="gradient-text">COPm.</span>
       </Title>
       <Body className="mt-4 max-w-3xl">
         Hasta 10 proyectos · 100.000 COPm cada uno. Si te encaja una, vas
@@ -923,7 +923,7 @@ function CCOPIdeasSlide() {
       </Body>
 
       <ul className="mt-10 grid max-w-6xl grid-cols-1 gap-2.5 md:grid-cols-2">
-        {CCOP_IDEAS.map((idea, i) => (
+        {COPM_IDEAS.map((idea, i) => (
           <li
             key={idea}
             className="flex items-start gap-3 rounded-xl border border-hairline bg-white/[0.015] p-3.5"
@@ -1053,7 +1053,7 @@ const SLIDES = [
   DemoFlowSlide,
   TeamWorkIntroSlide,
   ArquitecturaTableSlide,
-  CCOPIdeasSlide,
+  COPMIdeasSlide,
   EntregableSlide,
   HomeworkSlide,
   NextSessionSlide,
