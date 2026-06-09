@@ -40,16 +40,43 @@ import {
 const FUNDING_FORM_URL = "https://forms.gle/REEMPLAZAR";
 
 const AGENDA_ITEMS = [
-  { time: "0:00", title: "Recap y diagnóstico" },
-  { time: "0:05", title: "Setup wallet · MetaMask + Celo mainnet" },
-  { time: "0:20", title: "Las 3 capas + Wallets 101 + Celoscan" },
-  { time: "0:30", title: "MetaMask vs MiniPay + stablecoins" },
-  { time: "0:40", title: "Usar un contrato ya deployado" },
-  { time: "0:55", title: "BD vs blockchain + gas" },
-  { time: "1:10", title: "Tu agente despliega un contrato" },
-  { time: "1:30", title: "Demo en vivo" },
-  { time: "1:40", title: "Equipos · arquitectura" },
-  { time: "1:55", title: "Entregable y cierre" },
+  { time: "0:00", title: "Diagnóstico + la promesa" },
+  { time: "0:10", title: "Las 3 capas + setup wallet" },
+  { time: "0:25", title: "Checkpoint A · saldo + Celoscan" },
+  { time: "0:30", title: "Wallets 101 + MetaMask vs MiniPay" },
+  { time: "0:45", title: "Usar contrato deployado" },
+  { time: "0:55", title: "Checkpoint B · tu tx en Celoscan" },
+  { time: "1:00", title: "BD vs blockchain + gas" },
+  { time: "1:20", title: "Tu agente despliega un contrato" },
+  { time: "1:45", title: "Checkpoint C · tu contrato en mainnet" },
+  { time: "1:50", title: "Equipos · arquitectura + entregable" },
+];
+
+const WALK_OUT_WITH = [
+  "Wallet con saldo en Celo mainnet.",
+  "Una tx tuya firmada y visible en Celoscan.",
+  "Tu propio contrato deployado en Celo mainnet.",
+];
+
+const CHECKPOINT_A = [
+  "Saldo de CELO + stablecoin en tu MetaMask.",
+  "Tu dirección abierta en celoscan.io.",
+];
+
+const CHECKPOINT_B = [
+  "El hash de tu primera tx en Celoscan.",
+  "El contador del contrato actualizado con tu dirección.",
+];
+
+const CHECKPOINT_C = [
+  "Tu propio contract address visible en Celoscan.",
+  "El contrato verificado (código Solidity visible).",
+];
+
+const TRACK_EXTRA = [
+  "Agregá un event al contrato (LogScoreSet) y léelo desde el frontend.",
+  "Conectá tu contrato a la app que ya tenés en Vercel · mostrá el score en pantalla.",
+  "Probá enviar USDC o COPm desde la app · ya tenés saldo.",
 ];
 
 const DIAGNOSTIC_QUESTIONS = [
@@ -246,10 +273,21 @@ contract MyScore {
     }
 }`;
 
-const AGENT_PROMPT = `Crea un contrato Solidity llamado MyScore que guarde
-el mejor score de cada wallet. Una función setScore(uint).
-Usa Hardhat, despliegalo en Celo mainnet con la private key
-que está en .env, y dame el address del contrato.`;
+const AGENT_PROMPT = `Crea un contrato Solidity llamado MyScore.
+
+Requisitos:
+- Guarda el mejor score por wallet · mapping(address => uint256).
+- setScore(uint256 score) · solo actualiza si el nuevo score es mayor.
+- view getScore(address user) · devuelve el score.
+
+Stack:
+- Hardhat.
+- Script de deploy para Celo mainnet.
+- PRIVATE_KEY desde .env.
+
+Al terminar:
+- Imprime el address del contrato.
+- Dime cómo verificarlo en Celoscan.`;
 
 const AGENT_FLOW = [
   "Le piden al agente que despliegue (prompt en la slide siguiente).",
@@ -1194,19 +1232,192 @@ function NextSessionSlide() {
   );
 }
 
+/* NEW · Promesa */
+function WalkOutSlide() {
+  return (
+    <SlideFrame>
+      <Eyebrow>La promesa</Eyebrow>
+      <Title size="lg" className="mt-6 max-w-5xl">
+        Esta noche te vas{" "}
+        <span className="gradient-text">con tres cosas concretas.</span>
+      </Title>
+      <Body className="mt-6 max-w-3xl">
+        Si tenés los tres ✓ al final, la noche fue un éxito.
+      </Body>
+
+      <ul className="mt-12 flex max-w-3xl flex-col gap-3">
+        {WALK_OUT_WITH.map((item) => (
+          <li
+            key={item}
+            className="flex items-center gap-3 rounded-2xl border border-accent/30 bg-accent/[0.05] p-5"
+          >
+            <span className="grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-accent text-ink">
+              <Check size={16} strokeWidth={2.6} />
+            </span>
+            <span className="text-base text-white sm:text-lg">{item}</span>
+          </li>
+        ))}
+      </ul>
+    </SlideFrame>
+  );
+}
+
+/* NEW · Checkpoint A */
+function CheckpointASlide() {
+  return (
+    <SlideFrame>
+      <Eyebrow>Checkpoint A · 0:25</Eyebrow>
+      <Title size="md" className="mt-4">
+        Para todos.{" "}
+        <span className="gradient-text">Antes de seguir.</span>
+      </Title>
+      <Body className="mt-4 max-w-3xl">
+        Mostrale a tu mentor estos dos:
+      </Body>
+
+      <ul className="mt-10 flex max-w-3xl flex-col gap-3">
+        {CHECKPOINT_A.map((item, i) => (
+          <li
+            key={item}
+            className="flex items-start gap-3 rounded-xl border border-hairline bg-white/[0.015] p-4"
+          >
+            <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-accent/15 font-mono text-xs font-bold text-accent">
+              {String(i + 1).padStart(2, "0")}
+            </span>
+            <span className="pt-1.5 text-base text-white/85 sm:text-lg">
+              {item}
+            </span>
+          </li>
+        ))}
+      </ul>
+
+      <p className="mt-7 text-sm text-muted">
+        Si te falta alguno, levantá la mano. No avanzamos sin todos.
+      </p>
+    </SlideFrame>
+  );
+}
+
+/* NEW · Checkpoint B */
+function CheckpointBSlide() {
+  return (
+    <SlideFrame>
+      <Eyebrow>Checkpoint B · 0:55</Eyebrow>
+      <Title size="md" className="mt-4">
+        Tu primera tx onchain{" "}
+        <span className="gradient-text">existe.</span>
+      </Title>
+      <Body className="mt-4 max-w-3xl">
+        Mostrale a tu mentor:
+      </Body>
+
+      <ul className="mt-10 flex max-w-3xl flex-col gap-3">
+        {CHECKPOINT_B.map((item, i) => (
+          <li
+            key={item}
+            className="flex items-start gap-3 rounded-xl border border-hairline bg-white/[0.015] p-4"
+          >
+            <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-accent/15 font-mono text-xs font-bold text-accent">
+              {String(i + 1).padStart(2, "0")}
+            </span>
+            <span className="pt-1.5 text-base text-white/85 sm:text-lg">
+              {item}
+            </span>
+          </li>
+        ))}
+      </ul>
+
+      <p className="mt-7 text-sm text-muted">
+        Si te falta alguno, levantá la mano. No avanzamos sin todos.
+      </p>
+    </SlideFrame>
+  );
+}
+
+/* NEW · Checkpoint C */
+function CheckpointCSlide() {
+  return (
+    <SlideFrame>
+      <Eyebrow>Checkpoint C · 1:45</Eyebrow>
+      <Title size="md" className="mt-4">
+        Tu contrato propio{" "}
+        <span className="gradient-text">ya vive en mainnet.</span>
+      </Title>
+      <Body className="mt-4 max-w-3xl">
+        Mostrale a tu mentor:
+      </Body>
+
+      <ul className="mt-10 flex max-w-3xl flex-col gap-3">
+        {CHECKPOINT_C.map((item, i) => (
+          <li
+            key={item}
+            className="flex items-start gap-3 rounded-xl border border-accent/30 bg-accent/[0.04] p-4"
+          >
+            <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-accent text-ink">
+              <Check size={14} strokeWidth={2.6} />
+            </span>
+            <span className="pt-1.5 text-base text-white/85 sm:text-lg">
+              {item}
+            </span>
+          </li>
+        ))}
+      </ul>
+
+      <p className="mt-7 text-sm text-muted">
+        Si tenés esto, ya cumpliste la promesa de la noche.
+      </p>
+    </SlideFrame>
+  );
+}
+
+/* NEW · Track extra */
+function TrackExtraSlide() {
+  return (
+    <SlideFrame>
+      <Eyebrow>Si terminaste rápido</Eyebrow>
+      <Title size="md" className="mt-4">
+        Ya tenés los tres ✓.{" "}
+        <span className="gradient-text">Sumá estas extensiones.</span>
+      </Title>
+      <Body className="mt-4 max-w-3xl">
+        Te dan ventaja real para Bootcamp #3 y para tu demo final.
+      </Body>
+
+      <ul className="mt-10 flex max-w-4xl flex-col gap-3">
+        {TRACK_EXTRA.map((item, i) => (
+          <li
+            key={item}
+            className="flex items-start gap-3 rounded-xl border border-hairline bg-white/[0.015] p-4"
+          >
+            <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-accent/15 font-mono text-xs font-bold text-accent">
+              {String(i + 1).padStart(2, "0")}
+            </span>
+            <span className="pt-1.5 text-base text-white/85 sm:text-lg">
+              {item}
+            </span>
+          </li>
+        ))}
+      </ul>
+    </SlideFrame>
+  );
+}
+
 /* ---------- Deck ---------- */
 
 const SLIDES = [
   CoverSlide,
   AgendaSlide,
   RecapSlide,
-  WalletSetupSlide,
+  WalkOutSlide,
   LayersSlide,
+  WalletSetupSlide,
+  CheckpointASlide,
   GlosarioSlide,
   CeloscanSlide,
   MetaMaskVsMiniPaySlide,
   StablecoinsSlide,
   UseContractSlide,
+  CheckpointBSlide,
   PersistenciaPreguntaSlide,
   PersistenciaTableSlide,
   ReglaSlide,
@@ -1215,10 +1426,12 @@ const SLIDES = [
   ContractCodeSlide,
   AgentDeploySlide,
   AgentFlowSlide,
+  CheckpointCSlide,
   DemoIntroSlide,
   DemoFlowSlide,
   TeamWorkIntroSlide,
   ArquitecturaTableSlide,
+  TrackExtraSlide,
   COPMIdeasSlide,
   EntregableSlide,
   HomeworkSlide,
