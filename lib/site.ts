@@ -148,6 +148,18 @@ export const TIMELINE = [
     date: "Martes 9 de junio · 6:00 a 8:00 PM",
     venue: "Auditorio Carlos Arcesio Paz · Edificio D",
     desc: "Wallets, stablecoins y cómo conectar dinero programable dentro de tus apps.",
+    links: [
+      {
+        label: "Grabación",
+        href: "https://www.youtube.com/watch?v=MQo8SgYUukk",
+        icon: "Youtube",
+      },
+      {
+        label: "Slides",
+        href: "https://hackathon.celocolombia.org/slides/bootcamp-2",
+        icon: "Presentation",
+      },
+    ],
   },
   {
     phase: "04",
