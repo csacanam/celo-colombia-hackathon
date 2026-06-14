@@ -16,10 +16,27 @@ import {
   SUBMIT_DEADLINE_LABEL,
 } from "@/lib/site";
 
+const PAGE_TITLE = "Guía para equipos · Demo Day · Hackathon Celo Colombia";
+const PAGE_DESCRIPTION =
+  "Todo lo que necesitas para presentar tu proyecto: rúbrica, pitch, demo y formulario. El formulario cierra el viernes 19 de junio a la 1:00 PM (hora Colombia).";
+
 export const metadata: Metadata = {
-  title: "Guía para equipos · Demo Day · Hackathon Celo Colombia",
-  description:
-    "Todo lo que necesitas para presentar tu proyecto en el Demo Day del Hackathon de Agentes Onchain de Celo Colombia.",
+  title: PAGE_TITLE,
+  description: PAGE_DESCRIPTION,
+  alternates: { canonical: "/equipos" },
+  openGraph: {
+    type: "website",
+    locale: "es_CO",
+    url: "/equipos",
+    siteName: "Hackathon de Agentes Onchain",
+    title: PAGE_TITLE,
+    description: PAGE_DESCRIPTION,
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: PAGE_TITLE,
+    description: PAGE_DESCRIPTION,
+  },
 };
 
 const BEFORE_SUBMIT = [
