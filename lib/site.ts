@@ -173,6 +173,11 @@ export const TIMELINE = [
         href: "https://www.youtube.com/watch?v=KofeEsKqgz8",
         icon: "Youtube",
       },
+      {
+        label: "Guía de pitch",
+        href: "https://hackathon.celocolombia.org/slides/bootcamp-3",
+        icon: "Presentation",
+      },
     ],
   },
   {
