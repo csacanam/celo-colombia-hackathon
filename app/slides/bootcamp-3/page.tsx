@@ -18,7 +18,7 @@ const PITCH_STEPS = [
     num: "01",
     time: "20s",
     title: "Hook",
-    desc: "¿Qué problema resolvés y para quién? Empezá con el dolor, no con tu nombre.",
+    desc: "¿Qué problema resolvés y para quién? Empezá con el dolor.",
   },
   {
     num: "02",

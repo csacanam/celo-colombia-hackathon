@@ -30,11 +30,11 @@ export function FinalCTA() {
           </Reveal>
           <Reveal delay={0.24}>
             <motion.a
-              href="#aplicar"
+              href="/equipos"
               whileHover={{ y: -2 }}
               className="btn-primary mt-9 !px-8 !py-4 text-base"
             >
-              Aplicar ahora
+              Entregar proyecto
               <ArrowRight size={18} />
             </motion.a>
           </Reveal>

@@ -13,6 +13,7 @@ import { Mentors } from "@/components/Mentors";
 import { Jurors } from "@/components/Jurors";
 import { FAQ } from "@/components/FAQ";
 import { ApplyForm } from "@/components/ApplyForm";
+import { APPLY_OPEN } from "@/lib/site";
 import { FinalCTA } from "@/components/FinalCTA";
 import { Footer } from "@/components/Footer";
 
@@ -52,7 +53,7 @@ export default function HomePage() {
         <Mentors />
         <Jurors />
         <FAQ />
-        <ApplyForm />
+        {APPLY_OPEN && <ApplyForm />}
         <FinalCTA />
       </main>
       <Footer />

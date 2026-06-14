@@ -54,8 +54,8 @@ export function Hero() {
             transition={{ duration: 0.7, ease: EASE, delay: 0.3 }}
             className="mt-9 flex flex-col items-center gap-3 sm:flex-row lg:items-start"
           >
-            <a href="#aplicar" className="btn-primary w-full sm:w-auto">
-              Aplicar a la hackathon
+            <a href="/equipos" className="btn-primary w-full sm:w-auto">
+              Entregar proyecto
               <ArrowRight size={17} />
             </a>
             <a href="#agenda" className="btn-ghost w-full sm:w-auto">

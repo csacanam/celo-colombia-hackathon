@@ -49,8 +49,8 @@ export function Navbar() {
                 {link.label}
               </a>
             ))}
-            <a href="#aplicar" className="btn-primary !px-5 !py-2.5">
-              Aplicar
+            <a href="/equipos" className="btn-primary !px-5 !py-2.5">
+              Entregar proyecto
             </a>
           </div>
 
@@ -87,11 +87,11 @@ export function Navbar() {
                 </a>
               ))}
               <a
-                href="#aplicar"
+                href="/equipos"
                 onClick={() => setOpen(false)}
                 className="btn-primary mt-2 w-full"
               >
-                Aplicar
+                Entregar proyecto
               </a>
             </div>
           </motion.div>
