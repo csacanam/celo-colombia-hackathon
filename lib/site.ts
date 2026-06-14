@@ -195,6 +195,43 @@ export const TIMELINE = [
   },
 ] as const;
 
+/**
+ * Office Hours bonus durante la semana de la hackathon.
+ * Una hora diaria, lunes a viernes, por Google Meet. Viernes = Demo Day.
+ */
+export const OFFICE_HOURS = [
+  {
+    day: "Lunes 15 de junio",
+    time: "6:00 – 7:00 PM",
+    url: "https://meet.google.com/vak-avup-nyg",
+    isDemoDay: false,
+  },
+  {
+    day: "Martes 16 de junio",
+    time: "1:00 – 2:00 PM",
+    url: "https://meet.google.com/dfa-rdkd-svi",
+    isDemoDay: false,
+  },
+  {
+    day: "Miércoles 17 de junio",
+    time: "6:00 – 7:00 PM",
+    url: "https://meet.google.com/jtr-tqgg-xog",
+    isDemoDay: false,
+  },
+  {
+    day: "Jueves 18 de junio",
+    time: "1:00 – 2:00 PM",
+    url: "https://meet.google.com/mkj-pckk-zwd",
+    isDemoDay: false,
+  },
+  {
+    day: "Viernes 19 de junio",
+    time: "1:00 – 2:00 PM",
+    url: "https://meet.google.com/xhs-gwys-bxj",
+    isDemoDay: true,
+  },
+] as const;
+
 /** Podio — premios a las mejores Mini Apps. */
 export const PRIZES = [
   { rank: 1, place: "1er lugar", amount: "1.000.000", note: "Mejor Mini App" },

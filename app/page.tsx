@@ -5,6 +5,7 @@ import { WhySection } from "@/components/WhySection";
 import { BuildExamples } from "@/components/BuildExamples";
 import { LearnGrid } from "@/components/LearnGrid";
 import { Timeline } from "@/components/Timeline";
+import { OfficeHours } from "@/components/OfficeHours";
 import { Venue } from "@/components/Venue";
 import { Prizes } from "@/components/Prizes";
 import { Rubric } from "@/components/Rubric";
@@ -44,6 +45,7 @@ export default function HomePage() {
         <BuildExamples />
         <LearnGrid />
         <Timeline />
+        <OfficeHours />
         <Venue />
         <Prizes />
         <Rubric />
