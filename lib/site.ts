@@ -166,7 +166,14 @@ export const TIMELINE = [
     title: "Bootcamp #3",
     date: "Viernes 12 de junio · 6:00 a 8:00 PM",
     venue: "Auditorio Carlos Arcesio Paz · Edificio D",
-    desc: "Mini apps, agentes onchain y preparación para la hackathon.",
+    desc: "Office Hours y Preguntas y Respuestas (Q&A) con los equipos.",
+    links: [
+      {
+        label: "Grabación",
+        href: "https://www.youtube.com/watch?v=KofeEsKqgz8",
+        icon: "Youtube",
+      },
+    ],
   },
   {
     phase: "05",
