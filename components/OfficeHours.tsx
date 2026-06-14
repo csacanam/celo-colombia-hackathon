@@ -15,14 +15,16 @@ export function OfficeHours() {
 
       <div className="section relative">
         <SectionHeading
-          eyebrow="Office Hours · bonus"
+          eyebrow="Office Hours · opcional"
           title={
             <>
-              Una hora diaria{" "}
-              <span className="gradient-text">para preguntas y debugging.</span>
+              Sesiones diarias para{" "}
+              <span className="gradient-text">
+                ayuda extra durante la hackathon.
+              </span>
             </>
           }
-          description="Lunes a viernes durante la semana de la hackathon · zona horaria Colombia · por Google Meet."
+          description="Una hora cada día, lunes a viernes, por Google Meet. Vení a resolver dudas, debuggear con un mentor o pedir feedback sobre tu pitch."
         />
 
         <Reveal delay={0.12}>
