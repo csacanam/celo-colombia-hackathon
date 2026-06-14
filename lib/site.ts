@@ -204,31 +204,26 @@ export const OFFICE_HOURS = [
     day: "Lunes 15 de junio",
     time: "6:00 – 7:00 PM",
     url: "https://meet.google.com/vak-avup-nyg",
-    isDemoDay: false,
   },
   {
     day: "Martes 16 de junio",
     time: "1:00 – 2:00 PM",
     url: "https://meet.google.com/dfa-rdkd-svi",
-    isDemoDay: false,
   },
   {
     day: "Miércoles 17 de junio",
     time: "6:00 – 7:00 PM",
     url: "https://meet.google.com/jtr-tqgg-xog",
-    isDemoDay: false,
   },
   {
     day: "Jueves 18 de junio",
     time: "1:00 – 2:00 PM",
     url: "https://meet.google.com/mkj-pckk-zwd",
-    isDemoDay: false,
   },
   {
     day: "Viernes 19 de junio",
     time: "1:00 – 2:00 PM",
     url: "https://meet.google.com/xhs-gwys-bxj",
-    isDemoDay: true,
   },
 ] as const;
 

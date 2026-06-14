@@ -22,7 +22,7 @@ export function OfficeHours() {
               <span className="gradient-text">para preguntas y debugging.</span>
             </>
           }
-          description="Lunes a viernes durante la semana de la hackathon · zona horaria Colombia · por Google Meet. El viernes 19 es Demo Day."
+          description="Lunes a viernes durante la semana de la hackathon · zona horaria Colombia · por Google Meet."
         />
 
         <Reveal delay={0.12}>
@@ -30,11 +30,7 @@ export function OfficeHours() {
             {OFFICE_HOURS.map((s) => (
               <li
                 key={s.url}
-                className={`flex flex-col items-start gap-4 rounded-2xl border p-5 sm:flex-row sm:items-center sm:justify-between ${
-                  s.isDemoDay
-                    ? "border-accent/30 bg-accent/[0.05]"
-                    : "border-hairline bg-white/[0.015]"
-                }`}
+                className="flex flex-col items-start gap-4 rounded-2xl border border-hairline bg-white/[0.015] p-5 sm:flex-row sm:items-center sm:justify-between"
               >
                 <div className="flex items-center gap-4">
                   <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-accent/15 text-accent">
@@ -44,14 +40,7 @@ export function OfficeHours() {
                     <p className="text-base font-semibold tracking-tight text-white">
                       {s.day}
                     </p>
-                    <p className="mt-0.5 text-sm text-muted">
-                      {s.time}
-                      {s.isDemoDay && (
-                        <span className="ml-2 font-mono text-[10px] uppercase tracking-wider text-accent">
-                          · Demo Day
-                        </span>
-                      )}
-                    </p>
+                    <p className="mt-0.5 text-sm text-muted">{s.time}</p>
                   </div>
                 </div>
                 <a
