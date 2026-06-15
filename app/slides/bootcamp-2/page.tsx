@@ -186,7 +186,7 @@ const WALLET_COMPARE = [
 const STABLECOINS: { name: string; visible: boolean; role: string }[] = [
   { name: "USDT", visible: true, role: "Tether. Anclado al dólar." },
   { name: "USDC", visible: true, role: "Circle. Anclado al dólar." },
-  { name: "USDM", visible: true, role: "Mento. Anclado al dólar." },
+  { name: "USDm", visible: true, role: "Mento. Anclado al dólar." },
   { name: "COPm", visible: false, role: "Mento. Anclado al peso colombiano." },
 ];
 
