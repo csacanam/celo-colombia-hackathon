@@ -389,35 +389,6 @@ function RoleGuide() {
             </ol>
           </div>
         </div>
-
-        <div className="mt-6 border-t border-hairline pt-5">
-          <h4 className="font-mono text-[11px] uppercase tracking-[0.14em] text-muted">
-            Rúbrica · qué buscar en cada criterio
-          </h4>
-          <div className="mt-3 flex flex-col gap-3">
-            {JURY_CRITERIA.map((c) => (
-              <div
-                key={c.key}
-                className="rounded-lg border border-hairline bg-surface px-4 py-3"
-              >
-                <div className="flex items-baseline justify-between gap-3">
-                  <span className="text-sm font-medium text-white">
-                    {c.title}
-                  </span>
-                  <span className="shrink-0 font-mono text-xs font-medium text-accent">
-                    {c.weight}%
-                  </span>
-                </div>
-                <p className="mt-1.5 text-xs leading-relaxed text-white/45">
-                  {c.desc}
-                </p>
-                <p className="mt-1.5 text-xs leading-relaxed text-accent/80">
-                  → {c.aim}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
       </div>
     </details>
   );
@@ -595,6 +566,9 @@ function ProjectCard({
                 </div>
                 <p className="mt-1 text-xs leading-relaxed text-white/40">
                   {c.desc}
+                </p>
+                <p className="mt-2 rounded-lg border border-accent/15 bg-accent/[0.04] px-3 py-2 text-xs leading-relaxed text-accent/90">
+                  <span className="font-medium">Cómo puntuar:</span> {c.aim}
                 </p>
                 <div className="mt-2.5 grid grid-cols-6 gap-1.5 sm:grid-cols-11 sm:gap-2">
                   {SCORE_OPTIONS.map((n) => (
