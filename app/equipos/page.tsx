@@ -4,6 +4,7 @@ import {
   Clock,
   Mic,
   ShieldCheck,
+  Smartphone,
 } from "lucide-react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
@@ -88,6 +89,18 @@ const DEMO_SHOW = [
   "El flujo principal de principio a fin · el usuario abre, hace algo, ve un resultado.",
   "La transacción en blockchain visible · identificador o confirmación en pantalla.",
   "Una mirada al contrato en Celoscan (opcional pero potente).",
+];
+
+// Requisitos técnicos para que una Mini App funcione dentro de MiniPay.
+// Fuente: MiniPay App Fit Scorecard y reglas de MiniPay (Celopedia).
+const MINIPAY_COMPAT = [
+  "Pruébala dentro de MiniPay, no solo en el navegador de escritorio.",
+  "Auto-conexión: nada de botón “Conectar wallet” cuando corre dentro de MiniPay.",
+  "No muestres ni exijas CELO — MiniPay cobra la comisión por detrás.",
+  "Usa solo stablecoins: USDT, USDC o USDm.",
+  "Sin personal_sign ni eth_signTypedData (MiniPay no los soporta); con la dirección de wallet basta.",
+  "Transacciones legacy: sin maxFeePerGas ni maxPriorityFeePerGas.",
+  "Lenguaje sin jerga: di “comisión de red”, no “gas”.",
 ];
 
 const FINAL_TIPS = [
@@ -324,6 +337,40 @@ export default function EquiposPage() {
                       >
                         <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-accent" />
                         {g}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </Reveal>
+          <Reveal delay={0.2}>
+            <div className="mt-4 max-w-6xl rounded-2xl border border-dashed border-accent/25 bg-accent/[0.04] p-6 sm:p-7">
+              <div className="flex items-start gap-4">
+                <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-accent/15 text-accent">
+                  <Smartphone size={20} strokeWidth={2} />
+                </span>
+                <div className="flex-1">
+                  <h3 className="text-base font-semibold tracking-tight text-white">
+                    Compatibilidad con MiniPay
+                  </h3>
+                  <p className="mt-1 text-sm text-muted">
+                    Para que “funciona dentro del navegador de MiniPay” se
+                    cumpla de verdad. Si tu app no abre o no opera ahí, no podrá
+                    evaluarse.
+                  </p>
+                  <ul className="mt-4 grid gap-2 sm:grid-cols-2">
+                    {MINIPAY_COMPAT.map((item) => (
+                      <li
+                        key={item}
+                        className="flex items-start gap-2.5 text-sm text-white/85"
+                      >
+                        <Check
+                          size={15}
+                          strokeWidth={2.6}
+                          className="mt-0.5 shrink-0 text-accent"
+                        />
+                        {item}
                       </li>
                     ))}
                   </ul>
