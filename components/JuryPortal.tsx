@@ -6,6 +6,7 @@ import {
   ArrowUpRight,
   CheckCircle2,
   ChevronDown,
+  ClipboardList,
   ExternalLink,
   Fuel,
   Github,
@@ -218,6 +219,8 @@ export function JuryPortal({ token }: { token: string | null }) {
           al instante y puedes volver a ajustarlos cuando quieras.
         </p>
 
+        <RoleGuide />
+
         <div className="mt-6 flex flex-wrap items-center gap-3">
           <div className="inline-flex items-center gap-2.5 rounded-full border border-accent/30 bg-accent/[0.06] px-4 py-2">
             <CheckCircle2 size={14} className="text-accent" />
@@ -288,6 +291,135 @@ export function JuryPortal({ token }: { token: string | null }) {
         </div>
       </div>
     </div>
+  );
+}
+
+/* ---------- guía del rol del jurado ---------- */
+
+const ROLE_DUTIES = [
+  "Escuchar el pitch de cada equipo.",
+  "Observar la demo.",
+  "Evaluar el proyecto según la rúbrica.",
+  "Dar feedback breve y útil.",
+  "Participar en la deliberación final.",
+  "Elegir los ganadores.",
+] as const;
+
+const HOW_TO = [
+  "Abre cada proyecto para ver su descripción, links (mini app, repo, video) y actividad onchain.",
+  "Mientras escuchas el pitch y ves la demo, puntúa los 5 criterios de 0 a 10. El total ponderado (0–100) se calcula solo.",
+  "Deja un comentario corto: úsalo de memoria para la deliberación.",
+  "Guarda. Puedes volver a ajustar cualquier puntaje hasta el cierre.",
+] as const;
+
+function RoleGuide() {
+  return (
+    <details className="group mt-6 rounded-2xl border border-hairline bg-white/[0.015] open:bg-white/[0.025]">
+      <summary className="flex cursor-pointer list-none items-center gap-3 px-5 py-4">
+        <ClipboardList size={16} className="shrink-0 text-accent" />
+        <span className="flex-1 text-sm font-semibold tracking-tight text-white">
+          Tu rol como jurado
+        </span>
+        <ChevronDown
+          size={18}
+          className="shrink-0 text-muted transition-transform group-open:rotate-180"
+        />
+      </summary>
+
+      <div className="border-t border-hairline px-5 py-5">
+        {/* Qué es MiniPay + hacia dónde van los proyectos */}
+        <div className="rounded-xl border border-accent/20 bg-accent/[0.04] p-4">
+          <h4 className="font-mono text-[11px] uppercase tracking-[0.14em] text-accent">
+            Antes de calificar · ¿qué es MiniPay y hacia dónde van estos proyectos?
+          </h4>
+          <p className="mt-3 text-sm leading-relaxed text-white/70">
+            <strong className="text-white">MiniPay</strong> es la billetera de
+            stablecoins de Celo: <strong className="text-white">16M+ usuarios
+            en 66+ países</strong>, pensada para mercados emergentes. Es
+            móvil, sin frase semilla, con identidad por número de teléfono y{" "}
+            <em>sin jerga cripto</em>. Solo usa stablecoins (USDT, USDC, USDm) y
+            nunca le muestra CELO al usuario. Dentro de MiniPay viven las{" "}
+            <strong className="text-white">Mini Apps</strong>: apps ligeras que
+            llegan a esos millones de usuarios.
+          </p>
+          <p className="mt-3 text-sm leading-relaxed text-white/70">
+            Estos proyectos <strong className="text-white">no terminan en el
+            Demo Day</strong>. La ruta es:{" "}
+            <span className="font-medium text-accent">
+              Hackathon → Proof of Ship → MiniPay
+            </span>
+            . Proof of Ship es el programa mensual de Celo que premia a quien
+            sigue construyendo. Por eso, los proyectos que mejor deben calificar
+            son <strong className="text-white">los que están más cerca de
+            funcionar dentro de MiniPay</strong> y llegar a usuarios reales.
+          </p>
+        </div>
+
+        <div className="mt-6 grid gap-6 sm:grid-cols-2">
+          <div>
+            <h4 className="font-mono text-[11px] uppercase tracking-[0.14em] text-muted">
+              Qué se espera de ti
+            </h4>
+            <ul className="mt-3 flex flex-col gap-2">
+              {ROLE_DUTIES.map((d) => (
+                <li key={d} className="flex gap-2 text-sm text-white/70">
+                  <CheckCircle2
+                    size={15}
+                    className="mt-0.5 shrink-0 text-accent/70"
+                  />
+                  {d}
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div>
+            <h4 className="font-mono text-[11px] uppercase tracking-[0.14em] text-muted">
+              Cómo evaluar aquí
+            </h4>
+            <ol className="mt-3 flex flex-col gap-2">
+              {HOW_TO.map((s, i) => (
+                <li key={s} className="flex gap-2.5 text-sm text-white/70">
+                  <span className="mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-full bg-accent/10 font-mono text-[11px] text-accent">
+                    {i + 1}
+                  </span>
+                  {s}
+                </li>
+              ))}
+            </ol>
+          </div>
+        </div>
+
+        <div className="mt-6 border-t border-hairline pt-5">
+          <h4 className="font-mono text-[11px] uppercase tracking-[0.14em] text-muted">
+            Rúbrica · qué buscar en cada criterio
+          </h4>
+          <div className="mt-3 flex flex-col gap-3">
+            {JURY_CRITERIA.map((c) => (
+              <div
+                key={c.key}
+                className="rounded-lg border border-hairline bg-surface px-4 py-3"
+              >
+                <div className="flex items-baseline justify-between gap-3">
+                  <span className="text-sm font-medium text-white">
+                    {c.title}
+                  </span>
+                  <span className="shrink-0 font-mono text-xs font-medium text-accent">
+                    {c.weight}%
+                  </span>
+                </div>
+                <p className="mt-1.5 text-xs leading-relaxed text-white/45">
+                  {c.desc}
+                </p>
+                <p className="mt-1.5 text-xs leading-relaxed text-accent/80">
+                  → {c.aim}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </details>
   );
 }
 

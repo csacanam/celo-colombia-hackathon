@@ -14,6 +14,8 @@ export type JuryCriterion = {
   weight: number;
   title: string;
   desc: string;
+  /** Qué hace que el criterio puntúe alto, enmarcado hacia MiniPay. */
+  aim: string;
 };
 
 /** Cada criterio se puntúa de 0 a 10. */
@@ -25,35 +27,40 @@ export const JURY_CRITERIA: readonly JuryCriterion[] = [
     field: "Encaje y utilidad",
     weight: 30,
     title: "Encaje con MiniPay y utilidad real",
-    desc: "¿Resuelve un problema cotidiano para un usuario móvil? ¿Lo usaría alguien sin saber qué es blockchain?",
+    desc: "¿Resuelve un problema cotidiano para un usuario móvil de mercados emergentes? ¿Lo usaría alguien sin saber qué es blockchain?",
+    aim: "Puntúa alto si cualquier persona lo usaría desde el celular, sin jerga cripto, como una app más dentro de MiniPay.",
   },
   {
     key: "calidad",
     field: "Calidad del producto",
     weight: 25,
     title: "Calidad del producto y acabado",
-    desc: "¿Funciona de principio a fin en móvil? Sin enlaces rotos, sin flujos quebrados, acción principal en menos de 60 segundos.",
+    desc: "¿Funciona de principio a fin en móvil? Sin enlaces rotos, sin flujos quebrados, textos claros, acción principal en menos de 60 segundos.",
+    aim: "Puntúa alto si se siente listo para vivir dentro de MiniPay: móvil, rápido, sesión corta y sin pasos rotos.",
   },
   {
     key: "integracion",
     field: "Integración Celo",
     weight: 20,
     title: "Integración con Celo y stablecoins",
-    desc: "¿Los stablecoins son centrales al flujo, no agregados al final? ¿El contrato hace algo significativo?",
+    desc: "¿Los stablecoins (USDT, USDC, USDm) son centrales al flujo, no agregados al último momento? ¿El contrato hace algo significativo?",
+    aim: "Puntúa alto si los stablecoins (USDT/USDC/USDm) son el corazón del flujo y el usuario nunca necesita CELO.",
   },
   {
     key: "traccion",
     field: "Tracción onchain",
     weight: 15,
     title: "Tracción y actividad en blockchain",
-    desc: "Usuarios y transacciones reales. Cero actividad en blockchain es bandera roja.",
+    desc: "Usuarios reales, transacciones reales. Incluso 5 wallets pagando comisiones es una señal fuerte. Cero actividad en blockchain es bandera roja.",
+    aim: "Puntúa alto si ya hay wallets y transacciones reales (revisa el panel de actividad onchain), no solo una demo.",
   },
   {
     key: "originalidad",
     field: "Originalidad",
     weight: 10,
     title: "Originalidad y diferenciación",
-    desc: "¿Hay un hueco en el catálogo de MiniPay? Juegos con mecánicas reales, ganar por hacer, IA con pago por uso, agentes onchain.",
+    desc: "¿Hay un hueco en el catálogo de MiniPay? Categorías más valoradas: juegos con mecánicas reales, ganar por hacer, IA con pago por uso, agentes en blockchain.",
+    aim: "Puntúa alto si llena un hueco del catálogo de MiniPay con algo que aún no existe ahí.",
   },
 ] as const;
 
