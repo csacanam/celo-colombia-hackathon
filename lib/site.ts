@@ -278,7 +278,7 @@ export const RUBRIC_CRITERIA = [
   {
     weight: 20,
     title: "Integración con Celo y stablecoins",
-    desc: "¿Los stablecoins (USDT, USDC, USDM) son centrales al flujo, no agregados al último momento? ¿El contrato hace algo significativo?",
+    desc: "¿Los stablecoins (USDT, USDC, USDm) son centrales al flujo, no agregados al último momento? ¿El contrato hace algo significativo?",
   },
   {
     weight: 15,
