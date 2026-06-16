@@ -41,10 +41,8 @@ export const metadata: Metadata = {
 };
 
 const BEFORE_SUBMIT = [
-  "Mini app desplegada y accesible públicamente.",
-  "Repositorio público en GitHub con cambios reales.",
-  "Contrato inteligente desplegado en Celo Mainnet o Sepolia.",
-  "Video de demostración de máximo 3 min en YouTube (público).",
+  "Video de demostración de máximo 3 min en YouTube (público o no listado).",
+  "Registra tu proyecto en Proof of Ship (talent.app) y pega el link en el formulario.",
   "Descripción clara: qué es, para quién, qué hace.",
   "Frase de presentación pulida (≤ 140 caracteres).",
   "WhatsApp del contacto del equipo para coordinar premios.",
@@ -66,26 +64,28 @@ const PITCH_STEPS = [
   {
     num: "03",
     time: "90s",
-    title: "Demostración en vivo",
+    title: "Demostración",
     desc: "Una sola acción · la que demuestra el valor. La pantalla habla.",
   },
   {
     num: "04",
-    time: "20s",
-    title: "Tecnología + Celo",
-    desc: "Qué construiste y cómo usaste Celo, MiniPay, stablecoins o agentes.",
-  },
-  {
-    num: "05",
     time: "20s",
     title: "Próximos pasos",
     desc: "Qué vas a seguir construyendo después de hoy. La visión.",
   },
 ];
 
+// Ejemplos de demos (videos de referencia para los equipos).
+const DEMO_EXAMPLES = [
+  { name: "Voulti", id: "qhQ_qUqyEJM" },
+  { name: "HashProof", id: "0tyu69ws4aQ" },
+  { name: "Trutix", id: "Dgp7D8JrllU" },
+  { name: "POOP", id: "Si97tzKo6Vg" },
+];
+
 const DEMO_SHOW = [
   "El problema, contado en 15 segundos.",
-  "La app abierta y funcional, en vivo.",
+  "La app abierta y funcionando.",
   "El flujo principal de principio a fin · el usuario abre, hace algo, ve un resultado.",
   "La transacción en blockchain visible · identificador o confirmación en pantalla.",
   "Una mirada al contrato en Celoscan (opcional pero potente).",
@@ -104,10 +104,11 @@ const MINIPAY_COMPAT = [
 ];
 
 const FINAL_TIPS = [
-  "Cronometra tu presentación al menos una vez antes del Demo Day.",
+  "Tu video dura máximo 3 minutos · cronométralo antes de subirlo.",
   "Una sola demostración bien contada gana a cinco mal contadas.",
   "No expliques qué es blockchain · deja que la app hable por sí sola.",
-  "Si el wifi del auditorio falla, tu video grabado es el respaldo.",
+  "Graba con buena luz y audio claro · la pantalla de la app es la protagonista.",
+  "El día del Demo Day reproducimos tu video y te conectas para responder al jurado · llega a tiempo.",
   "Llena el formulario antes del cierre · viernes 19 de junio · 1:00 PM.",
 ];
 
@@ -133,8 +134,10 @@ export default function EquiposPage() {
             </Reveal>
             <Reveal delay={0.16}>
               <p className="mt-5 max-w-xl text-base text-white/60 sm:text-lg">
-                Léelo, prepárate, llena el formulario antes del cierre. El Demo
-                Day es el viernes 19 de junio.
+                Graba tu video, entrégalo antes del cierre y prepárate para el
+                Q&amp;A. El día del Demo Day reproducimos el video de cada equipo
+                y te conectas para responder al jurado. Es el viernes 19 de
+                junio.
               </p>
             </Reveal>
             <Reveal delay={0.22}>
@@ -161,7 +164,7 @@ export default function EquiposPage() {
                 <span className="gradient-text">listo.</span>
               </>
             }
-            description="Lo mínimo. Si te falta alguno, no podrán evaluarte."
+            description="Lo que te pide el formulario. Los requisitos mínimos para que te evalúen están más abajo, en «Cómo se evalúa»."
             align="left"
           />
           <Reveal delay={0.1}>
@@ -183,17 +186,17 @@ export default function EquiposPage() {
           </Reveal>
         </section>
 
-        {/* 02 · El pitch */}
+        {/* 02 · El video */}
         <section className="section py-16 sm:py-20">
           <SectionHeading
-            eyebrow="02 · La presentación"
+            eyebrow="02 · Tu video"
             title={
               <>
                 Tres minutos.{" "}
-                <span className="gradient-text">Cinco pasos.</span>
+                <span className="gradient-text">Cuatro pasos.</span>
               </>
             }
-            description="Esta es la estructura que funciona. Cronómetro en mano."
+            description="Tu pitch es un video que grabas y subes a YouTube. Esta es la estructura que funciona."
             align="left"
           />
           <Reveal delay={0.1}>
@@ -235,7 +238,7 @@ export default function EquiposPage() {
                 <span className="gradient-text">en pantalla.</span>
               </>
             }
-            description="No leas las diapositivas. La pantalla hace el trabajo."
+            description="Lo que tu video debe mostrar. La pantalla hace el trabajo, no las diapositivas."
             align="left"
           />
           <Reveal delay={0.1}>
@@ -254,6 +257,37 @@ export default function EquiposPage() {
                 </li>
               ))}
             </ul>
+          </Reveal>
+
+          <Reveal delay={0.16}>
+            <div className="mt-12 max-w-5xl">
+              <h3 className="text-base font-semibold tracking-tight text-white">
+                Ejemplos de demos
+              </h3>
+              <p className="mt-1 text-sm text-muted">
+                Cuatro demos de referencia · así se ve una demostración clara y
+                al grano.
+              </p>
+              <div className="mt-6 grid gap-5 sm:grid-cols-2">
+                {DEMO_EXAMPLES.map((ex) => (
+                  <div key={ex.id}>
+                    <div className="aspect-video w-full overflow-hidden rounded-xl border border-hairline bg-black">
+                      <iframe
+                        className="h-full w-full"
+                        src={`https://www.youtube.com/embed/${ex.id}`}
+                        title={ex.name}
+                        loading="lazy"
+                        allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowFullScreen
+                      />
+                    </div>
+                    <div className="mt-2 font-mono text-xs uppercase tracking-[0.14em] text-muted">
+                      {ex.name}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
           </Reveal>
         </section>
 
