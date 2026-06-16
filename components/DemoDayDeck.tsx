@@ -53,12 +53,15 @@ type PodiumEntry = {
   judgeCount: number;
 };
 
+type BonusCandidate = { name: string; members: string[] };
+
 type LoadState = "loading" | "ready" | "denied" | "error";
 
 export function DemoDayDeck({ token }: { token: string | null }) {
   const [state, setState] = useState<LoadState>("loading");
   const [projects, setProjects] = useState<DeckProject[]>([]);
   const [podium, setPodium] = useState<PodiumEntry[]>([]);
+  const [bonusCandidates, setBonusCandidates] = useState<BonusCandidate[]>([]);
 
   useEffect(() => {
     if (!token) {
@@ -78,6 +81,7 @@ export function DemoDayDeck({ token }: { token: string | null }) {
         if (!json.ok) return setState("error");
         setProjects(json.projects ?? []);
         setPodium(json.podium ?? []);
+        setBonusCandidates(json.bonusCandidates ?? []);
         setState("ready");
       } catch {
         if (!cancelled) setState("error");
@@ -125,7 +129,7 @@ export function DemoDayDeck({ token }: { token: string | null }) {
     );
   }
 
-  const slides = buildSlides(projects, podium);
+  const slides = buildSlides(projects, podium, bonusCandidates);
   return <Deck slides={slides} />;
 }
 
@@ -133,7 +137,8 @@ export function DemoDayDeck({ token }: { token: string | null }) {
 
 function buildSlides(
   projects: DeckProject[],
-  podium: PodiumEntry[]
+  podium: PodiumEntry[],
+  bonusCandidates: BonusCandidate[]
 ): ComponentType[] {
   const slides: ComponentType[] = [];
 
@@ -432,18 +437,20 @@ function buildSlides(
     ));
   });
 
-  // 10 · Deliberación
+  // 10 · Resultados (intermedio mientras se calcula el podio)
   slides.push(() => (
     <SlideFrame>
       <div className="flex items-center justify-between gap-10">
         <div className="max-w-2xl">
-          <Eyebrow>Deliberación</Eyebrow>
+          <Eyebrow>Resultados</Eyebrow>
           <Title size="lg" className="mt-6">
-            El jurado está{" "}
-            <span className="gradient-text">eligiendo a los ganadores.</span>
+            Sumando los{" "}
+            <span className="gradient-text">puntajes del jurado.</span>
           </Title>
           <Body className="mt-6">
-            Mientras tanto, conéctate con la comunidad de Celo Colombia.
+            Cada jurado calificó los proyectos con la rúbrica. El podio sale de
+            esos puntajes. Mientras tanto, conéctate con la comunidad de Celo
+            Colombia.
           </Body>
         </div>
         <div className="shrink-0 text-center">
@@ -456,16 +463,50 @@ function buildSlides(
     </SlideFrame>
   ));
 
-  // 11 · Bonus de integración
+  // 11 · Bonus de integración COPm
   slides.push(() => (
     <SlideFrame>
-      <Eyebrow>Menciones · Bonus</Eyebrow>
+      <Eyebrow>Bonus de integración</Eyebrow>
       <Title size="md" className="mt-6">
         {PRIZE_BONUS.title}
       </Title>
-      <Body className="mt-6 max-w-3xl">
+      <Body className="mt-4 max-w-3xl">
         {PRIZE_BONUS.amount} COPm · {PRIZE_BONUS.detail}.
       </Body>
+
+      {bonusCandidates.length > 0 ? (
+        <>
+          <div className="mt-8 grid max-w-4xl gap-x-8 gap-y-2 sm:grid-cols-2">
+            {bonusCandidates.map((b) => (
+              <div
+                key={b.name}
+                className="flex items-center gap-3 rounded-xl border border-hairline bg-white/[0.015] px-4 py-3"
+              >
+                <span className="font-display text-lg font-semibold text-accent">
+                  COPm
+                </span>
+                <span className="min-w-0 flex-1">
+                  <span className="block truncate text-base text-white/90">
+                    {b.name}
+                  </span>
+                  {b.members.length > 0 && (
+                    <span className="block truncate text-xs text-muted">
+                      {b.members.join(", ")}
+                    </span>
+                  )}
+                </span>
+              </div>
+            ))}
+          </div>
+          <p className="mt-5 font-mono text-[11px] uppercase tracking-[0.14em] text-amber-300/80">
+            Integración autodeclarada · sujeta a verificación
+          </p>
+        </>
+      ) : (
+        <Body className="mt-8 text-white/50">
+          Sin proyectos que hayan declarado integración de COPm.
+        </Body>
+      )}
     </SlideFrame>
   ));
 

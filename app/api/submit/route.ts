@@ -19,12 +19,14 @@ type SubmitPayload = {
   oneLiner?: string;
   firstDeploy?: string;
   willContinue?: string;
+  copmIntegration?: string;
   nps?: number | null;
   testimonial?: string;
 };
 
 const FIRST_DEPLOY = new Set(["Sí", "No"]);
 const WILL_CONTINUE = new Set(["Sí", "Probablemente", "No"]);
+const YES_NO = new Set(["Sí", "No"]);
 
 const URL_RE = /^https?:\/\//i;
 const ADDR_RE = /^0x[a-fA-F0-9]{40}$/;
@@ -110,6 +112,7 @@ export async function POST(req: Request) {
   const oneLiner = clean(body.oneLiner);
   const firstDeploy = clean(body.firstDeploy);
   const willContinue = clean(body.willContinue);
+  const copmIntegration = clean(body.copmIntegration);
   const nps = typeof body.nps === "number" ? body.nps : NaN;
   const testimonial = clean(body.testimonial);
 
@@ -138,6 +141,7 @@ export async function POST(req: Request) {
   if (oneLiner.length < 5) return invalid("La frase de presentación es muy corta.");
   if (!FIRST_DEPLOY.has(firstDeploy)) return invalid("Indica si es la primera vez que tu equipo despliega un contrato inteligente.");
   if (!WILL_CONTINUE.has(willContinue)) return invalid("Indica si van a seguir construyendo el proyecto.");
+  if (!YES_NO.has(copmIntegration)) return invalid("Indica si integraste COPm en tu app.");
   if (!Number.isInteger(nps) || nps < 0 || nps > 10) return invalid("Elige un valor entre 0 y 10 para qué tan probable es que recomiendes la hackathon.");
 
   const apiKey = process.env.AIRTABLE_DEMODAY_API_KEY;
@@ -162,6 +166,7 @@ export async function POST(req: Request) {
     "Red del contrato": contractNetwork,
     Descripción: description,
     "One-liner": oneLiner,
+    "Integró COPm": copmIntegration,
     "Primer contrato inteligente": firstDeploy,
     "Continuará el proyecto": willContinue,
     NPS: nps,

@@ -112,6 +112,16 @@ export async function GET(req: Request) {
       .filter((p) => p.name)
       .sort((a, b) => a.name.localeCompare(b.name, "es"));
 
+    // Candidatos al bonus de integración COPm (autodeclarado, sujeto a verificación).
+    const bonusCandidates = records
+      .filter((r) => str(r.fields, "Integró COPm") === "Sí")
+      .map((r) => ({
+        name: str(r.fields, "Nombre del proyecto"),
+        members: parseMembers(r.fields["Integrantes"]),
+      }))
+      .filter((p) => p.name)
+      .sort((a, b) => a.name.localeCompare(b.name, "es"));
+
     // --- Podio automático desde "Evaluaciones" ---
     const evals = evaluationsConfig();
     let podium: PodiumEntry[] = [];
@@ -157,6 +167,7 @@ export async function GET(req: Request) {
       ok: true,
       projects,
       podium,
+      bonusCandidates,
       criteriaCount: JURY_CRITERIA.length,
     });
   } catch (err) {

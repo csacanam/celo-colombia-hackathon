@@ -23,6 +23,7 @@ type Status = "idle" | "loading" | "success" | "error";
 
 export function Submit() {
   const [memberCount, setMemberCount] = useState<number>(1);
+  const [copmIntegration, setCopmIntegration] = useState<string>("");
   const [firstDeploy, setFirstDeploy] = useState<string>("");
   const [willContinue, setWillContinue] = useState<string>("");
   const [nps, setNps] = useState<number | null>(null);
@@ -66,6 +67,7 @@ export function Submit() {
       contractNetwork: data.get("contractNetwork"),
       description: data.get("description"),
       oneLiner: data.get("oneLiner"),
+      copmIntegration,
       firstDeploy,
       willContinue,
       nps,
@@ -87,6 +89,7 @@ export function Submit() {
       setStatus("success");
       form.reset();
       setMemberCount(1);
+      setCopmIntegration("");
       setFirstDeploy("");
       setWillContinue("");
       setNps(null);
@@ -280,6 +283,31 @@ export function Submit() {
                       ))}
                     </select>
                   </div>
+                </div>
+
+                <div>
+                  <Label>¿Integraste COPm en tu app? *</Label>
+                  <div className="mt-2.5 flex gap-2">
+                    {FIRST_DEPLOY_OPTIONS.map((opt) => (
+                      <button
+                        key={opt}
+                        type="button"
+                        onClick={() => setCopmIntegration(opt)}
+                        className={`flex-1 rounded-lg border px-4 py-2.5 text-sm font-medium transition ${
+                          copmIntegration === opt
+                            ? "border-accent/40 bg-accent/[0.08] text-accent"
+                            : "border-hairline bg-surface text-muted hover:border-white/15 hover:text-white"
+                        }`}
+                      >
+                        {opt}
+                      </button>
+                    ))}
+                  </div>
+                  <p className="mt-1.5 text-xs text-white/40">
+                    COPm es el peso colombiano digital de Celo. Si lo integraste,
+                    tu proyecto aplica al bonus de integración (queda sujeto a
+                    verificación).
+                  </p>
                 </div>
 
                 <Field
