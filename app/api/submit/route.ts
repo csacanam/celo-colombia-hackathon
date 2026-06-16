@@ -12,6 +12,7 @@ type SubmitPayload = {
   miniAppUrl?: string;
   githubUrl?: string;
   youtubeUrl?: string;
+  proofOfShipUrl?: string;
   contractAddress?: string;
   contractNetwork?: string;
   description?: string;
@@ -35,6 +36,44 @@ function clean(value: unknown): string {
 
 function invalid(error: string) {
   return NextResponse.json({ ok: false, error }, { status: 422 });
+}
+
+/** Extrae el ID de video de cualquier formato de URL de YouTube. */
+function youtubeId(url: string): string | null {
+  const patterns = [
+    /[?&]v=([^?&]+)/,
+    /youtu\.be\/([^?&/]+)/,
+    /\/embed\/([^?&/]+)/,
+    /\/shorts\/([^?&/]+)/,
+    /\/live\/([^?&/]+)/,
+  ];
+  for (const p of patterns) {
+    const m = url.match(p);
+    if (m) return m[1];
+  }
+  return null;
+}
+
+/**
+ * Verifica vía oEmbed que el video sea público/embebible.
+ * true = público · false = privado/eliminado · null = no se pudo verificar
+ * (fallo de red; no bloqueamos por una falla de nuestro lado).
+ */
+async function isYoutubePublic(id: string): Promise<boolean | null> {
+  try {
+    const res = await fetch(
+      `https://www.youtube.com/oembed?url=${encodeURIComponent(
+        `https://www.youtube.com/watch?v=${id}`
+      )}&format=json`,
+      { signal: AbortSignal.timeout(6000) }
+    );
+    if (res.ok) return true;
+    // 400 = video inexistente · 401/403 = privado · 404 = eliminado
+    if ([400, 401, 403, 404].includes(res.status)) return false;
+    return null;
+  } catch {
+    return null;
+  }
 }
 
 export async function POST(req: Request) {
@@ -64,6 +103,7 @@ export async function POST(req: Request) {
   const miniAppUrl = clean(body.miniAppUrl);
   const githubUrl = clean(body.githubUrl);
   const youtubeUrl = clean(body.youtubeUrl);
+  const proofOfShipUrl = clean(body.proofOfShipUrl);
   const contractAddress = clean(body.contractAddress);
   const contractNetwork = clean(body.contractNetwork);
   const description = clean(body.description);
@@ -78,7 +118,20 @@ export async function POST(req: Request) {
   if (whatsapp.replace(/\D/g, "").length < 7) return invalid("Ingresa un WhatsApp válido para poder coordinar los premios.");
   if (!URL_RE.test(miniAppUrl)) return invalid("El enlace de la mini app debe empezar con https://");
   if (!URL_RE.test(githubUrl)) return invalid("El enlace del repositorio de GitHub debe empezar con https://");
-  if (!URL_RE.test(youtubeUrl)) return invalid("El enlace del video debe empezar con https://");
+  const ytId = youtubeId(youtubeUrl);
+  if (!URL_RE.test(youtubeUrl) || !ytId)
+    return invalid(
+      "El enlace del video debe ser de YouTube (youtube.com o youtu.be)."
+    );
+  const ytPublic = await isYoutubePublic(ytId);
+  if (ytPublic === false)
+    return invalid(
+      "El video de YouTube no es público o no existe. Ponlo en “Público” o “No listado” y vuelve a intentar."
+    );
+  if (!URL_RE.test(proofOfShipUrl) || !/talent\.app/i.test(proofOfShipUrl))
+    return invalid(
+      "Pega el enlace de tu proyecto en Proof of Ship (talent.app). Regístrate en talent.app y comparte el link que te genera."
+    );
   if (!ADDR_RE.test(contractAddress)) return invalid("La dirección del contrato es inválida (debe ser 0x + 40 caracteres hex).");
   if (!NETWORKS.has(contractNetwork)) return invalid("La red del contrato es inválida.");
   if (description.length < 50) return invalid("La descripción del proyecto debe tener al menos 50 caracteres.");
@@ -104,6 +157,7 @@ export async function POST(req: Request) {
     "Link mini app": miniAppUrl,
     "Repo GitHub": githubUrl,
     "Video demo YouTube": youtubeUrl,
+    "Proof of Ship": proofOfShipUrl,
     "Dirección del contrato": contractAddress,
     "Red del contrato": contractNetwork,
     Descripción: description,

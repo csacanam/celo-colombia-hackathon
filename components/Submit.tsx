@@ -61,6 +61,7 @@ export function Submit() {
       miniAppUrl: data.get("miniAppUrl"),
       githubUrl: data.get("githubUrl"),
       youtubeUrl: data.get("youtubeUrl"),
+      proofOfShipUrl: data.get("proofOfShipUrl"),
       contractAddress: data.get("contractAddress"),
       contractNetwork: data.get("contractNetwork"),
       description: data.get("description"),
@@ -229,6 +230,29 @@ export function Submit() {
                   required
                   placeholder="https://www.youtube.com/watch?v=4HP9T5Sze6k"
                 />
+                <div>
+                  <Field
+                    label="Link de tu proyecto en Proof of Ship (talent.app)"
+                    name="proofOfShipUrl"
+                    type="url"
+                    required
+                    placeholder="https://talent.app/..."
+                  />
+                  <p className="mt-1.5 text-xs text-white/40">
+                    Regístrate en{" "}
+                    <a
+                      href="https://talent.app/~/earn/celo-proof-of-ship"
+                      target="_blank"
+                      rel="noreferrer"
+                      className="text-accent underline underline-offset-2"
+                    >
+                      Proof of Ship
+                    </a>
+                    , crea la página de tu proyecto e inscríbela en la campaña.
+                    Pega aquí el link que te genera la plataforma · así tu
+                    proyecto también aplica a PoS.
+                  </p>
+                </div>
 
                 <div className="grid gap-4 md:grid-cols-[2fr_1fr]">
                   <Field
