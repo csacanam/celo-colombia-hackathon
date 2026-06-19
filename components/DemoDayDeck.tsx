@@ -55,6 +55,17 @@ type PodiumEntry = {
 
 type BonusCandidate = { name: string; members: string[] };
 
+type Testimonial = { text: string; project: string };
+
+// POAP por palabra secreta: se reclama en la app POAP escribiendo la palabra.
+const POAP = { secretWord: "misioncumplida", appUrl: "https://poap.xyz" };
+
+const COMMUNITIES = [
+  { name: "Celo Builders · Telegram", url: "https://t.me/+mxsf6bMj6s1lMjVh" },
+  { name: "Celo Colombia · Telegram", url: "https://t.me/celocol" },
+  { name: "Sígueme · @camilosaka en X", url: "https://x.com/camilosaka" },
+];
+
 type LoadState = "loading" | "ready" | "denied" | "error";
 
 export function DemoDayDeck({ token }: { token: string | null }) {
@@ -62,6 +73,7 @@ export function DemoDayDeck({ token }: { token: string | null }) {
   const [projects, setProjects] = useState<DeckProject[]>([]);
   const [podium, setPodium] = useState<PodiumEntry[]>([]);
   const [bonusCandidates, setBonusCandidates] = useState<BonusCandidate[]>([]);
+  const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
 
   useEffect(() => {
     if (!token) {
@@ -82,6 +94,7 @@ export function DemoDayDeck({ token }: { token: string | null }) {
         setProjects(json.projects ?? []);
         setPodium(json.podium ?? []);
         setBonusCandidates(json.bonusCandidates ?? []);
+        setTestimonials(json.testimonials ?? []);
         setState("ready");
       } catch {
         if (!cancelled) setState("error");
@@ -129,7 +142,7 @@ export function DemoDayDeck({ token }: { token: string | null }) {
     );
   }
 
-  const slides = buildSlides(projects, podium, bonusCandidates);
+  const slides = buildSlides(projects, podium, bonusCandidates, testimonials);
   return <Deck slides={slides} />;
 }
 
@@ -138,7 +151,8 @@ export function DemoDayDeck({ token }: { token: string | null }) {
 function buildSlides(
   projects: DeckProject[],
   podium: PodiumEntry[],
-  bonusCandidates: BonusCandidate[]
+  bonusCandidates: BonusCandidate[],
+  testimonials: Testimonial[]
 ): ComponentType[] {
   const slides: ComponentType[] = [];
 
@@ -161,6 +175,21 @@ function buildSlides(
         Hoy cerramos la hackathon con las{" "}
         <span className="gradient-text">demos finales</span> de los equipos.
       </Title>
+    </SlideFrame>
+  ));
+
+  // 2.1 · Gracias a todos los equipos
+  slides.push(() => (
+    <SlideFrame>
+      <Eyebrow>Gracias a los equipos</Eyebrow>
+      <Title size="lg" className="mt-6 max-w-4xl">
+        {projects.length} equipos construyeron, desplegaron y shippearon.{" "}
+        <span className="gradient-text">La rompieron.</span>
+      </Title>
+      <Body className="mt-6 max-w-3xl">
+        Pasar de una idea a una app onchain funcionando en semanas no es poca
+        cosa. Hoy es de ustedes.
+      </Body>
     </SlideFrame>
   ));
 
@@ -191,6 +220,34 @@ function buildSlides(
             </div>
           </div>
         ))}
+      </div>
+    </SlideFrame>
+  ));
+
+  // 2.7 · POAP — reclama tu prueba de asistencia
+  slides.push(() => (
+    <SlideFrame>
+      <div className="flex items-center justify-between gap-10">
+        <div className="max-w-2xl">
+          <Eyebrow>Reclama tu POAP</Eyebrow>
+          <Title size="lg" className="mt-6">
+            Llévate tu{" "}
+            <span className="gradient-text">prueba de asistencia.</span>
+          </Title>
+          <Body className="mt-6">
+            Abre la app <strong className="text-white">POAP</strong> → elige
+            “Secret word” → escribe la palabra (sensible a mayúsculas):
+          </Body>
+          <div className="mt-5 inline-block rounded-xl border border-accent/30 bg-accent/[0.06] px-6 py-3 font-mono text-3xl text-accent">
+            {POAP.secretWord}
+          </div>
+        </div>
+        <div className="shrink-0 text-center">
+          <div className="rounded-2xl bg-white p-4">
+            <QRCodeSVG value={POAP.appUrl} size={180} />
+          </div>
+          <div className="mt-3 font-mono text-xs text-muted">app POAP</div>
+        </div>
       </div>
     </SlideFrame>
   ));
@@ -514,6 +571,58 @@ function buildSlides(
   slides.push(makeWinnerSlide(3, podium[2]));
   slides.push(makeWinnerSlide(2, podium[1]));
   slides.push(makeWinnerSlide(1, podium[0]));
+
+  // 14.5 · Testimonios de los equipos (chunks de 3)
+  for (let i = 0; i < testimonials.length; i += 3) {
+    const group = testimonials.slice(i, i + 3);
+    slides.push(() => (
+      <SlideFrame>
+        <Eyebrow>Lo que dicen los equipos</Eyebrow>
+        <Title size="md" className="mt-6">
+          Testimonios
+        </Title>
+        <div className="mt-8 grid max-w-4xl gap-4">
+          {group.map((t, j) => (
+            <blockquote
+              key={j}
+              className="rounded-2xl border border-hairline bg-white/[0.015] p-6"
+            >
+              <p className="text-lg leading-relaxed text-white/85">
+                “{t.text}”
+              </p>
+              {t.project && (
+                <footer className="mt-3 font-mono text-xs uppercase tracking-[0.14em] text-accent">
+                  {t.project}
+                </footer>
+              )}
+            </blockquote>
+          ))}
+        </div>
+      </SlideFrame>
+    ));
+  }
+
+  // 14.7 · Conéctate (comunidades + X)
+  slides.push(() => (
+    <SlideFrame>
+      <Eyebrow>Conéctate</Eyebrow>
+      <Title size="md" className="mt-6">
+        Sigue construyendo con la comunidad
+      </Title>
+      <div className="mt-10 grid max-w-4xl gap-6 sm:grid-cols-3">
+        {COMMUNITIES.map((c) => (
+          <div key={c.url} className="text-center">
+            <div className="mx-auto w-fit rounded-2xl bg-white p-4">
+              <QRCodeSVG value={c.url} size={150} />
+            </div>
+            <div className="mt-3 text-sm leading-snug text-white/80">
+              {c.name}
+            </div>
+          </div>
+        ))}
+      </div>
+    </SlideFrame>
+  ));
 
   // 15 · Cierre
   slides.push(() => (

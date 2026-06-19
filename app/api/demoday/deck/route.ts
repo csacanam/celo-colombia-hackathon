@@ -122,6 +122,14 @@ export async function GET(req: Request) {
       .filter((p) => p.name)
       .sort((a, b) => a.name.localeCompare(b.name, "es"));
 
+    // Testimonios públicos de los equipos.
+    const testimonials = records
+      .map((r) => ({
+        text: str(r.fields, "Testimonio público"),
+        project: str(r.fields, "Nombre del proyecto"),
+      }))
+      .filter((t) => t.text);
+
     // --- Podio automático desde "Evaluaciones" ---
     const evals = evaluationsConfig();
     let podium: PodiumEntry[] = [];
@@ -168,6 +176,7 @@ export async function GET(req: Request) {
       projects,
       podium,
       bonusCandidates,
+      testimonials,
       criteriaCount: JURY_CRITERIA.length,
     });
   } catch (err) {
