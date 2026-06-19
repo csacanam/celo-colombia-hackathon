@@ -19,7 +19,7 @@ import {
 
 const PAGE_TITLE = "Guía para equipos · Demo Day · Hackathon Celo Colombia";
 const PAGE_DESCRIPTION =
-  "Todo lo que necesitas para presentar tu proyecto: rúbrica, pitch, demo y formulario. El formulario cierra el viernes 19 de junio a las 4:10 PM (hora Colombia).";
+  "Todo lo que necesitas para presentar tu proyecto: rúbrica, pitch, demo y formulario. El formulario cierra el viernes 19 de junio a las 4:40 PM (hora Colombia).";
 
 export const metadata: Metadata = {
   title: PAGE_TITLE,
@@ -109,7 +109,7 @@ const FINAL_TIPS = [
   "No expliques qué es blockchain · deja que la app hable por sí sola.",
   "Graba con buena luz y audio claro · la pantalla de la app es la protagonista.",
   "El día del Demo Day reproducimos tu video y te conectas para responder al jurado · llega a tiempo.",
-  "Llena el formulario antes del cierre · viernes 19 de junio · 4:10 PM.",
+  "Llena el formulario antes del cierre · viernes 19 de junio · 4:40 PM.",
 ];
 
 export default function EquiposPage() {
