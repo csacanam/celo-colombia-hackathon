@@ -552,21 +552,25 @@ function buildSlides(
       <Title size="md" className="mt-6">
         {projects.length} equipos
       </Title>
-      <div className="mt-8 grid max-w-5xl gap-x-8 gap-y-2 sm:grid-cols-2">
+      <div className="mt-8 grid max-w-5xl gap-x-10 gap-y-1.5 sm:grid-cols-2">
         {projects.map((p, i) => (
           <div
             key={p.id}
-            className="flex items-center gap-4 border-b border-hairline py-2.5"
+            className="flex items-start gap-3 border-b border-hairline py-2"
           >
-            <span className="w-7 shrink-0 font-mono text-sm text-accent">
+            <span className="w-7 shrink-0 pt-0.5 font-mono text-sm text-accent">
               {String(i + 1).padStart(2, "0")}
             </span>
-            <span className="flex-1 truncate text-lg text-white/90">
-              {p.name}
-            </span>
-            <span className="hidden truncate text-sm text-muted sm:block">
-              {p.members.join(", ")}
-            </span>
+            <div className="min-w-0 flex-1">
+              <div className="text-base font-medium leading-tight text-white/90">
+                {p.name}
+              </div>
+              {p.members.length > 0 && (
+                <div className="mt-0.5 truncate text-xs text-muted">
+                  {p.members.join(", ")}
+                </div>
+              )}
+            </div>
           </div>
         ))}
       </div>
