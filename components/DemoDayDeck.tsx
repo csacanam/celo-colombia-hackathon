@@ -356,7 +356,7 @@ function buildSlides(
       <div className="mt-10 grid max-w-4xl grid-cols-2 gap-4 sm:grid-cols-3">
         {[
           ["8h 30m", "Bootcamps en 4 sesiones"],
-          ["1 semana", "Build week construyendo"],
+          ["3 semanas", "Aprendiendo desde cero y construyendo"],
           ["5 horas", "Office hours con mentores"],
           [
             `${projects.length} ${
