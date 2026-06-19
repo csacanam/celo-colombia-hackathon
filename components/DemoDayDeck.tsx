@@ -346,6 +346,86 @@ function buildSlides(
     </SlideFrame>
   ));
 
+  // 2.8 · ¿Qué es Celo? (contexto para audiencia nueva)
+  slides.push(() => (
+    <SlideFrame>
+      <Eyebrow>¿Qué es Celo?</Eyebrow>
+      <Title size="md" className="mt-5">
+        Dinero digital, <span className="gradient-text">rápido y barato</span>,
+        desde el celular.
+      </Title>
+      <Body className="mt-4 max-w-3xl">
+        Celo es una blockchain pensada para mover stablecoins —monedas digitales
+        estables— de forma simple, sin que el usuario sepa de cripto.
+      </Body>
+      <div className="mt-8 grid max-w-4xl gap-4 sm:grid-cols-3">
+        {[
+          ["Stablecoins locales", "COPm (peso) y USDm (dólar), sin volatilidad"],
+          ["Comisiones casi cero", "Pagos en ~1 segundo, por fracciones de centavo"],
+          ["Hecho para el celular", "Mercados emergentes · sin frase semilla"],
+        ].map(([h, d]) => (
+          <div
+            key={h}
+            className="rounded-2xl border border-hairline bg-white/[0.015] p-5"
+          >
+            <div className="text-lg font-semibold tracking-tight text-white">
+              {h}
+            </div>
+            <div className="mt-1.5 text-sm leading-snug text-muted">{d}</div>
+          </div>
+        ))}
+      </div>
+    </SlideFrame>
+  ));
+
+  // 2.9 · El builder path (Proof of Ship → MiniPay)
+  slides.push(() => (
+    <SlideFrame>
+      <Eyebrow>El camino del builder</Eyebrow>
+      <Title size="md" className="mt-5">
+        De una idea a <span className="gradient-text">millones de usuarios.</span>
+      </Title>
+      <Body className="mt-4 max-w-3xl">
+        Por esto construimos: cada Mini App tiene un camino real para llegar a la
+        gente.
+      </Body>
+      <div className="mt-9 flex max-w-5xl flex-col gap-3 sm:flex-row sm:items-stretch">
+        {[
+          {
+            n: "1",
+            t: "Construyes tu Mini App",
+            d: "Una app útil, onchain, en este hackathon.",
+          },
+          {
+            n: "2",
+            t: "Proof of Ship",
+            d: "Programa mensual de Celo que premia a quien sigue shippeando.",
+          },
+          {
+            n: "3",
+            t: "MiniPay",
+            d: "La billetera con 16M+ usuarios en 66+ países donde tu app llega a la gente.",
+          },
+        ].map((s, i) => (
+          <div key={s.n} className="flex flex-1 items-stretch gap-3">
+            <div className="flex-1 rounded-2xl border border-hairline bg-white/[0.015] p-5">
+              <div className="font-mono text-xs text-accent">PASO {s.n}</div>
+              <div className="mt-2 text-lg font-semibold tracking-tight text-white">
+                {s.t}
+              </div>
+              <div className="mt-1.5 text-sm leading-snug text-muted">{s.d}</div>
+            </div>
+            {i < 2 && (
+              <div className="hidden items-center text-2xl text-accent sm:flex">
+                →
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+    </SlideFrame>
+  ));
+
   // 3 · Qué fue la hackathon
   slides.push(() => (
     <SlideFrame>
