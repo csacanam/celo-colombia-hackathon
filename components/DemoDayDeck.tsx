@@ -13,10 +13,12 @@ import {
 import {
   JURY,
   MENTORS,
+  OFFICE_HOURS,
   PRIZES,
   PRIZE_BONUS,
   PRIZE_TOTAL,
   RUBRIC_CRITERIA,
+  TIMELINE,
   WHATSAPP_URL,
 } from "@/lib/site";
 
@@ -279,6 +281,57 @@ function buildSlides(
               {h}
             </div>
             <div className="mt-1 text-sm text-muted">{d}</div>
+          </div>
+        ))}
+      </div>
+    </SlideFrame>
+  ));
+
+  // 3.1 · Línea de tiempo (hitos)
+  slides.push(() => (
+    <SlideFrame>
+      <Eyebrow>La línea de tiempo</Eyebrow>
+      <Title size="md" className="mt-6">
+        Del kickoff al Demo Day
+      </Title>
+      <ol className="mt-9 max-w-4xl border-l border-hairline">
+        {TIMELINE.map((t) => (
+          <li key={t.phase} className="relative py-3 pl-8">
+            <span className="absolute -left-[7px] top-5 h-3 w-3 rounded-full border-2 border-accent bg-ink" />
+            <div className="flex flex-wrap items-baseline gap-x-3">
+              <span className="text-lg font-semibold tracking-tight text-white">
+                {t.title}
+              </span>
+              <span className="font-mono text-xs text-accent">{t.date}</span>
+            </div>
+            <p className="mt-0.5 text-sm text-muted">{t.desc}</p>
+          </li>
+        ))}
+      </ol>
+    </SlideFrame>
+  ));
+
+  // 3.2 · Office Hours diarios
+  slides.push(() => (
+    <SlideFrame>
+      <Eyebrow>Office Hours · toda la semana</Eyebrow>
+      <Title size="md" className="mt-6">
+        Una hora al día, lunes a viernes
+      </Title>
+      <Body className="mt-4 max-w-3xl">
+        Durante la semana de hackathon acompañamos a los equipos cada día con
+        feedback en vivo.
+      </Body>
+      <div className="mt-9 grid max-w-5xl grid-cols-2 gap-3 sm:grid-cols-5">
+        {OFFICE_HOURS.map((o) => (
+          <div
+            key={o.day}
+            className="rounded-2xl border border-hairline bg-white/[0.015] p-5 text-center"
+          >
+            <div className="text-base font-semibold tracking-tight text-white">
+              {o.day.replace(" de junio", "")}
+            </div>
+            <div className="mt-2 font-mono text-xs text-accent">{o.time}</div>
           </div>
         ))}
       </div>
