@@ -180,6 +180,57 @@ function buildSlides(
     </SlideFrame>
   ));
 
+  // 2.05 · Cómo nació esto (el café · Icesi)
+  slides.push(() => (
+    <SlideFrame>
+      <Eyebrow>Cómo nació esto</Eyebrow>
+      <Title size="lg" className="mt-6 max-w-4xl">
+        Todo empezó con un <span className="gradient-text">café.</span>
+      </Title>
+      <Body className="mt-6 max-w-3xl">
+        Jose Luis Jurado y Diana Romero, del Programa de Ingeniería de Sistemas
+        de la Universidad Icesi, me propusieron ayudarles a crear un bootcamp
+        para sus estudiantes. De esa conversación nació todo esto. Gracias por
+        la confianza desde el primer día.
+      </Body>
+    </SlideFrame>
+  ));
+
+  // 2.07 · El sueño · propuesta a Celo Colombia (imágenes)
+  slides.push(() => (
+    <SlideFrame>
+      <Eyebrow>El sueño</Eyebrow>
+      <Title size="md" className="mt-5">
+        Le propuse un sueño a{" "}
+        <span className="gradient-text">Celo Colombia.</span>
+      </Title>
+      <Body className="mt-3 max-w-3xl">
+        Una hackathon. Presenté una propuesta con objetivos concretos, y fue
+        aprobada. Por eso hoy estamos aquí.
+      </Body>
+      <div className="mt-6 grid max-w-5xl grid-cols-2 gap-5">
+        {[
+          { src: "/sueno.png", cap: "La propuesta a Celo Colombia" },
+          { src: "/objetivos.png", cap: "Los objetivos de la hackathon" },
+        ].map((img) => (
+          <figure key={img.src} className="flex flex-col">
+            <div className="overflow-hidden rounded-2xl border border-hairline bg-white p-3">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={img.src}
+                alt={img.cap}
+                className="max-h-[44vh] w-full object-contain"
+              />
+            </div>
+            <figcaption className="mt-2 text-center font-mono text-[11px] uppercase tracking-[0.14em] text-muted">
+              {img.cap}
+            </figcaption>
+          </figure>
+        ))}
+      </div>
+    </SlideFrame>
+  ));
+
   // 2.1 · Gracias a todos los equipos
   slides.push(() => (
     <SlideFrame>
