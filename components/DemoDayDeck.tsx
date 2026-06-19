@@ -231,6 +231,47 @@ function buildSlides(
     </SlideFrame>
   ));
 
+  // 2.08 · Lo logrado vs los objetivos
+  slides.push(() => (
+    <SlideFrame>
+      <Eyebrow>Lo logrado</Eyebrow>
+      <Title size="md" className="mt-5">
+        Superamos <span className="gradient-text">cada meta.</span>
+      </Title>
+      <div className="mt-9 grid max-w-5xl grid-cols-2 gap-4 sm:grid-cols-4">
+        {[
+          { value: "192", label: "builders registrados", note: "Meta: 50" },
+          { value: "19", label: "Mini Apps presentadas", note: "Meta: 10" },
+          {
+            value: "11",
+            label: "proyectos integraron COPm",
+            note: "Meta: 5",
+          },
+          {
+            value: "1",
+            label: "Mini App en MiniPay",
+            note: "y contando · el trabajo sigue",
+          },
+        ].map((m) => (
+          <div
+            key={m.label}
+            className="rounded-2xl border border-hairline bg-white/[0.015] p-6"
+          >
+            <div className="font-display text-5xl font-semibold tracking-tight text-accent">
+              {m.value}
+            </div>
+            <div className="mt-2 text-sm leading-snug text-white/85">
+              {m.label}
+            </div>
+            <div className="mt-2 font-mono text-[11px] uppercase tracking-[0.12em] text-muted">
+              {m.note}
+            </div>
+          </div>
+        ))}
+      </div>
+    </SlideFrame>
+  ));
+
   // 2.1 · Gracias a todos los equipos
   slides.push(() => (
     <SlideFrame>
