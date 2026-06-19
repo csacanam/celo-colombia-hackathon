@@ -462,6 +462,15 @@ function ProjectCard({
         setStatus("error");
         return;
       }
+      // Defensa: si el servidor no persistió de verdad (Airtable mal
+      // configurado), no engañamos al jurado con "Guardado".
+      if (json.persisted === false) {
+        setError(
+          "No se pudo guardar en el servidor. Avisa a la organización antes de seguir."
+        );
+        setStatus("error");
+        return;
+      }
       setStatus("saved");
       onSaved({ scores, comment });
     } catch {
