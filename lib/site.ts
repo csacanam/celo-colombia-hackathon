@@ -229,12 +229,12 @@ export const OFFICE_HOURS = [
 ] as const;
 
 /**
- * Cierre de entregas para Demo Day · viernes 19 de junio a la 1:00 PM (Colombia, UTC-5).
+ * Cierre de entregas para Demo Day · viernes 19 de junio a las 4:00 PM (Colombia, UTC-5).
  * Pasado este momento el form se cierra (cliente) y el endpoint rechaza (server).
  */
-export const SUBMIT_DEADLINE_ISO = "2026-06-19T13:00:00-05:00";
+export const SUBMIT_DEADLINE_ISO = "2026-06-19T16:00:00-05:00";
 export const SUBMIT_DEADLINE_LABEL =
-  "Viernes 19 de junio · 1:00 PM (hora Colombia)";
+  "Viernes 19 de junio · 4:00 PM (hora Colombia)";
 
 /** Podio — premios a las mejores Mini Apps. */
 export const PRIZES = [
