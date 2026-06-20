@@ -12,7 +12,12 @@ export const metadata: Metadata = {
 
 export const dynamic = "force-dynamic";
 
-export default function ResultadosPage() {
+export default async function ResultadosPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ token?: string }>;
+}) {
+  const { token } = await searchParams;
   return (
     <main className="min-h-screen">
       <header className="border-b border-hairline">
@@ -22,7 +27,7 @@ export default function ResultadosPage() {
           </Link>
         </div>
       </header>
-      <ResultsBoard />
+      <ResultsBoard token={token ?? null} />
     </main>
   );
 }

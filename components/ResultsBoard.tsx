@@ -23,7 +23,7 @@ type Result = {
 
 type State = "loading" | "open" | "closed" | "error";
 
-export function ResultsBoard() {
+export function ResultsBoard({ token }: { token?: string | null }) {
   const [state, setState] = useState<State>("loading");
   const [results, setResults] = useState<Result[]>([]);
 
@@ -31,7 +31,8 @@ export function ResultsBoard() {
     let cancelled = false;
     (async () => {
       try {
-        const res = await fetch("/api/resultados", { cache: "no-store" });
+        const qs = token ? `?token=${encodeURIComponent(token)}` : "";
+        const res = await fetch(`/api/resultados${qs}`, { cache: "no-store" });
         const json = await res.json();
         if (cancelled) return;
         if (!json.ok) return setState("error");
@@ -45,7 +46,7 @@ export function ResultsBoard() {
     return () => {
       cancelled = true;
     };
-  }, []);
+  }, [token]);
 
   if (state === "loading") {
     return (

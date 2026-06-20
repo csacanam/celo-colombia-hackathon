@@ -4,6 +4,7 @@ import {
   airtableUrl,
   demoDayConfig,
   evaluationsConfig,
+  resolveJudge,
 } from "@/lib/jury-server";
 
 export const runtime = "nodejs";
@@ -61,8 +62,12 @@ async function fetchAll(
   return records;
 }
 
-export async function GET() {
-  if (process.env.RESULTS_OPEN !== "true") {
+export async function GET(req: Request) {
+  // Público solo si RESULTS_OPEN === "true". La organización/jurado puede
+  // previsualizar el ranking en privado con su token aunque esté cerrado.
+  const token = new URL(req.url).searchParams.get("token");
+  const isInsider = Boolean(resolveJudge(token));
+  if (process.env.RESULTS_OPEN !== "true" && !isInsider) {
     return NextResponse.json({ ok: true, open: false, results: [] });
   }
 
