@@ -650,3 +650,112 @@ export const MOTIVATIONS = [
 ] as const;
 
 export const MODALITIES = ["Presencial en Cali", "Virtual"] as const;
+
+/**
+ * Ciudades de Colombia agrupadas para el selector del formulario.
+ * Grupo "Principales": ciudades grandes y de mayor probabilidad de aplicar
+ * (Cali primero por ser sede presencial, el resto alfabético).
+ * Grupo "Otras ciudades": resto de capitales departamentales y municipios
+ * mayores, en orden alfabético.
+ * "Otra" abre un campo de texto libre.
+ */
+export const COLOMBIA_CITY_GROUPS = [
+  {
+    label: "Principales",
+    cities: [
+      "Cali",
+      "Barranquilla",
+      "Bogotá",
+      "Bucaramanga",
+      "Cartagena",
+      "Cúcuta",
+      "Ibagué",
+      "Manizales",
+      "Medellín",
+      "Pasto",
+      "Pereira",
+      "Santa Marta",
+      "Villavicencio",
+    ],
+  },
+  {
+    label: "Otras ciudades",
+    cities: [
+      "Aguachica",
+      "Apartadó",
+      "Arauca",
+      "Armenia",
+      "Barrancabermeja",
+      "Bello",
+      "Buenaventura",
+      "Buga",
+      "Caldas",
+      "Cartago",
+      "Caucasia",
+      "Chía",
+      "Ciénaga",
+      "Copacabana",
+      "Dosquebradas",
+      "Duitama",
+      "El Carmen de Bolívar",
+      "Envigado",
+      "Facatativá",
+      "Florencia",
+      "Floridablanca",
+      "Funza",
+      "Fusagasugá",
+      "Galapa",
+      "Girardot",
+      "Girón",
+      "Inírida",
+      "Ipiales",
+      "Itagüí",
+      "La Dorada",
+      "La Estrella",
+      "Leticia",
+      "Lorica",
+      "Madrid",
+      "Magangué",
+      "Maicao",
+      "Málaga",
+      "Malambo",
+      "Marinilla",
+      "Mitú",
+      "Mocoa",
+      "Montería",
+      "Mosquera",
+      "Neiva",
+      "Ocaña",
+      "Palmira",
+      "Pamplona",
+      "Piedecuesta",
+      "Pitalito",
+      "Popayán",
+      "Puerto Carreño",
+      "Quibdó",
+      "Riohacha",
+      "Rionegro",
+      "Sabanalarga",
+      "Sabaneta",
+      "Sahagún",
+      "San Andrés",
+      "San Gil",
+      "San José del Guaviare",
+      "Sincelejo",
+      "Soacha",
+      "Sogamoso",
+      "Soledad",
+      "Tuluá",
+      "Tumaco",
+      "Tunja",
+      "Turbo",
+      "Valledupar",
+      "Yopal",
+      "Yumbo",
+      "Zipaquirá",
+    ],
+  },
+] as const;
+
+/** Valor sentinela que activa el input de "otra ciudad". */
+export const CITY_OTHER = "Otra";

@@ -15,6 +15,8 @@ import {
   AI_TOOLS_EXP,
   APPLY_STEPS,
   BLOCKCHAIN_EXP,
+  CITY_OTHER,
+  COLOMBIA_CITY_GROUPS,
   MODALITIES,
   MOTIVATIONS,
   PROGRAMMING_EXP,
@@ -31,6 +33,7 @@ const INITIAL = {
   email: "",
   whatsapp: "",
   city: "",
+  cityOther: "",
   programmingExp: "",
   aiToolsExp: "",
   blockchainExp: "",
@@ -72,15 +75,26 @@ export function ApplyForm() {
       return;
     }
 
+    // "Otra" requiere que el usuario escriba el nombre real de la ciudad.
+    if (form.city === CITY_OTHER && !form.cityOther.trim()) {
+      setStatus("error");
+      setError("Escribe el nombre de tu ciudad.");
+      return;
+    }
+
     setStatus("loading");
     setError("");
     setModalOpen(true); // el modal aparece de inmediato con el estado de carga
 
     try {
       // El campo solo guarda el número local; anteponemos el indicativo.
+      // Si la ciudad es "Otra", enviamos el texto libre como ciudad real.
+      const resolvedCity =
+        form.city === CITY_OTHER ? form.cityOther.trim() : form.city;
       const payload = {
         ...form,
         whatsapp: `+57 ${form.whatsapp.trim()}`,
+        city: resolvedCity,
       };
 
       const res = await fetch("/api/apply", {
@@ -204,14 +218,21 @@ export function ApplyForm() {
                         value={form.whatsapp}
                         onChange={(v) => update("whatsapp", v)}
                       />
-                      <Field
-                        label="Ciudad"
+                      <CitySelect
                         value={form.city}
                         onChange={(v) => update("city", v)}
-                        placeholder="Cali, Bogotá…"
-                        required
                       />
                     </div>
+
+                    {form.city === CITY_OTHER && (
+                      <Field
+                        label="¿Cuál ciudad?"
+                        value={form.cityOther}
+                        onChange={(v) => update("cityOther", v)}
+                        placeholder="Escribe el nombre de tu ciudad"
+                        required
+                      />
+                    )}
 
                     <GroupLabel>Nivel técnico</GroupLabel>
                     <Segmented
@@ -353,6 +374,48 @@ function PhoneField({
           className="w-full bg-transparent px-3.5 py-2.5 text-sm text-white placeholder:text-white/25 outline-none"
         />
       </div>
+    </label>
+  );
+}
+
+/* ---------- City select (Colombia + Otra) ---------- */
+
+function CitySelect({
+  value,
+  onChange,
+}: {
+  value: string;
+  onChange: (v: string) => void;
+}) {
+  return (
+    <label className="flex flex-col gap-1.5">
+      <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-muted">
+        Ciudad<span className="text-accent"> *</span>
+      </span>
+      <select
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        required
+        className={`rounded-lg border border-hairline bg-surface px-3.5 py-2.5 text-sm outline-none transition-all duration-200 focus:border-accent/45 focus:ring-2 focus:ring-accent/15 ${
+          value ? "text-white" : "text-white/25"
+        }`}
+      >
+        <option value="" disabled>
+          Selecciona tu ciudad
+        </option>
+        {COLOMBIA_CITY_GROUPS.map((group) => (
+          <optgroup key={group.label} label={group.label}>
+            {group.cities.map((c) => (
+              <option key={c} value={c} className="bg-surface text-white">
+                {c}
+              </option>
+            ))}
+          </optgroup>
+        ))}
+        <option value={CITY_OTHER} className="bg-surface text-white">
+          Otra
+        </option>
+      </select>
     </label>
   );
 }
