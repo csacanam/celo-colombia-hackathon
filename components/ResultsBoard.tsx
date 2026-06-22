@@ -1,7 +1,15 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Loader2, Medal, MessageSquare, Trophy } from "lucide-react";
+import {
+  ArrowUpRight,
+  Github,
+  Loader2,
+  Medal,
+  MessageSquare,
+  Trophy,
+  Youtube,
+} from "lucide-react";
 
 type Criterion = {
   key: string;
@@ -15,6 +23,10 @@ type Result = {
   name: string;
   members: string[];
   oneLiner: string;
+  description: string;
+  miniAppUrl: string;
+  githubUrl: string;
+  youtubeUrl: string;
   judgeCount: number;
   finalScore: number;
   criteria: Criterion[];
@@ -134,8 +146,13 @@ function ResultCard({ result, rank }: { result: Result; rank: number }) {
           <h3 className="truncate text-base font-semibold tracking-tight text-white">
             {result.name}
           </h3>
+          {result.oneLiner && (
+            <p className="mt-0.5 truncate text-sm text-white/55">
+              {result.oneLiner}
+            </p>
+          )}
           {result.members.length > 0 && (
-            <p className="mt-0.5 truncate text-sm text-white/45">
+            <p className="mt-0.5 truncate text-xs text-white/40">
               {result.members.join(", ")}
             </p>
           )}
@@ -153,6 +170,31 @@ function ResultCard({ result, rank }: { result: Result; rank: number }) {
       </div>
 
       <div className="border-t border-hairline px-5 py-5">
+        {/* Qué es el proyecto */}
+        {(result.description ||
+          result.miniAppUrl ||
+          result.githubUrl ||
+          result.youtubeUrl) && (
+          <div className="mb-5">
+            {result.description && (
+              <p className="whitespace-pre-line text-sm leading-relaxed text-white/70">
+                {result.description}
+              </p>
+            )}
+            <div className="mt-3 flex flex-wrap gap-2">
+              <LinkPill href={result.miniAppUrl} label="Mini app">
+                <ArrowUpRight size={13} />
+              </LinkPill>
+              <LinkPill href={result.githubUrl} label="GitHub">
+                <Github size={13} />
+              </LinkPill>
+              <LinkPill href={result.youtubeUrl} label="Video">
+                <Youtube size={13} />
+              </LinkPill>
+            </div>
+          </div>
+        )}
+
         {/* Desglose por criterio */}
         <div className="flex flex-col gap-2.5">
           {result.criteria.map((c) => (
@@ -195,6 +237,29 @@ function ResultCard({ result, rank }: { result: Result; rank: number }) {
         )}
       </div>
     </div>
+  );
+}
+
+function LinkPill({
+  href,
+  label,
+  children,
+}: {
+  href: string;
+  label: string;
+  children: React.ReactNode;
+}) {
+  if (!href) return null;
+  return (
+    <a
+      href={href}
+      target="_blank"
+      rel="noreferrer"
+      className="inline-flex items-center gap-1.5 rounded-full border border-hairline bg-surface px-3 py-1.5 text-xs text-white/70 transition hover:border-accent/40 hover:text-accent"
+    >
+      {children}
+      {label}
+    </a>
   );
 }
 

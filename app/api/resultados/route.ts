@@ -93,6 +93,10 @@ export async function GET(req: Request) {
           name: str(r.fields, "Nombre del proyecto"),
           members: parseMembers(r.fields["Integrantes"]),
           oneLiner: str(r.fields, "One-liner"),
+          description: str(r.fields, "Descripción"),
+          miniAppUrl: str(r.fields, "Link mini app"),
+          githubUrl: str(r.fields, "Repo GitHub"),
+          youtubeUrl: str(r.fields, "Video demo YouTube"),
         },
       ])
     );
@@ -141,6 +145,10 @@ export async function GET(req: Request) {
           name: meta?.name || a.name,
           members: meta?.members ?? [],
           oneLiner: meta?.oneLiner ?? "",
+          description: meta?.description ?? "",
+          miniAppUrl: meta?.miniAppUrl ?? "",
+          githubUrl: meta?.githubUrl ?? "",
+          youtubeUrl: meta?.youtubeUrl ?? "",
           judgeCount: a.count,
           finalScore: Math.round((a.totalSum / a.count) * 10) / 10,
           criteria: JURY_CRITERIA.map((c) => ({
