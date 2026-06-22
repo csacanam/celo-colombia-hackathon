@@ -238,7 +238,7 @@ function buildSlides(
       <Title size="md" className="mt-5">
         Superamos <span className="gradient-text">cada meta.</span>
       </Title>
-      <div className="mt-9 grid max-w-5xl grid-cols-2 gap-4 sm:grid-cols-4">
+      <div className="mt-9 grid max-w-6xl grid-cols-2 gap-4 sm:grid-cols-5">
         {[
           { value: "192", label: "builders registrados", note: "Meta: 50" },
           { value: "19", label: "Mini Apps presentadas", note: "Meta: 10" },
@@ -251,6 +251,11 @@ function buildSlides(
             value: "1",
             label: "Mini App en MiniPay",
             note: "y contando · el trabajo sigue",
+          },
+          {
+            value: "95",
+            label: "NPS de la hackathon",
+            note: "promedio 9.8/10 · 19 equipos",
           },
         ].map((m) => (
           <div
