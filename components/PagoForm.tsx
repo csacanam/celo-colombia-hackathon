@@ -37,6 +37,7 @@ export function PagoForm() {
           projectId,
           phone: data.get("phone"),
           wallet: data.get("wallet"),
+          email: data.get("email"),
         }),
       });
       const json = await res.json();
@@ -115,6 +116,20 @@ export function PagoForm() {
         <p className="mt-1.5 text-xs text-white/40">
           Lo usamos solo para confirmar que eres del equipo (debe coincidir con
           el WhatsApp con el que entregaron).
+        </p>
+      </div>
+
+      <div>
+        <Label>Email de contacto *</Label>
+        <input
+          name="email"
+          type="email"
+          required
+          placeholder="equipo@correo.com"
+          className="mt-2.5 w-full rounded-lg border border-hairline bg-surface px-3.5 py-2.5 text-sm text-white placeholder:text-white/30 transition-all focus:border-accent/45 focus:outline-none focus:ring-2 focus:ring-accent/15"
+        />
+        <p className="mt-1.5 text-xs text-white/40">
+          Para coordinar el pago y avisarte cualquier novedad.
         </p>
       </div>
 

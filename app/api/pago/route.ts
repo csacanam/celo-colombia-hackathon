@@ -14,6 +14,7 @@ export const dynamic = "force-dynamic";
 type AirtableRecord = { id: string; fields: Record<string, unknown> };
 
 const ADDR_RE = /^0x[a-fA-F0-9]{40}$/;
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 function str(fields: Record<string, unknown>, key: string): string {
   const v = fields[key];
@@ -71,7 +72,12 @@ export async function GET() {
 }
 
 export async function POST(req: Request) {
-  let body: { projectId?: string; phone?: string; wallet?: string };
+  let body: {
+    projectId?: string;
+    phone?: string;
+    wallet?: string;
+    email?: string;
+  };
   try {
     body = await req.json();
   } catch {
@@ -84,12 +90,14 @@ export async function POST(req: Request) {
   const projectId = (body.projectId ?? "").trim();
   const phone = (body.phone ?? "").trim();
   const wallet = (body.wallet ?? "").trim();
+  const email = (body.email ?? "").trim();
 
   if (!projectId) return invalid("Selecciona tu proyecto.");
   if (phoneKey(phone).length < 7)
     return invalid("Ingresa un número de teléfono válido.");
   if (!ADDR_RE.test(wallet))
     return invalid("La billetera debe ser una dirección 0x válida (42 caracteres).");
+  if (!EMAIL_RE.test(email)) return invalid("Ingresa un email válido.");
 
   try {
     const { baseId, table, apiKey, records } = await fetchAll();
@@ -115,7 +123,9 @@ export async function POST(req: Request) {
         Authorization: `Bearer ${apiKey}`,
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ fields: { "Wallet de pago": wallet } }),
+      body: JSON.stringify({
+        fields: { "Wallet de pago": wallet, "Email de pago": email },
+      }),
     });
     if (!res.ok) {
       console.error("[pago] PATCH error:", res.status, await res.text());

@@ -9,6 +9,7 @@ type Row = {
   name: string;
   members: string[];
   phone: string;
+  email: string;
   wallet: string;
   podiumRank: number | null;
   copm: boolean;
@@ -70,6 +71,7 @@ export function PagosBoard({ token }: { token: string | null }) {
       "Proyecto",
       "Integrantes",
       "Telefono",
+      "Email",
       "Wallet",
       "Premio",
       "Puntaje",
@@ -83,6 +85,7 @@ export function PagosBoard({ token }: { token: string | null }) {
           r.name,
           r.members.join(" / "),
           r.phone,
+          r.email || "FALTA",
           r.wallet || "FALTA",
           premio(r),
           r.score != null ? String(r.score) : "",
@@ -164,6 +167,7 @@ export function PagosBoard({ token }: { token: string | null }) {
                 <th className="px-4 py-3">Proyecto</th>
                 <th className="px-4 py-3">Integrantes</th>
                 <th className="px-4 py-3">Teléfono</th>
+                <th className="px-4 py-3">Email</th>
                 <th className="px-4 py-3">Wallet</th>
                 <th className="px-4 py-3">Premio</th>
               </tr>
@@ -183,6 +187,17 @@ export function PagosBoard({ token }: { token: string | null }) {
                   </td>
                   <td className="px-4 py-3 font-mono text-white/70">
                     {r.phone || "—"}
+                  </td>
+                  <td className="px-4 py-3">
+                    {r.email ? (
+                      <span className="break-all text-xs text-white/70">
+                        {r.email}
+                      </span>
+                    ) : (
+                      <span className="font-mono text-xs text-amber-300">
+                        FALTA
+                      </span>
+                    )}
                   </td>
                   <td className="px-4 py-3">
                     {r.wallet ? (
