@@ -5,6 +5,7 @@ import {
   Activity,
   ArrowUpRight,
   Award,
+  Download,
   FileCode2,
   Fuel,
   Github,
@@ -12,6 +13,13 @@ import {
   Users,
   Youtube,
 } from "lucide-react";
+
+type Metrics = {
+  transactions: number;
+  users: number;
+  feesCelo: string;
+  capped: boolean;
+};
 
 type Project = {
   id: string;
@@ -24,6 +32,7 @@ type Project = {
   proofOfShipUrl: string;
   contractAddress: string;
   contractNetwork: string;
+  metrics: Metrics | null;
 };
 type State = "loading" | "ready" | "error";
 
@@ -32,9 +41,61 @@ const EXPLORERS: Record<string, string> = {
   "Celo Sepolia": "https://celo-sepolia.blockscout.com",
 };
 
+type CsvMode = "github" | "full";
+
+function downloadCsv(projects: Project[], mode: CsvMode) {
+  const esc = (s: string) => `"${(s ?? "").replace(/"/g, '""')}"`;
+  let headers: string[];
+  let rows: string[][];
+  if (mode === "github") {
+    headers = ["Project", "GitHub"];
+    rows = projects.map((p) => [p.name, p.githubUrl]);
+  } else {
+    headers = [
+      "Project",
+      "One-liner",
+      "Members",
+      "GitHub",
+      "Demo video",
+      "Mini App",
+      "Proof of Ship",
+      "Contract",
+      "Network",
+      "Transactions",
+      "Unique users",
+      "Gas (CELO)",
+    ];
+    rows = projects.map((p) => [
+      p.name,
+      p.oneLiner,
+      p.members.join(" / "),
+      p.githubUrl,
+      p.youtubeUrl,
+      p.miniAppUrl,
+      p.proofOfShipUrl,
+      p.contractAddress,
+      p.contractNetwork,
+      p.metrics ? String(p.metrics.transactions) : "",
+      p.metrics ? String(p.metrics.users) : "",
+      p.metrics ? p.metrics.feesCelo : "",
+    ]);
+  }
+  const csv =
+    "﻿" +
+    [headers.join(","), ...rows.map((r) => r.map(esc).join(","))].join("\n");
+  const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = mode === "github" ? "hackathon-githubs.csv" : "hackathon-projects.csv";
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
 export function ProjectsDirectory() {
   const [state, setState] = useState<State>("loading");
   const [projects, setProjects] = useState<Project[]>([]);
+  const [csvMode, setCsvMode] = useState<CsvMode>("full");
 
   useEffect(() => {
     let cancelled = false;
@@ -79,12 +140,46 @@ export function ProjectsDirectory() {
           Projects <span className="gradient-text">directory</span>
         </h1>
         <p className="mt-3 max-w-2xl text-base leading-relaxed text-white/50">
-          The {projects.length} projects built during the hackathon, with their
-          GitHub repos, demo videos and live Mini Apps.
+          The {projects.length} projects built during the hackathon — with their
+          GitHub repos, demo videos and live Mini Apps. Ranked by onchain
+          transactions.
         </p>
 
+        {/* Export */}
+        <div className="mt-6 flex flex-wrap items-center gap-3">
+          <div className="inline-flex rounded-full border border-hairline bg-surface p-1">
+            {(
+              [
+                ["github", "GitHub only"],
+                ["full", "All data"],
+              ] as [CsvMode, string][]
+            ).map(([mode, label]) => (
+              <button
+                key={mode}
+                type="button"
+                onClick={() => setCsvMode(mode)}
+                className={`rounded-full px-4 py-1.5 font-mono text-[11px] uppercase tracking-[0.14em] transition ${
+                  csvMode === mode
+                    ? "bg-accent/[0.12] text-accent"
+                    : "text-muted hover:text-white"
+                }`}
+              >
+                {label}
+              </button>
+            ))}
+          </div>
+          <button
+            type="button"
+            onClick={() => downloadCsv(projects, csvMode)}
+            className="btn-primary"
+          >
+            <Download size={16} />
+            Download CSV
+          </button>
+        </div>
+
         <div className="mt-10 grid gap-4">
-          {projects.map((p) => {
+          {projects.map((p, i) => {
             const explorer = EXPLORERS[p.contractNetwork];
             return (
               <div
@@ -93,6 +188,9 @@ export function ProjectsDirectory() {
               >
                 <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
                   <h3 className="text-lg font-semibold tracking-tight text-white">
+                    <span className="mr-2 font-mono text-sm text-white/30">
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
                     {p.name}
                   </h3>
                   {p.members.length > 0 && (
@@ -129,12 +227,7 @@ export function ProjectsDirectory() {
                   )}
                 </div>
 
-                {p.contractAddress && (
-                  <OnchainMetrics
-                    network={p.contractNetwork}
-                    address={p.contractAddress}
-                  />
-                )}
+                {p.metrics && <OnchainMetrics m={p.metrics} />}
               </div>
             );
           })}
@@ -144,72 +237,23 @@ export function ProjectsDirectory() {
   );
 }
 
-type Metrics = {
-  transactions: number;
-  users: number;
-  feesCelo: string;
-  capped: boolean;
-};
-
-function OnchainMetrics({
-  network,
-  address,
-}: {
-  network: string;
-  address: string;
-}) {
-  const [m, setM] = useState<Metrics | null>(null);
-  const [failed, setFailed] = useState(false);
-
-  useEffect(() => {
-    let cancelled = false;
-    (async () => {
-      try {
-        const params = new URLSearchParams({ network, address });
-        const res = await fetch(`/api/onchain?${params.toString()}`, {
-          cache: "no-store",
-        });
-        const json = await res.json();
-        if (cancelled) return;
-        if (json.ok) setM(json.metrics);
-        else setFailed(true);
-      } catch {
-        if (!cancelled) setFailed(true);
-      }
-    })();
-    return () => {
-      cancelled = true;
-    };
-  }, [network, address]);
-
-  if (failed) return null;
-
+function OnchainMetrics({ m }: { m: Metrics }) {
   const fmt = (n: number) => n.toLocaleString("en-US");
-
   return (
     <div className="mt-4 flex flex-wrap gap-x-6 gap-y-2 rounded-xl border border-hairline bg-surface/60 px-4 py-3">
-      {!m ? (
-        <span className="flex items-center gap-2 text-xs text-muted">
-          <Loader2 size={12} className="animate-spin" />
-          Reading onchain activity…
-        </span>
-      ) : (
-        <>
-          <Metric icon={<Activity size={13} />} label="Transactions">
-            {fmt(m.transactions)}
-            {m.capped ? "+" : ""}
-          </Metric>
-          <Metric icon={<Users size={13} />} label="Users">
-            {fmt(m.users)}
-            {m.capped ? "+" : ""}
-          </Metric>
-          <Metric icon={<Fuel size={13} />} label="Gas (CELO)">
-            {Number(m.feesCelo).toLocaleString("en-US", {
-              maximumFractionDigits: 4,
-            })}
-          </Metric>
-        </>
-      )}
+      <Metric icon={<Activity size={13} />} label="Transactions">
+        {fmt(m.transactions)}
+        {m.capped ? "+" : ""}
+      </Metric>
+      <Metric icon={<Users size={13} />} label="Users">
+        {fmt(m.users)}
+        {m.capped ? "+" : ""}
+      </Metric>
+      <Metric icon={<Fuel size={13} />} label="Gas (CELO)">
+        {Number(m.feesCelo).toLocaleString("en-US", {
+          maximumFractionDigits: 4,
+        })}
+      </Metric>
     </div>
   );
 }

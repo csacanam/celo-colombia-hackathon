@@ -3,10 +3,18 @@ import { airtableUrl, demoDayConfig } from "@/lib/jury-server";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
+export const maxDuration = 60;
 
-/** Directorio público de proyectos de la hackathon (para compartir con el ecosistema). */
+/** Directorio público de proyectos, ordenado por actividad onchain. */
 
 type AirtableRecord = { id: string; fields: Record<string, unknown> };
+
+const EXPLORERS: Record<string, string> = {
+  "Celo Mainnet": "https://celo.blockscout.com",
+  "Celo Sepolia": "https://celo-sepolia.blockscout.com",
+};
+const ADDR_RE = /^0x[a-fA-F0-9]{40}$/;
+const MAX_TXS = 10000;
 
 function str(fields: Record<string, unknown>, key: string): string {
   const v = fields[key];
@@ -24,6 +32,59 @@ function parseMembers(raw: unknown): string[] {
     }
   }
   return [];
+}
+
+function weiToCelo(wei: bigint): string {
+  const WEI_PER_CELO = 10n ** 18n;
+  const whole = wei / WEI_PER_CELO;
+  const frac = ((wei % WEI_PER_CELO) / 10n ** 14n).toString().padStart(4, "0");
+  return `${whole.toString()}.${frac}`;
+}
+
+type Metrics = {
+  transactions: number;
+  users: number;
+  feesCelo: string;
+  capped: boolean;
+};
+
+async function fetchMetrics(
+  network: string,
+  address: string
+): Promise<Metrics | null> {
+  const base = EXPLORERS[network];
+  if (!base || !ADDR_RE.test(address)) return null;
+  try {
+    const res = await fetch(
+      `${base}/api?module=account&action=txlist&address=${address}&page=1&offset=${MAX_TXS}&sort=desc`,
+      { cache: "no-store", signal: AbortSignal.timeout(20000) }
+    );
+    if (!res.ok) return null;
+    const data = (await res.json()) as {
+      result?: { from?: string; gasUsed?: string; gasPrice?: string }[] | string;
+    };
+    const list = Array.isArray(data.result) ? data.result : [];
+    const users = new Set<string>();
+    let feeWei = 0n;
+    for (const tx of list) {
+      if (tx.from) users.add(tx.from.toLowerCase());
+      if (tx.gasUsed && tx.gasPrice) {
+        try {
+          feeWei += BigInt(tx.gasUsed) * BigInt(tx.gasPrice);
+        } catch {
+          /* ignora */
+        }
+      }
+    }
+    return {
+      transactions: list.length,
+      users: users.size,
+      feesCelo: weiToCelo(feeWei),
+      capped: list.length >= MAX_TXS,
+    };
+  } catch {
+    return null;
+  }
 }
 
 export async function GET() {
@@ -54,7 +115,7 @@ export async function GET() {
       offset = json.offset;
     } while (offset);
 
-    const projects = records
+    const base = records
       .map((r) => ({
         id: r.id,
         name: str(r.fields, "Nombre del proyecto"),
@@ -67,8 +128,23 @@ export async function GET() {
         contractAddress: str(r.fields, "Dirección del contrato"),
         contractNetwork: str(r.fields, "Red del contrato"),
       }))
-      .filter((p) => p.name)
-      .sort((a, b) => a.name.localeCompare(b.name, "es"));
+      .filter((p) => p.name);
+
+    // Métricas onchain en paralelo.
+    const projects = await Promise.all(
+      base.map(async (p) => ({
+        ...p,
+        metrics: await fetchMetrics(p.contractNetwork, p.contractAddress),
+      }))
+    );
+
+    // Orden por transacciones (desc). Sin métricas → al final, por nombre.
+    projects.sort((a, b) => {
+      const ta = a.metrics?.transactions ?? -1;
+      const tb = b.metrics?.transactions ?? -1;
+      if (tb !== ta) return tb - ta;
+      return a.name.localeCompare(b.name, "es");
+    });
 
     return NextResponse.json({ ok: true, projects });
   } catch (err) {
